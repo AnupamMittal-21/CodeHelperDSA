@@ -1,0 +1,30 @@
+// for loop
+for (int i = 0; i < nums.size(); i++) {
+  cout << i;
+}
+
+// 2-D for loop
+for (int i = 0; i < nums.size(); i++) {
+  for (int j = 0; j < nums.size(); j++) {
+    cout << nums[i][j];
+  }
+}
+
+//while loop
+int i = 0;
+while (i <= n) {
+  cout << i << " ";
+  i++;
+}
+
+// do-while loop
+int price = 300;
+do {
+  std::cout << "Too expensive!";
+} while (price > 500);
+
+// for-each loop
+int fibonacci[5] = { 0, 1, 1, 2, 3 };
+for (auto number:fibonacci){
+  std::cout << number;
+}
