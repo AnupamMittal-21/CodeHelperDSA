@@ -4,6 +4,18 @@ void print(vector<int>array) {
       cout << array[i] << " ";
    cout << endl;
 }
+
+void print(vector<vector<int>>array) {
+       int n = array.size();
+       for (int i = 0; i < n; i++) {
+          for (int j = 0; j < n; j++) {
+            cout << array[i][j]<<" ";
+          }
+          cout<<endl;
+       }
+}
+    
+   
 // for loop
 for (int i = 0; i < nums.size(); i++) {
   cout << i;
