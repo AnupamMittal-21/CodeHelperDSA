@@ -122,7 +122,7 @@ void fun(TreeNode* root, vector<int> &ans){
 
 
 
-// Level Order Traversal of Binary Tree
+// Level Order Traversal of Binary Tree (BFS)
 vector<vector<int>> levelOrder(TreeNode* root) {
      queue<TreeNode *> q;
      q.push(root); 
@@ -147,6 +147,44 @@ vector<vector<int>> levelOrder(TreeNode* root) {
      return ans;
  }
 
+
+//(BFS of a GRAPH)
+vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+     queue<int> q;
+     vector<int> ans;
+     vector<bool> vis(V,0);
+     q.push(0);
+     vis[0]=1;
+     while(!q.empty()){
+         int a = q.front();
+         ans.push_back(a);
+         q.pop();
+         for(auto it:adj[a]){
+             if(!vis[it]){
+                 vis[it]=1;
+                 q.push(it);
+             }
+         }
+     }
+     return ans;
+ }
+
+
+//DFS of A GRAPH 
+vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+  vector<int> ans;
+  vector<bool> vis(V,0);
+  dfs(ans,adj,0,vis);
+  return ans;
+}
+void dfs(vector<int> &ans,vector<int> adj[],int root,vector<bool> &vis){
+  ans.push_back(root);
+  vis[root]=1;
+  for(auto it:adj[root]){
+      if(!vis[it])
+          dfs(ans,adj,it,vis);
+  }
+}
 
 
 // do-while loop
