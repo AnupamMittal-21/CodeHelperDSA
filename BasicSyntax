@@ -1,4 +1,30 @@
+CP
 
+min Heap....
+priority_queue <int, vector<int>, greater<int> > pq;
+
+#include <iostream>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+    int T;
+    cin>>T;
+    for(int la = 0;la<T;la++)
+    {
+        int n,y;
+        cin>>n>>y;
+        for(int i =0;i<n;i++){
+            
+        }
+        if(x+y>6)cout<<"YES"<<endl;
+        else cout<<"NO"<<endl;
+    }
+	// your code goes here
+	return 0;
+}
+###################################################################################
 ###################################################################################
 
 void print(vector<int>array) {
