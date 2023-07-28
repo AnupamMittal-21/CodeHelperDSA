@@ -69,6 +69,37 @@ int mazeObstacles(int n, int m, vector< vector< int> > &mat) {
 }
 
 
+
+###################################################################################
+
+DP ON OPTIMAL GAME STRATEGY
+
+class Solution {
+public:
+    int fun(int i,int j, vector<int> &nums,vector<vector<int>> &dp){
+        if(i>j){
+            return 0;
+        }
+        if(i==j)return nums[i];
+        if(dp[i][j]!=-1)return dp[i][j];
+        int take_i = nums[i] + min(fun(i+2,j,nums,dp),fun(i+1,j-1,nums,dp));
+        int take_j = nums[j] + min(fun(i+1,j-1,nums,dp),fun(i,j-2,nums,dp));
+        return dp[i][j] = max(take_i,take_j);
+    }
+    bool PredictTheWinner(vector<int>& nums) {
+        long long sum = 0;
+        for(int i =0;i<nums.size();i++){
+            sum+=nums[i];
+        }
+        int n = nums.size();
+        vector<vector<int>> dp(n,vector<int>(n,-1));
+        int a = fun(0,n-1,nums,dp);
+        if(a>=sum-a)return true;
+        return false;
+    }
+};
+
+
 ###################################################################################
 
 void print(vector<int>array) {
