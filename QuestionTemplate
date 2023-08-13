@@ -1,0 +1,28 @@
+
+=======================================================================================================
+
+Q. SET and SLIDING WINDOW
+Minimum Absolute difference using set, using the concept of lower_bound, it returns the number just greater than or equal to a given number and it-- is a greatest smaller number
+int minAbsoluteDifference(vector<int>& nums, int x) {
+    set<int> st;
+    int ans = INT_MAX;
+    int n = nums.size();
+    for(int i = x;i<n;i++){
+        st.insert(nums[i-x]);
+        auto it = st.lower_bound(nums[i]);
+        if(it==st.end()){
+            it--;
+        }
+        int a = *it;
+        ans = min(ans,abs(nums[i]-a));
+
+        if(it==st.begin())continue;
+
+        it--;
+        a = *it;
+        ans = min(ans,abs(nums[i]-a));
+    }
+    return ans;
+}
+
+=======================================================================================================
