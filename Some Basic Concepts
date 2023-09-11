@@ -1,0 +1,13 @@
+Question: 1 - Why do we use MOD 1e9+7?
+Answer 1: 
+When we have large numbers this might lead to overflow in integer.
+Addition : (a+b) mod M = (a % M + b % M) % M
+Subtraction: (a-b) % M = (a % M - b % M) % M 
+Multiplication: (a*b) % M = (a % M * b % M) % M
+Division: (a/b) % M = (a % M * b^-1 % M) % M
+NOTE THAT: It is different from others. It might not exist. (Modular Multiplicative Inverse)
+means a.a^-1 % M = 1 . If M is prime (True in our case) then a^(M-2) % M  = a % M
+int M = 1e9 + 7;
+Why 1e9 + 7 
+because this is a signed 32-bit integer. It is also the first 10-digit prime number.
+In fact, any prime number less than 2^30 will be fine in order to prevent possible overflows. But this one can be easily written as 1e9+7.
