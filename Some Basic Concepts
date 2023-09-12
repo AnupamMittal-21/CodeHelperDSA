@@ -1,3 +1,5 @@
+DAY _ 1
+
 Question: 1 - Why do we use MOD 1e9+7?
 Answer 1: 
 When we have large numbers this might lead to overflow in integer.
@@ -10,4 +12,35 @@ means a.a^-1 % M = 1 . If M is prime (True in our case) then a^(M-2) % M  = a % 
 int M = 1e9 + 7;
 Why 1e9 + 7 
 because this is a signed 32-bit integer. It is also the first 10-digit prime number.
-In fact, any prime number less than 2^30 will be fine in order to prevent possible overflows. But this one can be easily written as 1e9+7.
+Any prime number less than 2^30 will be fine to prevent possible overflows. But this one can be easily written as 1e9+7.
+
+
+DAY _ 2 
+
+Question: 2 - What is the difference between the ordered and unordered maps?
+Answer 2: 
+Map : 
+ordering: Increasing order of key (Default)
+Implementation: Self-balancing BST tree (Red-Black-Tree)
+Search time : log(n)
+Insertion time : log(n) + Rebalance 
+Deletion time : log(n) + Rebalance 
+
+Use when we need:
+1 - Ordered data
+2 - print/access in sorted order
+3 - Predecessor/successor of elements 
+
+Unordered_map : (FAST)
+ordering: No ordering 
+Implementation: Hash Table
+Search time : O(1) --> Average and O(n) --> Worst Case
+Insertion time : O(1) --> Average and O(n) --> Worst Case
+Deletion time :  O(1) --> Average and O(n) --> Worst Case
+
+Use this when we need:
+1 - No order only count/frequency
+2 - no traversal just single data access
+
+Question: What is the difference between ordered and unordered_set in cpp
+Question: What is hashing and hash table 
