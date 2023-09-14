@@ -100,5 +100,10 @@ Answer:
   3 - num doesn't exist: Returns a pointer to a next higher number than that (That position would be the position of nums if inserted and sorted)
   subtract arr.begin() to get index
 
+DAY _ 4 (14-09-2023)
+Question: 5 - What is the hashing and hash table?
+Answer: 
+  Hashing is the process of mapping keys and values into a hash table
+  It creates fixed-size output from input using some sort of formula.
+  We have a key, a Hash function, and a hash table
 
-Question: What is hashing and hash table 
