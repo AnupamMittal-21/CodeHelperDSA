@@ -7,6 +7,18 @@
 #define se second
 #define pb push_back
 #define all(v) v.begin(), v.end()
+#define rep(i, a, b) for (ll i = a; i < b; i++)
+#define repr(i, a, b) for (ll i = a; i >= b; i--)
+#define read(a, n) rep(IT, 0, n) cin >> a[IT]
+#define print(a, n)                         \
+    {                                       \
+        rep(IT, 0, n) cout << a[IT] << " "; \
+        cout << "\n";                       \
+    }
+#define yes cout << "YES" \
+                 << "\n";
+#define no cout << "NO" \
+                << "\n";
 using namespace std;
 
 using ll = long long;
