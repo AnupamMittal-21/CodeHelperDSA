@@ -31,6 +31,7 @@ using vll = vector<ll>;
 using vvi = vector< vector<int> >;
 using vvll = vector< vector<ll> >;
 using vb = vector<bool>;
+using minheap = priority_queue<int,vector<int>, greater<int>>;
 
 ll mod = 100000007;
 
@@ -42,13 +43,14 @@ int main()
     int t = 1;
     cin >> t;
     while(t--){
+	
 	int n;
         cin>>n;
         int ans = 0;
-        vector<int> nums(n,0);
-        for(int i =0;i<n;i++){
-            cin>>nums[i];
-        }
+        
+	vi nums(n,0);
+        read(nums,n);
+
         cout<<ans<<endl;
         // Do stuff over here 
     }
