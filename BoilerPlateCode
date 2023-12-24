@@ -222,8 +222,8 @@ void soln()
     ll n, k, mod = 1e9 + 7;
     cin >> n ;
 
-    vi v(n);
-    read(v, n);
+    vi nums(n);
+    read(nums, n);
 
     // Do stuff here...
 
