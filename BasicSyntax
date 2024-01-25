@@ -36,15 +36,15 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(0);
 
-    int t = 1;
+    ll t = 1;
     cin >> t;
     while(t--){
 	
-	int n;
+	ll n;
         cin>>n;
-        int ans = 0;
+        ll ans = 0;
         
-	vi nums(n,0);
+	vll nums(n,0);
         read(nums,n);
 
         cout<<ans<<endl;
