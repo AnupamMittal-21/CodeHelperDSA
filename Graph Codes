@@ -1,11 +1,13 @@
-########################################### Code for BFS #################################################
+########################################### Code for BFS #####################################################################################
+TC: O(V+E)
+SC: queue (O(E))
 
 
 vector<int> bfsOfGraph(vector<vector<int>> &nums) {
     int n = nums.size();
     vector<vector<int>> adj(n);
 
-    // This is for creating adjancy list from adjancy matrix.
+    // This is for creating an adjacency list from the adjacency matrix.
     for(int i = 0;i<n;i++){
         for(int j =0;j<n;j++){
             if(i!=j && nums[i][j]==1){
@@ -15,7 +17,7 @@ vector<int> bfsOfGraph(vector<vector<int>> &nums) {
         }
     }
 
-    // Creating adjancy list from edges.
+    // Creating adjacency list from edges.
     for(auto it:edges){
         int u = edges[0];
         int v = edges[1];
@@ -51,7 +53,9 @@ vector<int> bfsOfGraph(vector<vector<int>> &nums) {
 }
 
 
-########################################### Code for DFS #################################################
+########################################### Code for DFS #############################################################################
+TC: O(V+E)
+SC: queue (O(E))
 
 
 void dfs(int node, vector<int> &ans, vector<bool> &vis, vector<int> adj[]){
@@ -67,6 +71,9 @@ void dfs(int node, vector<int> &ans, vector<bool> &vis, vector<int> adj[]){
 
 
 ########################################### Code for Topo Sort (BFS) (Kahn's Algorithm) #################################################
+TC: O(V+E)       (Same as BFS)
+SC: queue (O(E))
+
 
 vector<int> topoSort(int V, vector<vector<int>> &adj) 
 {
@@ -80,7 +87,7 @@ vector<int> topoSort(int V, vector<vector<int>> &adj)
     
     queue<int> q;
     
-    // Search for the ones with 0 indegree and push them in queue.
+    // Search for the ones with 0 indegree and push them in the queue.
     for(int i = 0;i<V;i++){
        int it = indegree[i];
        if(it==0){
@@ -107,7 +114,10 @@ vector<int> topoSort(int V, vector<vector<int>> &adj)
 }
 
 
-########################################### Code for Topo Sort (DFS) #################################################
+########################################### Code for Topo Sort (DFS) ########################################################################
+TC: O(V+E)       (Same as DFS)
+SC: queue (O(E))
+
 
 void dfs(int v,vector<int> adj[], stack<int> &st, vector<int> &vis){
     vis[v]=1;
@@ -139,3 +149,55 @@ vector<int> topoSort(int V, vector<int> adj[])
     }
     return ans;
 }
+
+
+#################################### Code for Topo Sort (DFS) For checking Cycle in Directed Graph ############################################
+
+
+bool dfs(int node, vector<int> &vis, vector<int> &pathVis, vector<int> adj[]){
+    vis[node] = 1;
+    pathVis[node] = 1;
+    
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            if(dfs(it, vis, pathVis, adj)==true)return true;
+        }
+        else if(pathVis[it]==1){
+            return true;
+        }
+    }
+    pathVis[node] = 0;
+    return false;
+}
+// Function to detect cycle in a directed graph.
+bool isCyclic(int V, vector<int> adj[]) {
+
+    vector<int> pathVis(V,0), vis(V,0);
+
+    for(int i = 0;i<V;i++){
+        if(!vis[i]){
+            if(dfs(i, vis, pathVis, adj)==true)return true;
+        }
+    }
+    return false;
+}
+
+
+#################################### Questions on Topo Sort ####################################################################################
+
+1 - Course Schedule, 
+    => Simply apply any Topo Sort (BFS|DFS).
+
+2 - Eventual States, means those node that reaches the terminal(Outdegree==0) nodes. 
+    => So, BFS In Kahn standard algo, automatically stores valid answers.
+    => In DFS we take a marked array as vis and pathVis are for cycle detection and marked will tell if at any stage we are returning due to cycle then mark it False.
+
+3 - Alien Dictionary, strings are given in ascending order, we have to find the dictionary out of it.
+    => So, Simply compare the words create a graph, and apply Standard TopoSort.
+    => abad, aba this is not a valid dictionary as the initial one should be small.
+    => Another example is cyclic dependency like aba, baf, abe now it says a<b<a and it is not possible.
+
+
+
+#################################### Shortest Path Algorithms #######################################################################
+
