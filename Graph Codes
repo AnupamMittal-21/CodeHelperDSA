@@ -58,7 +58,7 @@ TC: O(V+E)
 SC: queue (O(E))
 
 
-void dfs(int node, vector<int> &ans, vector<bool> &vis, vector<int> adj[]){
+void dfs(int node, vector<int> &ans, vector<int> &vis, vector<int> adj[]){
     vis[node]=1;
     ans.push_back(node);
     for(auto it:adj[node]){
@@ -183,6 +183,216 @@ bool isCyclic(int V, vector<int> adj[]) {
 }
 
 
+#################################### Code For checking Cycle in (Un)Directed Graph using BFS | DFS ############################################
+=> Keep track of Parent, and if it is a parent then continue, if it is visited then return True, and if it is not visited then visit and put in queue or call recursive function.
+
+bool dfs(int node, int parent, vector<int> &vis, vector<int> adj[]){
+    vis[node]=1;
+    for(auto it:adj[node]){
+        if(it==parent)continue;
+        if(!vis[it]){
+            if(dfs(it,node,vis,adj))return true;
+        }
+        else return true;
+    }
+    return false;
+}
+
+bool bfs(int node, int parent, vector<int> &vis, vector<int> adj[]){
+    queue<pair<int,int>> q;
+    
+    q.push({node, parent});
+    
+    while(q.size()){
+        pair<int, int> curr_pair = q.front();
+        q.pop();
+        
+        int curr = curr_pair.first;
+        int par = curr_pair.second;
+        
+        for(auto it:adj[curr]){
+            if(it==par)continue;
+            if(vis[it]==1){
+                return true;
+            }
+            vis[it] = 1;
+            q.push({it,curr});
+        }
+        
+    }
+    return false;
+        
+}   
+
+
+#################################### BFS | DFS on Grids questions (0/1 Matrix) ############################################
+
+=> 0/1 Matrix ques. This is a standard template for grids and BFS/DFS
+=> Store all zeros in the queue and then start BFS to keep track of the distance store it in the queue and keep on increasing inside iterating in adjacancy.
+
+
+class Solution {
+    bool valid(int i, int j, int n, int m){
+        return i>=0 && i<n && j>=0 && j<m;
+    }
+
+    void dfs(int node, vector<int> &ans, vector<int> &vis, vector<int> adj[]){
+    vis[node]=1;
+    ans.push_back(node);
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            dfs(it,ans,vis,adj);
+        }
+    }
+}
+
+
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& grid) {
+        queue<pair<int,pair<int,int>>> q;
+        int n = grid.size();
+        int m = grid[0].size();        
+        vector<vector<int>> vis(n,vector<int>(m,0)), dist(n,vector<int>(m,INT_MAX));
+
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(grid[i][j]==0){
+                    q.push({0,{i,j}});
+                    vis[i][j] = 1;
+                    dist[i][j] = 0;
+                }
+            }
+        }
+
+        int x[] = {0,0,1,-1};
+        int y[] = {-1,1,0,0};
+
+
+        while(q.size()){
+            pair<int,pair<int,int>> curr_pair = q.front();
+            q.pop();
+
+            int dis = curr_pair.first;
+            int i = curr_pair.second.first;
+            int j = curr_pair.second.second;
+
+            for(int k = 0;k<4;k++){
+                int new_i = i+x[k];
+                int new_j = j+y[k];
+
+                if(valid(new_i, new_j, n,m)){
+                    if(grid[new_i][new_j]==1 && !vis[new_i][new_j]){
+                        int new_dist = min(dist[new_i][new_j], dis+1);
+                        dist[new_i][new_j] = new_dist;
+                        vis[new_i][new_j] = 1;
+                        q.push({dis+1,{new_i,new_j}});
+                    }
+                }
+            }
+        }
+        return dist;
+    }
+};
+
+
+#################################### BFS | DFS on Grids questions but with reverse approach  ############################################
+=> TC: O(N*M)
+=> SC: O(N*M) Generally same for most of the matrix problems.
+=> (No. of Enclaves | Surrounded regions)
+=>  So, we start with considering everything in the answer and start from edges, start the DFS | BFS, and mark all the reachable nodes in the answer array.
+
+
+class Solution {
+    bool valid(int i, int j, int n, int m){
+        return i>=1 && i<n-1 && j>=1 && j<m-1;
+    }
+
+    void dfs(int i, int j, vector<vector<int>> &ans, vector<vector<int>> &vis, vector<vector<int>>& grid){
+        int x[] = {0,0,1,-1};
+        int y[] = {-1,1,0,0};
+        int n = grid.size();
+        int m = grid[0].size();   
+        vis[i][j] = 1;
+        ans[i][j] = 1;
+        for(int k= 0 ; k<4; k++){
+            int new_i = x[k] + i;
+            int new_j = y[k] + j;
+            if(valid(new_i,new_j,n,m) && grid[new_i][new_j]==1 && !vis[new_i][new_j]){
+                dfs(new_i,new_j,ans,vis, grid);
+            }
+        }
+    }
+public:
+    int numEnclaves(vector<vector<int>>& grid) {
+        queue<pair<int,int>> q;
+        int n = grid.size();
+        int m = grid[0].size();        
+        vector<vector<int>> vis(n,vector<int>(m,0));
+        vector<vector<int>> ans(n,vector<int>(m,0));
+
+        for(int i = 0;i<n;i++){
+            if(grid[i][0]==1){
+                if(!vis[i][0]){
+                    dfs(i,0,ans,vis, grid);
+                }
+            }
+            if(grid[i][m-1]==1){
+                if(!vis[i][m-1]){
+                    dfs(i,m-1,ans,vis, grid);
+                }
+            }
+        }
+        for(int i = 0;i<m;i++){
+            if(grid[0][i]==1){
+                if(!vis[0][i]){
+                    dfs(0,i,ans,vis, grid);
+                }
+            }
+            if(grid[n-1][i]==1){
+                if(!vis[n-1][i]){
+                    dfs(n-1,i,ans,vis, grid);
+                }
+            }
+        }
+        int cnt= 0;
+
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(grid[i][j]==1 && ans[i][j]==0)cnt++;
+            }
+        }
+        return cnt;
+    }
+};
+
+
+#################################### Questions on BFS | DFS ####################################################################################
+
+1 - Rotting Oranges,
+    => Since this is a matrix and we are allowed to move in 4 directions the concept is the same as BFS, the only difference is
+        that we have to create x and y arrays. and make sure to make a queue that has I, J, and cur_cnt. 
+        Also, consider that we are not sure of the connected components. (Level Wise - BFS)
+    => Why BFS because we have to move all together to get the minimum time to rot all the oranges. 
+    => Always remember that in the case of matrix graph questions, we can always optimize space by changing in the given matrix like set value = -1 for visited and so on.
+    
+2 - Flood Fill Algorithm, Given a starting row and column we have to fill the connected pixels with a color.
+    => This can be solved using BFS | DFS.
+    => Simply just start with the given pixel put them in the queue and start traversing in 4 directions if the value is the same as the current node then keep on doing traversal
+        and make sure to keep a new matrix in which changes are made.
+    
+3 - 0/1 Matrix, we have to find the distance of the nearest 0 from each cell.
+    => Why BFS because we have to move all together to get the minimum distance from 0.
+    => Store all zeros in the queue and then start BFS to keep track of the distance store it in the queue and keep on increasing inside iterating in adjacency.
+
+4 - No. of Enclaves | Surrounded regions
+    => The important thing in this question is that we need to approach this using reverse thinking.
+    => We have to find the ones that are at the corner so all connected can't be considered in our answer.
+    => So, we start with considering everything in the answer and start from edges, start the DFS | BFS, and mark all the reachable nodes in the answer array.
+
+5 - Word Ladder - 1, Given a starting word, the ending word, and words, so change any one character and then tell the minimum steps to create the ending word.
+    => So we need to first think of converting this to a graph as there are multiple options, as converting itself we can add code to do BFS and get the minimum changes.
+    => Why BFS?, Because we need minimum length, so we have to keep a counter and do simultaneously through all the paths and when we reach the ending word we just return the count.
+    => 
 #################################### Questions on Topo Sort ####################################################################################
 
 1 - Course Schedule, 
@@ -195,7 +405,7 @@ bool isCyclic(int V, vector<int> adj[]) {
 3 - Alien Dictionary, strings are given in ascending order, we have to find the dictionary out of it.
     => So, Simply compare the words create a graph, and apply Standard TopoSort.
     => abad, aba this is not a valid dictionary as the initial one should be small.
-    => Another example is cyclic dependency like aba, baf, abe now it says a<b<a and it is not possible.
+    => Another example is cyclic dependency like "aba", "baf", abe now it says a<b<a and it is not possible.
 
 
 
