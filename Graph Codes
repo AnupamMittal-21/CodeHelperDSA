@@ -1,3 +1,18 @@
+########## Code for BFS ###########
+########## Code for DFS ###########
+########## Code for Topo Sort (BFS) (Kahn's Algorithm) ###########
+########## Code for Topo Sort (DFS) ###########
+########## Code for Topo Sort (DFS) For checking Cycle in Directed Graph ###########
+########## Code For checking Cycle in (Un)Directed Graph using BFS | DFS ###########
+########## BFS | DFS on Grids questions (0/1 Matrix)  ###########
+########## BFS | DFS on Grids questions but with reverse approach ###########
+########## BFS | DFS on Grids questions Word Ladder ##########
+########## BFS | DFS Coloring Problem (Bipartite) ##########
+########## Questions on BFS | DFS ##########
+########## Questions on Topo Sort ##########
+
+
+
 ########################################### Code for BFS #####################################################################################
 TC: O(V+E)
 SC: queue (O(E))
@@ -67,7 +82,6 @@ void dfs(int node, vector<int> &ans, vector<int> &vis, vector<int> adj[]){
         }
     }
 }
-
 
 
 ########################################### Code for Topo Sort (BFS) (Kahn's Algorithm) #################################################
@@ -184,6 +198,7 @@ bool isCyclic(int V, vector<int> adj[]) {
 
 
 #################################### Code For checking Cycle in (Un)Directed Graph using BFS | DFS ############################################
+
 => Keep track of Parent, and if it is a parent then continue, if it is visited then return True, and if it is not visited then visit and put in queue or call recursive function.
 
 bool dfs(int node, int parent, vector<int> &vis, vector<int> adj[]){
@@ -366,7 +381,71 @@ public:
 };
 
 
+#################################### BFS | DFS on Grids questions Word Ladder ############################################
+
+
+int ladderLength(string startWord, string targetWord, vector<string>& wordList) {
+        
+    // Creation of Graph...
+    queue<pair<string, int>> q;
+    q.push({startWord, 1});
+
+    unordered_set<string> st(wordList.begin(), wordList.end());
+    st.erase(startWord);
+
+    while (!q.empty())
+    {
+        string word = q.front().first;
+        int steps = q.front().second;
+        q.pop();
+        
+        if (word == targetWord)
+            return steps;
+
+        for (int i = 0; i < word.size(); i++)
+        {
+            char original = word[i];
+            for (char ch = 'a'; ch <= 'z'; ch++)
+            {
+                word[i] = ch;
+                if (st.find(word) != st.end())
+                {
+                    st.erase(word);
+                    q.push({word, steps + 1});
+                }
+            }
+            word[i] = original;
+        }
+    }
+    return 0;
+}
+
+
+#################################### BFS | DFS Coloring Problem (Bipartite) ####################################################################################
+
+TC = O(V + 2*E) for Undirected graph DFS | BFS 
+
+
+bool dfs(int node, int col, int color[], vector<int> adj[]) {
+    color[node] = col; 
+    
+    // traverse adjacent nodes
+    for(auto it : adj[node]) {
+        // if uncoloured
+        if(color[it] == -1) {
+            if(dfs(it, !col, color, adj) == false) return false; 
+        }
+        // if previously coloured and have the same colour
+        else if(color[it] == col) {
+            return false; 
+        }
+    }
+    
+    return true; 
+}
+
 #################################### Questions on BFS | DFS ####################################################################################
+TC = O(V + 2*E) for Undirected graph DFS | BFS 
 
 1 - Rotting Oranges,
     => Since this is a matrix and we are allowed to move in 4 directions the concept is the same as BFS, the only difference is
@@ -391,8 +470,26 @@ public:
 
 5 - Word Ladder - 1, Given a starting word, the ending word, and words, so change any one character and then tell the minimum steps to create the ending word.
     => So we need to first think of converting this to a graph as there are multiple options, as converting itself we can add code to do BFS and get the minimum changes.
-    => Why BFS?, Because we need minimum length, so we have to keep a counter and do simultaneously through all the paths and when we reach the ending word we just return the count.
-    => 
+    => Why BFS?, Because we need minimum length, so we have to keep a counter and do simultaneously through all the paths, and when we reach the ending word we just return the count.
+    => In this you have to make an adjacency list, so we iterate over the length of words and then from 'a' to 'z', 
+        and if the new word exists in the set, we erase the word from the set and push in the queue with an increase in level.
+
+6 - Word Ladder - 2, Store all the minimum length sequences.
+    => We are going to store the sequence in the queue, so the queue is storing the vector. And we don't erase elements now, we will erase them after completing the level.
+
+7 - Bipartite Graph, Coloring methods If you can color the graph using 2 colors and adjacent have an alternate color.
+    => Start with 2 sets and push node and flag in the queue, now while traversing in adjacency make sure to check whether the neighbor doesn't exist in the same set, if it does, return false right away.
+    => Another approach is that any graph with a cycle of length odd can never be a BiPartite graph.
+    => So keep a color array and keep on traversing and coloring the adjacent nodes with the opposite color of the parent,
+        if it is already colored then return False.
+    => BFS | DFS can both work.
+
+8 - Identical Islands,
+    => Simple BFS | DFS, just keep in mind that we have to make sure that the pattern is matched, and we get the unique, so set is there for this task.
+    => Now, subtract the base from all the adjacent nodes so that they become relative and the set can work properly.
+    => TC: O(n*m*log(n*m))
+
+
 #################################### Questions on Topo Sort ####################################################################################
 
 1 - Course Schedule, 
