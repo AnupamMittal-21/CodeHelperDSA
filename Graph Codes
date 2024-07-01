@@ -547,10 +547,53 @@ vector<int> bellman_ford(int n, vector<vector<int>>& edges, int S) {
 
 
 #################################### Multi-Source Shortest Path Algorithm: Floyd Warshal Algorithm #######################################################################
-TC: O(V*E)
+TC: O(V*V*V)
+SC: O(V*V)
+
 => Works fine even for negative weights.
 => Go via every node and try. 0->1 = 0->1 + 1->0, so this is the intuition behind this algorithm.
 => Min(dist[I][k] + dist[k][j]) => this is Dynamic programming concept. because we need precomputation.
 => In this we use an adjacency matrix for computation.
 => If this is undirected then make it directed.
- 
+=> Detecting Negative cycle -> if dist[I][I] < 0 means it is negative cycle
+
+=> If we Apply Dijkstra on each node then TC: (V * (E log(V)) )
+=> But it can't be applied in negative weights.
+
+Code: 
+void shortest_distance(vector<vector<int>>&adj){
+    int n = adj.size();
+    for(int i =0;i<n;i++){
+        for(int j = 0;j<n;j++){
+            if(adj[i][j] == -1){
+                adj[i][j] = 1e9;
+            }
+            if(i==j)adj[i][j] = 0;
+        }
+    }
+
+    // Main Logic.
+    for(int via = 0;via<n;via++){
+        for(int i =0;i<n;i++){
+            for(int j = 0;j<n;j++){
+                adj[i][j] = min(adj[i][j], adj[i][via] + adj[via][j]);
+            }
+        }
+    }
+    
+    for(int i = 0;i<n;i++){
+        if(adj[i][i]<0){
+            // Negative cycle
+            return;
+        }
+    }
+    
+    for(int i =0;i<n;i++){
+        for(int j = 0;j<n;j++){
+            if(adj[i][j] == 1e9){
+                adj[i][j] = -1;
+            }
+            if(i==j)adj[i][j] = 0;
+        }
+    }
+}
