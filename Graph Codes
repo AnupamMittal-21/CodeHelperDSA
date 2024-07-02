@@ -428,7 +428,7 @@ int ladderLength(string startWord, string targetWord, vector<string>& wordList) 
 }
 
 
-#################################### BFS | DFS Coloring Problem (Bipartite) ####################################################################################
+#################################### BFS | DFS Coloring Problem (Bipartite) ################################################################
 
 TC = O(V + 2*E) for Undirected graph DFS | BFS 
 
@@ -486,7 +486,8 @@ TC = O(V + 2*E) for Undirected graph DFS | BFS
     => We are going to store the sequence in the queue, so the queue is storing the vector. And we don't erase elements now, we will erase them after completing the level.
 
 7 - Bipartite Graph, Coloring methods If you can color the graph using 2 colors and adjacent have an alternate color.
-    => Start with 2 sets and push node and flag in the queue, now while traversing in adjacency make sure to check whether the neighbor doesn't exist in the same set, if it does, return false right away.
+    => Start with 2 sets and push node and flag in the queue, now while traversing in adjacency make sure to check whether the neighbor doesn't exist in the same set, 
+        if it does, return false right away.
     => Another approach is that any graph with a cycle of length odd can never be a BiPartite graph.
     => So keep a color array and keep on traversing and coloring the adjacent nodes with the opposite color of the parent,
         if it is already colored then return False.
@@ -557,8 +558,10 @@ vector<int> shortestPath(vector<vector<int>>& edges, int n, int m, int src){
 #################################### Shortest Path Algorithms with Variable Weight (Dijkstra's Algorithm) #######################################################################
 
 => Does not work when we have negative weights and negative cycle as well. beacause it keeps on decreasing the weights and TLE occurs.
-=> We can use set and we can erase the elements from set if we get the lesser distance, so it would reduce the number of iterations but it costs log(n) so it may not improve overall TC as compared to Priority Queue
-=> Like in the iteration i got (10,5) means reaching node 5 with distance 10, now i am reaching it in distance 6, so it means node 5 is already visited by some other node, which is bound to be present in set, so to decrease iterations remove (10,5).
+=> We can use set and we can erase the elements from set if we get the lesser distance, so it would reduce the number of iterations but it costs log(n) 
+    so it may not improve overall TC as compared to Priority Queue
+=> Like in the iteration i got (10,5) means reaching node 5 with distance 10, now i am reaching it in distance 6, so it means node 5 is already visited by some other node, 
+    which is bound to be present in set, so to decrease iterations remove (10,5).
 => Just add the condition if(dist[it.first]!=1e9)st.erase({dist[it.first], it.first})
 
 => Priority Queue Implementation. Because it prevents some iterations, as we take minimum distance, and when we get the same node but with bigger distance we don't go in BFS
@@ -690,7 +693,7 @@ int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
     return -1;
 }
 
-#################################### Single Source Shortest Path Algorithm: Bellman Ford Algorithm #######################################################################
+#################################### Single Source Shortest Path Algorithm: Bellman Ford Algorithm #################################################
 TC: O(V*E)
 => Why need Bellman Ford? Because Dijkstra fails on negative weights and negative cycles. As it keeps on minimising the weights and results in TLE 
 => It is Applicable only on Directed Graphs, so if we have an undirected graph, make a directed edge from u to v and v to u with the same weight.
@@ -783,30 +786,176 @@ void shortest_distance(vector<vector<int>>&adj){
 
 #################################### Question on Minimum Distance #######################################################################
 
+
+
 Questions on Distance
 
-1 - Minimum distane in binary maze, [0][0] se [n-1][n-1] pe jana h, so only 0 can be moved so find least time.
-    => Since in this question the distance increases by 1, so we dont need priority queue, we should work with queue only as it will save the logV term.
-    => Since we are dealing with distances, so we can use Dijkstra's algorithm but with queue
-    => Simply take 2D distance array, create queue, push initial and distance of initial to 0 and rest INF, then for till queue is not empty, 8 moves and check its validity and distance condition 
+1 - Minimum distance in the binary maze, [0][0] se [n-1][n-1] pe jana h, so only 0 can be moved so find least time.
+    => Since in this question the distance increases by 1, so we don't need a priority queue, we should work with a queue only as it will save the logV term.
+    => Since we are dealing with distances, we can use Dijkstra's algorithm but with a queue
+    => Take a 2D distance array, create a queue, push the initial and distance of initial to 0 and rest INF, then for till the queue is not empty, 
+        8 moves and check its validity and distance condition 
 
 2 - Path with minimum Effort, 
-    => we have to find the path where maximum of the absolute difference of adjacent nodes taken is minimum.
+    => We have to find the path where the maximum of the absolute difference of adjacent nodes taken is the minimum.
     => int new_dis = max(dis, abs(grid[nx][ny] - grid[i][j]));
-    => just this is the new formula to find the distance rest is same dijkstra algorithm.
+    => just this is the new formula to find the distance rest is same Dijkstra algorithm.
 
 3 - Cheapest Flights within K stops, VERY GOOD QUESTION, CONCEPT IS SLIGHTLY DIFFERENT
-    => Simple Dijkstra fails, as we have to prioritise the No of stops then time, as there are some cases where the the distance is more but the K valus is less
-        so the dijkstra algorithm will not update the correct one.
-    => We need to prioritise the K value then we need to set the Distance.
-    => You can also use queue as now we are using stops and stops are increasing by one, so no need of Priority Queue
-    => Just a slight change in storing in priority queue, store in the form of // Stops, node, distance, rather than distance, node, stops... NICE...Fascinating Question...
+    => Simple Dijkstra fails, as we have to prioritize the No of stops then time, as there are some cases where the distance is more but the K value is less
+        so the Dijkstra algorithm will not update the correct one.
+    => We need to prioritize the K value then we need to set the Distance.
+    => You can also use the queue as now we are using stops and stops are increasing by one, so no need for a Priority Queue
+    => Just a slight change in storing in the priority queue, store in the form of // Stops, node, distance, rather than distance, node, stop... NICE...Fascinating Question...
     => TC: FLights.size() = O(E)
 
 4 - Multiply the numbers to make start to end,
-    => Slight difference, Distance array is 1 to 9999 and mark then INF and start as 0
-    => Since we are dealing with no of steps, so it increase uniformly, so use queue
+    => Slight difference, the Distance array is 1 to 9999 and mark then INF and starts as 0
+    => Since we are dealing with no of steps, it increases uniformly, so use queue
     => Simple Dijkstra now.
 
 
 #################################### Minimum Spanning Tree ###################################################################################
+
+
+
+#################################### Strongly Connected Component (Kosaraju's Algorithm) #######################################################################
+TC: O(V+E)*3
+=> Valid only for Directed graphs.
+=> Strongly Connected component means -> every pair of vertices is reachable from one to the other in a component
+=> Algorithm:
+    => 1 - Sort all the edges according to their finishing time.
+    => 2 - Reverse the graph
+    => 3 - Start DFS
+
+
+void dfs(int node, vector<int> &vis, stack<int> &st, vector<vector<int>> &adj){
+    vis[node] = 1;
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            dfs(it, vis, st, adj);
+        }
+    }
+    st.push(node);
+}
+public:
+
+int kosaraju(int V, vector<vector<int>>& adj)
+{
+    vector<int> vis(V, 0);
+    stack<int> st;
+    
+    for(int i = 0;i<V;i++){
+        if(!vis[i]){
+            dfs(i,vis,st,adj);
+        }
+    }
+    
+    vector<vector<int>>  adjT(V);
+    for(int i =0;i<V;i++){
+        vis[i] = 0;
+        for(auto it:adj[i]){
+            adjT[it].push_back(i);
+        }
+    }
+    
+    int scc = 0;
+    stack<int> sl;
+    while(st.size()){
+        int i=st.top();
+        st.pop();
+        if(!vis[i]){
+            scc++;
+            dfs(i,vis,sl,adjT);
+        }
+    }
+    return scc;
+}
+
+
+#################################### Critical Connected Component (Bridge in Graph | Tarjan's Algorithm) #############################################################
+TC: O(V+2E) = DFS
+SC: O(V+2E) + O(3N)
+
+=> Remove an edge and if the graph is broken into 2 or more components then it is called a bridge.
+=> Take 2 arrays Time array which states the order or time in which the node is called via a DFS
+=> Other array is Low array which stores the lowest time insertion of all adjacent nodes apart from parent
+=> Because we want to know if we can reach from other node than parent so this edge can't be the bridge.
+
+
+int timer = 0;
+void dfs(int node, int parent, vector<int> &time,vector<int> &low, vector<int> &vis, vector<vector<int>>& adj, vector<vector<int>>& ans)
+{
+    vis[node] = 1;
+    time[node] = low[node] = timer;
+    timer++;
+    for(auto it:adj[node]){
+        if(it==parent)continue;
+        if(!vis[it]){
+            dfs(it,node,time,low,vis,adj, ans);
+            low[node] = min(low[node], low[it]);  
+            if(low[it] > time[node]){
+                ans.push_back({it,node});
+            }
+        }
+        else{
+            low[node] = min(low[node], low[it]);  
+        }
+    }
+}
+
+
+#################################### Critical Connected Component (Articulation Points in Graph) #############################################################
+TC: O(V+2E) = DFS
+SC: O(V+2E) + O(3N)
+=> If we remove the node and graph breaks into more than 1 component then the node is articulation point.
+=> This i skinda same as bridges in graph, but in low we also dont consider the visited node to update the low array.
+
+
+int timer = 1;
+void dfs(int node, int parent, vector<int> &vis, int tin[], int low[],
+         vector<int> &mark, vector<int>adj[]) {
+    vis[node] = 1;
+    tin[node] = low[node] = timer;
+    timer++;
+    int child = 0;
+    for (auto it : adj[node]) {
+        if (it == parent) continue;
+        if (!vis[it]) {
+            dfs(it, node, vis, tin, low, mark, adj);
+            low[node] = min(low[node], low[it]);
+            if (low[it] >= tin[node] && parent != -1) {
+                mark[node] = 1;
+            }
+            child++;
+        }
+        else {
+            low[node] = min(low[node], tin[it]);
+        }
+    }
+    if (child > 1 && parent == -1) {
+        mark[node] = 1;
+    }
+}
+public:
+vector<int> articulationPoints(int n, vector<int>adj[]) {
+    vector<int> vis(n, 0);
+    int tin[n];
+    int low[n];
+    vector<int> mark(n, 0);
+    
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) {
+            dfs(i, -1, vis, tin, low, mark, adj);
+        }
+    }
+
+    vector<int> ans;
+    for (int i = 0; i < n; i++) {
+        if (mark[i] == 1) {
+            ans.push_back(i);
+        }
+    }
+    if (ans.size() == 0) return { -1};
+    return ans;
+}
