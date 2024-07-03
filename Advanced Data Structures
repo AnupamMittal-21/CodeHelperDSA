@@ -8,9 +8,87 @@
   Basically, 2's Complement then AND with the the index, and then finally ADD
   An index at Fenwick tree means the sum of elements in that range.
 
-
+=> Now for Query
+  i = i - ( i & (-i))
+  Basically we keep on turning te right bit(Which is rightmost 1) off, then we keep on adding the value of that index
   
 
+  
+/******************************************************************************
+
+                              Online C++ Debugger.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Debug" button to debug it.
+
+*******************************************************************************/
+
+#include <iostream>
+// #include<stdint.h>
+#include<climits>
+using namespace std;
+#include<vector>
+
+class SegmentTree{
+public:
+    vector<int> fen;
+    SegmentTree(vector<int> fen){
+        // int n = fen.size();
+        // this->fen.resize(n+1, 0);
+        // for(int i = 1;i<=n;i++){
+        //     this->fen[i] = fen[i-1];
+        // }
+        this->fen = fen;
+    }
+    
+    void update(int i, int val){
+        int n = fen.size();
+        while(i<n){
+            fen[i] += val;
+            i = i + (i & (-i));
+        }
+    }
+    
+    int sum(int i){
+        int s = 0;
+        while(i>0){
+            s+=fen[i];
+            i = i - (i & (-i));
+        }
+        return s;
+    }
+    
+    int rangeSum(int l, int r){
+        return sum(r) - sum(l-1);
+    }
+};
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int> a(n, 0);
+    for(int i = 0;i<n;i++){
+        cin>>a[i];
+    }
+    SegmentTree seg(a);
+    int q;
+    cin>>q;
+    while(q--){
+        int w,l, r;
+        cin>>w>>l>>r;
+        if(w==0){
+            cout<<seg.rangeSum(l,r)<<endl;
+        }
+        else{
+            seg.update(l,r);
+            for(auto it:seg.fen){
+                cout<<it<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    
+    return 0;
+}
 
 ################################################ Segment Tree ##############################################################
 
