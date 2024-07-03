@@ -1,0 +1,60 @@
+################################################ Fenwick Tree ##############################################################
+
+=> Update and Sum of ranges in an array, so to reduce the TC, we use Fenwick Tree, We can use Prefix array but there is Update,
+  so we have to repetitively do update all the prefix array.
+
+=> It stores the array in tree based on ranges on the binary representation of the index, for example for 1, we create the range like
+  i = i + ( i & (-i));
+  Basically, 2's Complement then AND with the the index, and then finally ADD
+  An index at Fenwick tree means the sum of elements in that range.
+
+
+  
+
+
+################################################ Segment Tree ##############################################################
+
+=> Used when we have an array and Q queries, now we have to find the minimum/maximum/sum to get the resultant in a given range.
+=> Else the TC would go to O(N*Q), but now it is O(N) for BUILD, and O(logN) for searching/Query.
+
+=> Query: 3 cases: Overlap, Completely Oustide, Completely Inside.
+
+class SegmentTree{
+public:
+    vector<int> a, seg;
+    SegmentTree(vector<int> a){
+        this->a = a;
+        int n = a.size();
+        seg.resize(4*n,0);
+    }
+    
+    void build(int idx, int low, int high){
+        int mid = (low+high)/2;
+        if(low==high){
+            seg[idx] = a[low];
+            return;
+        }
+        
+        build(2*idx + 1, low, mid);
+        build(2*idx + 2, mid+1, high);
+        seg[idx] = max(seg[2*idx+1], seg[2*idx + 2]);
+        // seg[idx] = seg[2*idx+1] + seg[2*idx + 2]; // In Case if we want to get the sum 
+    }
+    
+    int query(int idx, int low, int high, int l, int r){
+        // Completely lies... ([low, high] lies inside [l, r])...l..low...high...r...
+        if(l<=low && high<=r){
+            return seg[idx];
+        }
+        // No overlapping case..
+        if(high<l || low>r)
+            return INT_MIN; 
+            // return 0; // In Case if we want to get the sum and INT_MAX in case of Minimum.
+        
+        int mid = (low + high)/2;
+        int left = query(2*idx + 1, low, mid, l, r);
+        int right = query(2*idx + 2, mid+1, high, l, r);
+        return max(left, right);
+        // return left + right; // In Case if we want to get the sum 
+    }
+};
