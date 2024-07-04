@@ -25,13 +25,18 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     if(root==NULL)return {};
     queue<TreeNode *> q;
     q.push(root);
+    // bool flag = true; // In case of zig zag. 
     vector<vector<int>> two_ans;
     while(!q.empty()){
         int size = q.size();
         vector<int> ans;
-        while(size--){
+        for(int i = 0;i<size;i++){
           TreeNode *curr = q.front();
           q.pop();
+
+          // int index = (flag)?i:(size-i-1); // In case of zig zag. 
+          // ans[index] = curr->val  // In case of zig zag. 
+
           ans.push_back(curr->val);
           if(curr->left!=NULL)
               q.push(curr->left);
@@ -43,6 +48,7 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     return two_ans;
 }
 
+// In case of zig zag. 
 ######################### Iterative Preorder (Root, Left, Right) ##############################
 TC: O(N)
 SC: O(N)
@@ -141,7 +147,7 @@ Very Hard, mujhse nhi aaya ye samajh me...
 
 
 
-######################### Iterative Post | Post | In All in one ##############################
+######################### Iterative Post | Post | In | All in one ##############################
 TC: O(3N)
 SC: O(4N)
 intuition: 
@@ -248,3 +254,97 @@ int fun(int &ans, TreeNode *root){
     int curr_path_sum = max(l,r) + root->val;
     return curr_path_sum>=0?curr_path_sum:0;
 }
+
+
+####################### Symmetric tree ######################################################
+
+Simple hi h, bass we have 3 conditions, that value must be same and the structure must be same.
+
+bool isSameTree(TreeNode* p, TreeNode* q) {
+    if(p==NULL || q==NULL)return p==q;
+    if(p->val!=q->val)return false;
+    bool l = isSameTree(p->left, q->left);
+    bool r = isSameTree(p->right, q->right);
+    return l&&r;
+}
+
+
+########################## Boundary Traversal ###############################################
+1 - Left wale, so simple while me left kre chale jao (Jab tak left and right null na ho and leaf na lo)
+2 - Leaf only except the boundary, so isme BFS types kro and bass condition laga do ki left and right null
+    In this we cant do the Level Order beacuse different level pe hongi leaves
+3 - Reverse me extreme right me jate hue and me add kro (Right nhi h to left m jao)
+
+now just return the answer.
+
+
+########################## Vertical Traversal ###############################################
+
+
+If same level then lower value first 
+
+
+########################## TopView | BottomView Traversal ###############################################
+
+Recursion wont work simply, we have to take care of height also. bcz right wale pe jayenge and vo baad me ho jayega append
+vector<int> topView(Node *root)
+{
+    map<int,int> mp;
+    queue<pair<Node*, int>> q;
+    q.push({root, 0});
+    
+    while(q.size()){
+        int v = q.front().second;
+        Node* curr = q.front().first;
+        q.pop();
+        if(mp.find(v)==mp.end()){
+            mp[v] = curr->data;
+        }
+        // To create Bottom View...
+        // else{
+        //    mp[v] = curr->data;
+        // }
+        if(curr->left){
+            q.push({curr->left,v-1});
+        }
+        if(curr->right){
+            q.push({curr->right,v+1});
+        }
+    }
+    vector<int> ans;
+    for(auto it:mp){
+        ans.push_back(it.second);
+    }
+    return ans;
+}
+
+
+########################## RightView | LeftView Traversal ###############################################
+
+Do a  Level order traversal and last node or start node is added to answer
+TC: O(N), SC: O(N)
+
+Do a recursive traversal and pass node, and level in the function
+
+void fun(TreeNode* root, int level, vector<int>& res){
+    if(root == NULL){
+        return;
+    }
+    
+    if(res.size() == level){
+        res.push_back(root->val);
+    }
+    // Left View
+    // else{
+    //    res[level] = root->val;
+    // }
+    fun(root->left, level + 1, res);
+    fun(root->right, level + 1, res);
+}
+
+
+##################### Is Symmetric Tree #######################################
+Similar to camparing 2 tree wala ques 
+But the difference is in this we call 
+f(p->right, q->left) 
+f(p->left, q->right)
