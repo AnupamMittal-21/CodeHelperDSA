@@ -1,0 +1,135 @@
+######################### Basics of Trees ####################################################
+
+- **Full Binary Tree**: Each node has either 0 or 2 children.
+- **Complete Binary Tree**: All levels are fully filled except possibly the last level, which is filled from left to right.
+- **Perfect Binary Tree**: All internal nodes have two children and all leaves are at the same level. Each level has \(2^{\text{level} - 1}\) nodes.
+- **Balanced Binary Tree**: The height of the tree is at most \(\log(N)\).
+- **Degenerate Tree**: A tree where each parent node has only one child, resembling a linked list.
+
+######################### Traversal - Preorder, Postorder, Inorder - DFS ####################
+
+### Traversal - Level Order - BFS
+- **Time Complexity**: \(O(N)\)
+- **Space Complexity**: \(O(N)\)
+
+Make sure to use a queue for BFS. If creating a 2D array, use a for loop to handle levels:
+```cpp
+int size = q.size();
+while(size--){
+  // Logic  
+}
+```
+
+```cpp
+vector<vector<int>> levelOrder(TreeNode* root) {
+    if(root == NULL) return {};
+    queue<TreeNode *> q;
+    q.push(root);
+    vector<vector<int>> two_ans;
+    while(!q.empty()) {
+        int size = q.size();
+        vector<int> ans;
+        while(size--) {
+            TreeNode *curr = q.front();
+            q.pop();
+            ans.push_back(curr->val);
+            if(curr->left != NULL)
+                q.push(curr->left);
+            if(curr->right != NULL)
+                q.push(curr->right);
+        }
+        two_ans.push_back(ans);
+    }
+    return two_ans;
+}
+```
+
+### Iterative Preorder (Root, Left, Right)
+- **Time Complexity**: \(O(N)\)
+- **Space Complexity**: \(O(N)\)
+
+**Intuition**: 
+Use a stack, pop the top element, push the right child then the left child. This way, we always process the left child first.
+
+```cpp
+vector<int> preorderTraversal(TreeNode* root) {
+    if(root == NULL) return {};
+    stack<TreeNode *> st;
+    st.push(root);
+
+    vector<int> ans;
+    while(!st.empty()) {
+        TreeNode *curr = st.top();
+        st.pop();
+        ans.push_back(curr->val);
+        if(curr->right != NULL) {
+            st.push(curr->right);
+        }
+        if(curr->left != NULL) {
+            st.push(curr->left);
+        }
+    }
+    return ans;
+}
+```
+
+### Iterative Inorder (Left, Root, Right)
+- **Time Complexity**: \(O(N)\)
+- **Space Complexity**: \(O(N)\) in the worst case of a skewed tree, \(O(\log N)\) in the average case.
+
+**Intuition**: 
+Use a stack to go to the extreme left, then start popping elements. After popping, go right and push till the extreme left.
+
+```cpp
+vector<int> inorderTraversal(TreeNode* root) {
+    if(root == NULL) return {};
+    stack<TreeNode*> st;
+    vector<int> ans;
+    while(root) {
+        st.push(root);
+        root = root->left;
+    }
+
+    while(!st.empty()) {
+        TreeNode *curr = st.top();
+        st.pop();
+        ans.push_back(curr->val);
+
+        if(curr->right) {
+            curr = curr->right;
+            while(curr) {
+                st.push(curr);
+                curr = curr->left;
+            }
+        }
+    }
+    return ans;
+}
+```
+
+### Iterative Postorder (Left, Right, Root)
+- **Intuition**: 
+Use two stacks. The first stack is for storing the nodes, and the second stack stores the answer. Think of it as printing the root, but push left first and then right.
+
+```cpp
+vector<int> postorderTraversal(TreeNode* root) {
+    if(root == NULL) return {};
+    vector<int> ans;
+    stack<TreeNode *> st;
+    st.push(root);
+
+    while(!st.empty()) {
+        TreeNode *curr = st.top();
+        st.pop();
+        ans.push_back(curr->val);
+        if(curr->left) {
+            st.push(curr->left);
+        }
+        if(curr->right) {
+            st.push(curr->right);
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+```
