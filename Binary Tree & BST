@@ -410,7 +410,7 @@ void fun(Node *root, vector<int> &temp, vector<vector<int>>&ans){
 
 
 
-##################### Print All Paths #######################################
+##################### LCA in BT #######################################
 
 Important...Same as BST, where as in BST we can add logic to search using its property...
 
@@ -430,7 +430,7 @@ bool fun(TreeNode *root, TreeNode* &ans, TreeNode *p, TreeNode * q){
 }
 
 ##################### Width of Binary Tree #######################################
-
+ACHA QUESTION H YE BETA 
 => It means all the width of tree if we consider that from left most and right nost leaf we have 
 	tree like a complete tree.
 
@@ -473,3 +473,189 @@ int widthOfBinaryTree(TreeNode* root) {
 		}
 		return ans;
 }
+
+
+########################### Children Sum Property ##########################################
+
+We have to say 0 or 1 if the node value is sum of left and right value only, 
+so simply return -1 if at any stage it fails.
+
+int fun(Node *root){
+		if(root==NULL)return 0;
+		if(root->left == NULL && root->right == NULL)return root->data;
+		
+		int l = fun(root->left);
+		int r = fun(root->right);
+		if(l+r!=root->data || l==-1 || r==-1)return -1;
+		return root->data;
+}
+int isSumProperty(Node *root)
+{
+ // Add your code here]
+		int a= fun(root);
+		return a==-1?0:1;
+}
+
+
+Another question is how to make a tree to follow Children's Sum problem.
+
+O(N*N) generally..
+so we can increment any node by one any time.
+
+so start se chalo and parent wala data banate chalo neeche tak 
+so neeche wale se jab upar aayenge to badhate hue chalo bass 
+so basically while going down make the guys greater, and we will never be short of it .
+
+TC: O(N)
+
+if (root == NULL) return;
+int child = 0;
+if (root->left) child+=root->left->data;
+if (root->right) child+=root->right->data;
+if (root->data <= child ) root->data = child;
+else {
+	if(root->left) root->left->data = root->data;
+	else if(root->right) root->right->data = root->data;
+}
+fun(root->left)
+fun(root->right)
+int tot = 0;
+if (root->left) tot+=root->left->data;
+if (root->right) tot+=root->right->data;
+if (root->left || root->right) root->data = tot;
+
+
+
+###############################  Kth distance nodes in BT ###################################
+ACHA QUESTION H YE BHI 
+// Summary: 
+1 -> Create a map which stores parent pointer this is done by bfs traversal, because we need to go to parent 
+2 -> Do a simple BFS Traversal now with the target node, and keep K, and when k==0 then push in answer, 
+			make sure to keep a map for visited and go to left, right, parent and if it is not visited then visit it, and push in queue
+
+
+// Summary for Burning Tree
+1 -> Same as previous, just we keep on taking max of K value and return K value 
+
+The problem is that we dont have pointer to parent, so if we had then we would do a simple traversal 
+so the solution is same, 
+create a parent pointer, 
+and a queue..
+
+
+CODE: 
+vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+		queue<TreeNode*> q;
+		q.push(root);
+
+		map<TreeNode*, TreeNode*> mp;
+
+		while(q.size()){
+				TreeNode *curr = q.front();
+				q.pop();
+
+				if(curr->left){
+						mp[curr->left] = curr;
+						q.push(curr->left);
+				}
+				if(curr->right){
+						mp[curr->right] = curr;
+						q.push(curr->right);
+				}
+		}
+		// Now we have parent, left, right now just do a standard BFS from target node
+		queue<pair<TreeNode*, int>> q1;
+		vector<int> ans;
+		q1.push({target, 0});
+		map<TreeNode*, int> vis;
+		vis[target]=1;
+
+		while(q1.size()){
+				TreeNode* curr = q1.front().first;
+				int k1 = q1.front().second;
+				q1.pop();
+				if(k1==k){
+						ans.push_back(curr->val);
+						continue;
+				}
+				if(mp.find(curr)!=mp.end()){
+						if(vis.find(mp[curr]) == vis.end()){
+								vis[mp[curr]] = 1;
+								q1.push({mp[curr], k1+1});
+						}
+				}
+				if(curr->left){
+						if(vis.find(curr->left) == vis.end()){
+								vis[curr->left] = 1;
+								q1.push({curr->left, k1+1});
+						}
+				}
+				if(curr->right){
+						if(vis.find(curr->right) == vis.end()){
+								vis[curr->right] = 1;
+								q1.push({curr->right, k1+1});
+						}
+				}
+		}
+		return ans;
+}
+
+=> VERY GOOD Approach, good question 
+same logic is applied in burning a tree, 
+
+
+############################# Count Nodes in Complete BT #####################################
+
+Simply do a BFS | DFS and keep a counter, 
+TC: O(N) 
+SC: O(H) because the height is log N
+
+So use property of Complete tree, 
+we have to find height of tree 
+1 + total(left) + total(right)
+in case of full tree we have to return durectly using formula 
+so agar dono height same h to hi keh sakte h ki vo complete h 
+
+
+TC: O(H*H) = O(LogN*LogN)
+SC: O(H) = O(LogN)
+
+Right Heigt and Left Height me just go to extreme roght, or left 
+int getRightHeight(TreeNode * root){
+		int ans =0 ;
+		while(root!=NULL){
+				root = root->right;
+				ans++;
+		}
+		return ans;
+}
+int getLeftHeight(TreeNode * root){
+		int ans =0 ;
+		while(root!=NULL){
+				root = root->left;
+				ans++;
+		}
+		return ans;
+}
+int countNodes(TreeNode* root) {
+		if(root==NULL)return 0;
+		int l = getLeftHeight(root);
+		int r = getRightHeight(root);
+
+		if(l==r){
+				return (1<<l) - 1St;
+		}
+		return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+
+
+############################ Constructing Trees From Traversal ############################
+We can create unique BT using: 
+Inorder and Preorder - Yes 
+Inorder and PostOrder - Yes
+Preorder and PostOrder - No
+
+
+############################# Constructing BT From Inorder and Preorder ######################
+
