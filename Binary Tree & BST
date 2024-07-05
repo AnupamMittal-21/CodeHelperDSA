@@ -658,4 +658,63 @@ Preorder and PostOrder - No
 
 
 ############################# Constructing BT From Inorder and Preorder ######################
+See the intuition is like we have inorder, preorder, so start from preorder and we figure out 
+what is the inorder index , now we call for left half and right half.
+using pointers to inorder start, end and preorder start and end.
 
+
+TreeNode* fun(int is, int ie, int ps, int pe, vector<int>& preorder, vector<int>& inorder, unordered_map<int,int> &mp){
+		int n = preorder.size();
+		if(ps>pe || is>ie)return NULL;
+		int elem = preorder[ps];
+		int mid = mp[elem];
+		int len = mid-is;
+		TreeNode* root = new TreeNode(elem);
+		root->left = fun(is, mid-1, ps+1, ps+len, preorder, inorder, mp);
+		root->right = fun(mid+1, ie,ps+len+1, pe, preorder, inorder, mp);
+		return root;
+}
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+		int n = preorder.size();
+		unordered_map<int,int> mp;
+		for(int i = 0;i<n;i++){
+				mp[inorder[i]] = i;
+		}
+		return fun(0,n-1, 0, n-1, preorder, inorder, mp);
+}
+
+############################# Constructing BT From Inorder and PostOrder ######################
+
+Just a few changes in pointer, as postoder is Left Right Root, so we start from post end pointer, and search in map , 
+then split the inorder in same way however postorder is little different..
+TreeNode* buildTreePostIn(vector<int>& inorder, int is, int ie,
+		vector<int>& postorder, int ps, int pe, map<int, int>& hm) {
+
+		int n = postorder.size();
+		if (ps > pe || is > ie) {
+				return NULL;
+		}
+
+		TreeNode* root = new TreeNode(postorder[pe]);
+
+		int inRoot = hm[postorder[pe]];
+		int numsLeft = inRoot - is; 
+
+		root->left = buildTreePostIn(inorder, is, inRoot - 1, postorder,
+				ps, ps + numsLeft - 1, hm);
+
+		root->right = buildTreePostIn(inorder, inRoot + 1, ie, postorder,
+				ps + numsLeft, pe - 1, hm);
+		return root;
+}
+TreeNode* buildTree(vector<int>& postorder, vector<int>& inorder) {
+		int n = postorder.size();
+		if(n!=inorder.size())return NULL;
+		map<int,int> mp;
+		for(int i = 0;i<n;i++){
+				mp[inorder[i]] = i;
+		}
+		return buildTreePostIn(inorder, 0, inorder.size() - 1, postorder, 0,
+				postorder.size() - 1, mp);
+}
+>> NOt working properly but the intution is this only.
