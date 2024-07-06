@@ -1,4 +1,4 @@
-############################# Assign Cookies ################################################
+############################## Assign Cookies ################################################
 
 Nothing Much...
 Simple Approach, as we have to assign cookies once and such that the greed[i]<=s[j]
@@ -21,7 +21,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 }
 
 
-############################# Lemonade Change ##########################################
+################################### Lemonade Change ##########################################
 
 Given customers comes up with 5 | 10 | 20 rupees, 
 initially, we didn't have any change, so we had lemonade of 5 rupees
@@ -34,7 +34,7 @@ if it is 20, then check to give the first 10 and 5, if not possible try giving 5
 at the end return true;
 
 
-############################## Fractional KnapSack ######################################
+################################### Fractional KnapSack ######################################
 
  static bool comp(Item &a, Item &b){
     double aRatio = a.value*(1.0);
@@ -65,7 +65,7 @@ double fractionalKnapsack(int W, Item arr[], int n) {
 }
 
 
-########################## Train Arrival Question Minimum Platforms ######################
+############################## Train Arrival Question Minimum Platforms ######################
 
 Naive Approach: To find how many times a train intersects
   => Take a train, see if it intersects with how many trains, and then take the max.
@@ -128,7 +128,8 @@ int findPlatform(int arr[], int dep[], int n)
 
 
 
-############### Valid Paranthesis 
+################################# Valid Paranthesis ##########################################
+
 we can do this using DP, 
 Recusrive takes TC: O(3^N), SC: O(N)
 
@@ -167,4 +168,80 @@ bool checkValidString(string s) {
 }
 
 
+
+############################## Shortest Job First ############################################
+
+Simply just execute the smallest burst time one, and till then all the other elements will wait
+
+long long solve(vector<int>& bt) {
+    int n = bt.size();
+    int ans = 0;
+    sort(bt.begin(), bt.end());
+    for(int i = 0;i<n;i++){
+        ans+=bt[i]*(n-i-1);
+    }
+    return ans/n;
+}
+
+EASY PEASY
+
+#################################### Jump Game 1 ############################################
+Recursion is always a way in greedy and we can optimise using DP 
+
+See we see at each point what is the max value we can get to now we are at i, but we can go 
+only upto maxi index and we keep on updating max, 
+If there are no Zeros then we will always reach destination..
+
+bool canJump(vector<int>& nums) {
+    int i = 0, maxi = 0, n = nums.size();
+    while(i<n && i<=maxi ){
+        maxi = max(i + nums[i], maxi);
+        i++;
+    }
+    return maxi>=n-1;
+}
+
+#################################### Jump Game 2############################################
+
+f(idx, jump){
+  if(idx >=n-1) return jump;
+  mini - INT_MAX;
+  for(int i = 1;i<nums[idx])[
+      mini = min(mini, fun(idx+i, jump+1);
+  }
+  return mini;
+}
+
+TC: O(N^N)
+SC: O(N)
+
+Use DP, 
+Memoisation: TC: O(N*N)
 ############################ N Meetings in Room ############################################
+
+
+###########################################      ############################################
+###########################################      ############################################
+########################################### Heap ############################################
+###########################################      ############################################
+###########################################      ############################################
+
+
+int findKthLargest(vector<int>& nums, int k) {
+    priority_queue<int, vector<int>, greater<>> minHeap;
+    // priority_queue<int> maxHeap; This is Max Heap
+    int n = nums.size();
+    for(int i = 0;i<n;i++)
+    {
+        if(minHeap.size()>=k){
+            if(minHeap.top()<nums[i]){  // yaha pe bass > aa jayega
+                minHeap.pop();
+                minHeap.push(nums[i]);
+            }
+        }
+        else{
+            minHeap.push(nums[i]);
+        }
+    }
+    return minHeap.top();
+}
