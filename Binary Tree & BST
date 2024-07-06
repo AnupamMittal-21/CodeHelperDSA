@@ -718,3 +718,176 @@ TreeNode* buildTree(vector<int>& postorder, vector<int>& inorder) {
 				postorder.size() - 1, mp);
 }
 >> NOt working properly but the intution is this only.
+
+
+################################### Serialize and deserialize the tree #####################################
+Key point is that we have to convert tree to string, so we should start level order traversal and add # after a node
+now in Deserialise, we can split till # and we can keep a queue and keep -1001 for case of null 
+
+string serialize(TreeNode* root) {
+		if(root==NULL)return "";
+		string s = "";
+		queue<TreeNode*> q;
+		q.push(root);
+		int val = root->val;
+		s+=to_string(val);
+		s+='#';
+		while(q.size()){
+				TreeNode * curr = q.front();
+				q.pop();
+				if(curr->left){
+						int val = curr->left->val;
+						s+=to_string(val);
+						s+='#';
+						q.push(curr->left);
+				}
+				else{
+						s+="N#";
+				}
+				if(curr->right){
+						int val = curr->right->val;
+						s+=to_string(val);
+						s+='#';
+						q.push(curr->right);
+				}
+				else{
+						s+="N#";
+				}
+		}
+		return s;
+}
+
+// Decodes your encoded data to tree.
+TreeNode* deserialize(string s) {
+		cout<<s<<endl;
+		if(s == "")
+				return NULL;
+		int i = 0;
+		int currVal;
+		string currStr = "";
+		while(i<s.size() && s[i]!='#'){
+				currStr+=s[i];
+				i++;
+		}
+		i++;
+		currVal = stoi(currStr);
+		TreeNode* root = new TreeNode(currVal);
+		queue<TreeNode*> q;
+		q.push(root);
+		while(i<s.size())
+		{
+				TreeNode *curr = q.front();
+				q.pop();
+				int leftVal;
+				string currStr = "";
+				if(s[i] == 'N'){
+						i+=2;
+						leftVal = -1001;
+				}
+				else{
+						while(i<s.size() && s[i]!='#'){
+								currStr+=s[i];
+								i++;
+						}
+						i++;
+						leftVal = stoi(currStr);
+				}
+				if(leftVal==-1001){
+						curr->left = NULL;
+				}
+				else{
+						curr->left = new TreeNode(leftVal);
+						q.push(curr->left);
+				}
+
+				int rightVal;
+				currStr = "";
+				if(s[i] == 'N'){
+						i+=2;
+						rightVal = -1001;
+				}
+				else{
+						while(i<s.size() && s[i]!='#'){
+								currStr+=s[i];
+								i++;
+						}
+						i++;
+						rightVal = stoi(currStr);
+				}
+				if(rightVal==-1001){
+						curr->right = NULL;
+				}
+				else{
+						curr->right = new TreeNode(rightVal);
+						q.push(curr->right);
+				}
+		}
+		return root;
+}
+
+
+############################################## Morris Traversal of Inorder Traversal ##################################
+
+uses the concept of threaded BT 
+last node of any subtree we go to the node and go to right
+Left Root Right
+If left = NULL
+	just print curr guy and go to right
+
+IF left!=NULL 
+	rightmost guy on left subtree should be connected to left, 
+	and now we can go to left 
+	IF already a thread, then remove the thread 
+
+TC: O(N) : Amortised O(N) near about 2N
+SC: O(1) => Major focus
+vector<int> inorderTraversal(TreeNode* root) {
+		vector<int> inorder;
+		TreeNode *curr = root;
+		while(curr!=NULL){
+				if(curr->left == NULL){
+						inorder.push_back(curr->val);
+						curr = curr->right;
+				}
+				else{
+						TreeNode * prev = curr->left;
+						while(prev->right && prev->right!=curr){
+								prev = prev->right;
+						}
+						if(prev->right==NULL){
+								// Create a Thread to curr
+								prev->right = curr; 
+								// inorder.push_back(curr->val); If we want to go to preorder 
+								curr = curr->left;
+						}
+						else{
+								// Remove the Thread..
+								prev->right = NULL;
+								inorder.push_back(curr->val);
+								curr = curr->right;
+						}
+				}
+		}
+		return inorder;
+}
+
+
+################# Flatten Tree to Linked List #####################
+
+Intuition is to recursively convert to linkedlist and start from end, so we end up doing 
+Right, Left, Root, 
+so it is kind of reverse postorder,
+so go to extreme left then extreme keep on going left and then right and so on
+now this is last one so we can have its left null and right as prev, now set to prev, and
+using recursion stack space, we go back and put the right to prev and set left to null
+
+
+void flatten(TreeNode* root) {
+		if(root==NULL)return;
+		flatten(root->right);
+		flatten(root->left);
+
+		root->right = prev;
+		root->left = NULL;
+		prev = root;
+}
