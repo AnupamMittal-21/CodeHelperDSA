@@ -1,3 +1,5 @@
+Welcome to BT & BST Notes...
+
 ######################### Basics of trees ####################################################
 
 Full Binary Tree: Either 0 or 2 childrens
@@ -1174,4 +1176,22 @@ void fun(TreeNode *root){
 }
 Now just swap the values of nodes 
 
+In this phle array bana ke sort krke check kr sakte h 
+ya inorder store krke dekh lenge 
+konse swapped h 
 
+
+
+########################## Largest BST in BT ########################################
+
+call fun for left and right 
+if (curr_val < rMin && curr_val > lMax) {
+		return make_tuple(lIdx + rIdx + 1, min(curr_val, lMin), max(curr_val, rMax));
+} else {
+		return make_tuple(max(lIdx, rIdx), INT_MAX, INT_MIN);
+}
+
+Now this is the condition...
+
+
+................................ BT AND BST DONE .......................................
