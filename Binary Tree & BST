@@ -387,8 +387,6 @@ f(p->right, q->left)
 f(p->left, q->right)
 
 
-
-
 ##################### Print All Paths #######################################
 
 Important... note when we are pushing and popping only once as we are pushing only once..
