@@ -889,3 +889,289 @@ void flatten(TreeNode* root) {
 		root->left = NULL;
 		prev = root;
 }
+
+
+
+##########################################################################       ##########################################################################
+##########################################################################       ##########################################################################
+##########################################################################  BST  ##########################################################################
+##########################################################################			 ##########################################################################
+##########################################################################       ##########################################################################
+
+Generally, duplicates are not allowed in BST.
+Generally BST are height Balanced.
+
+#################### Searching in BST #############################
+
+Simply go left or right on the basis of node to be searched, can be done recursively or iteratively 
+
+##################### Max | Min in BST ##############################
+
+Simply do to extreme right or extreme Left.
+
+###################### Ceil | Floor in BST ##########################
+
+just take the case of <= in case of floor 
+and >= in the case of Ceil...
+
+
+int findCeil(Node* root, int input) {
+    if (root == NULL) return -1;
+    int ans = -1;
+    while(root!=NULL){
+        if(root->data>=input){
+            ans = root->data;
+            root = root->left;
+        }
+        else{
+            root = root->right;
+        }
+    }
+    return ans;
+}
+
+
+##################### Insert into BST ################################
+
+vhi search kro node ko
+and it vo left child ban sakta h to left banao and nhi to right, we have to go to leaf node 
+then add a new node
+
+#################### Delete a node From BST ##########################
+#### Good ONE 
+Now this is important, as it has 3 cases
+1 - 0 child, just remove the node
+2 - 1 child, just remove the node and check if curr is left child of parent then assign its child to left of parent
+						  
+3 - 2 child , we have to find predecessor, successor and then 
+		prev->left or right (based on curr is left or right of parent) to inorder successor and 
+		successor left to left of current node 
+
+
+TreeNode* deleteNode(TreeNode* root, int key) {
+		// 2 child
+		// 1 child
+		// 0 child then straight forward delete it
+
+		// If root is null
+		if(root==NULL) return NULL;
+
+		TreeNode *temp = root, *parent = NULL;
+
+		while(root!=NULL){
+				if(root->val == key){
+						// deletion code
+						// 0 case
+						if(root->left == NULL && root->right == NULL){
+								if(parent==NULL)return NULL;
+								if(parent->left==root){
+										parent->left = NULL;
+								}
+								else{
+										parent->right = NULL;
+								}
+								return temp;
+						}
+						
+						// 1 child case handled
+						if(root->left == NULL || root->right == NULL){
+								if(parent==NULL)return (root->left==NULL)?root->right:root->left;
+								if(parent->left==root){
+										parent->left = (root->left==NULL)?root->right:root->left;
+								}
+								else{
+										parent->right = (root->left==NULL)?root->right:root->left;
+								}
+								return temp;
+						}
+
+						// 2 child case..
+						// We have to get largest predessor or smallest successor.
+						TreeNode *small = root->right;
+						while(small->left!=NULL){
+								small = small->left;
+						}
+						small->left = root->left;
+						if(parent==NULL){
+								return root->right;
+						}
+						if(parent->left==root){
+								parent->left = root->right;
+						}
+						else{
+								parent->right = root->right;
+						}
+						return temp;
+
+				}
+				else if(root->val > key){
+						parent = root;
+						root = root->left;
+				}
+				else{
+						parent = root;
+						root = root->right;
+				}
+		}
+		return temp;
+}
+
+
+#################### Kth smallest element in BST #################################
+
+Inorder kro and keep a counuter and just return it k==0
+Recursice TC: O(N), SC: O(N)
+Morris TC: O(N), SC: O(1)
+
+In case of kth Largest then do a traversal and count the totals. 
+amd then N-kth smallest find krdo 
+
+
+########################### Validate BST ########################################3
+
+Again IMPORTANT ques, because ispe kafi similar h 
+
+so take [-INF, INF} as range, and keep on changing the range, 
+fo left with range [-INF, root->val]
+and right as [root->val, INF]
+and keep on going 
+
+
+bool isValid(TreeNode *root, long maxi, long mini){
+		if(root==NULL)return true;
+		if(root->val>=maxi || root->val <=mini)return false;
+
+		return isValid(root->left, root->val, mini) && isValid(root->right, maxi, root->val);
+}
+bool isValidBST(TreeNode* root) {
+		return isValid(root, LONG_MAX, LONG_MIN);
+}
+
+
+
+##################### LCA in BST #################################################
+
+3 Possiblities 
+: ek left me , ek right me then the current node is LCA
+: if dono ek taraf h to move to that side
+: koi ek vhi node h to vhi node is ans 
+
+Code: 
+TreeNode* lca(TreeNode* root,TreeNode* p,TreeNode* q){
+		if(root==NULL) return NULL;
+		if(root->val==p->val || root->val==q->val){
+				return root;
+		}
+		else{
+				if(root->val<p->val && root->val<q->val){
+						return lca(root->right,p,q);
+				}
+				else if(root->val>p->val && root->val>q->val){
+						return lca(root->left,p,q);
+				}
+				else{
+						return root;
+				}
+		}
+		return root;
+}
+
+
+#################### Construct BST from Preorder #####################################
+
+# TC: O(N*N)
+# If we use hashing and we dont search the linearly then also it would be NlogN
+
+If we sort the preorder then we have inorder
+and we can create a unique BT from Inorder and Preorder using concepts of BT
+and it will turn out to be BST 
+so TC : O(NlogN)
+
+
+TreeNode* create(int l, int r, vector<int> &preorder){
+		if(l>r)return NULL;
+		if(l==r){
+				return new TreeNode(preorder[l]);
+		}
+
+		// Checking for mid; or do it using Hashing..
+		TreeNode *root = new TreeNode(preorder[l]);
+		int mid = l;
+		for(int i = r;i>=l;i--){
+				if(preorder[i]<preorder[l]){
+						mid = i;
+						break;
+				}
+		}
+
+		root->left = create(l+1, mid, preorder);
+		root->right = create(mid+1, r, preorder);
+		return root;
+}
+TreeNode* bstFromPreorder(vector<int>& preorder) {
+		int n = preorder.size();
+		return create(0,n-1,preorder);
+}
+
+
+
+####################### Merge 2 BST ###########################################
+
+Hint is to use stack in this case, 
+as we generally have stack in recursion but now we need external 
+
+Isme ye tha ki next hmesha inorder ke next ko point kre...
+so start to minimum se hoga to vo hoga, so go to extreme left.
+stack<TreeNode*> st;
+BSTIterator(TreeNode* top_node) {
+		if(top_node!=NULL){
+				while(top_node!=NULL){
+						st.push(top_node);
+						top_node = top_node->left;
+				}
+		}
+}
+
+// In case of next save the top, and go to right and then extreme left 
+int next() {
+		if(st.size()==0)return -1;
+		TreeNode * top_node = st.top();
+		int ans = top_node->val;
+		st.pop();
+
+		if(top_node->right!=NULL){
+				st.push(top_node->right);
+				top_node = top_node->right;
+				while(top_node->left!=NULL){
+						st.push(top_node->left);
+						top_node = top_node->left;
+				}
+		}
+		return ans;
+}
+
+
+########################## 2 Sum in BST #####################################
+
+We can do a traversal and see if the it k-x exist in set..
+
+
+######################### Recover BST #########################################
+acha h ye bhi ques 
+
+void fun(TreeNode *root){
+		if(root==NULL) return;
+
+		fun(root->left);
+		if(prev!=NULL && prev->val>root->val){
+				if(first==NULL){
+						first = prev;
+				}
+				second = root;
+		}
+		prev = root;
+		fun(root->right);
+}
+Now just swap the values of nodes 
+
+
