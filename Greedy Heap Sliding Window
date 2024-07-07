@@ -245,3 +245,63 @@ int findKthLargest(vector<int>& nums, int k) {
     }
     return minHeap.top();
 }
+
+
+###########################################      ############################################
+###########################################      ############################################
+##################################### Sliding Window ########################################
+###########################################      ############################################
+###########################################      ############################################
+
+Some Major Categories, 
+
+########################## Constant Window ##################################################
+
+Eg: Given size 4 in array, and tell me maximum amount of sum we can have 
+So in this case we move both the left and right pointers move ahead 
+and remove element at left and add right element
+
+1 - Assign the window 
+2 - Move the window
+
+
+########################### Longest SubArray | SubString with some condition ################
+
+=> CONSECUTIVE
+=> We can reduce/increase the size of the window as the condition is satisfied
+
+=> Brute: Generate all the subarray | substring O(N*N) | => Max|Sum|Min
+
+=> Better: Implement the sliding window, starting with window size = 1, 
+    => Expand {r} => If the condition is satisfied then expand, r++;
+    => Shrink {l} => when condition is not satisfied, then we shrink and do opposite of what we did, l++;
+    => Code 
+    l = 0, r = 0, sum = 0, maxLen =0 
+    while(r<n){
+        sum = sum + nums[r]
+        if(sum>k){
+            sum-=nums[l]
+            l++;        
+        }
+        maxLen = max(maxLen, r-l+1)
+        r++
+    }
+    TC: O(2*N)
+
+=> Optimal: The problem in above approach is that we are using 2 times N, the extra one is 
+    because of shrinking, so if the question is like maximum window size, then why are you shrinking, 
+    just keep the window size same, and then keep moving and if size increases then do increase..
+    TC: O(N)
+
+################# Pattern 3: No of SubArrays with Some Condition ############################
+
+Similar to pattern 2
+Eg: No of subarrays with sum == k
+so it is difficult to understand the conditions of shrink and expand
+so we use the condition like sum<=k(x) and sum>=k(y) and then subtract ans = x-y
+
+
+################## Pattern 4 Minimum Size Window with Some Condition ########################
+
+We create a valid window and then try to shrink and check for validity
+and get the answer.
