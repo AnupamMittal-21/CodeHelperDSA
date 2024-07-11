@@ -42,4 +42,42 @@ Implement Min Stack
 ################################ Monotonic Stack ###########################################
 
 
+In the monotonic stack we have sorted stack...
+
+
+################################### Next Greater Element ####################################
+
+TC: O(2N + 2N) // Extra 2N for WHILE loop as it maximally run for 2N as these are total elem in arr
+SC: O(N)
+we keep a stack and start from n-1 , 
+if the stack is empty then we insert, 
+now if the stack has some elements smaller then the current element so we remove them 
+now if st has some element then the NGE will bw top of stack, else it will be -1
+1 4 6 19 this is the stack. top is 1 
+
+in case of rotated one, (NGE - II) we just iterate from 2*n-1 and update the array only when the 
+i<n 
+
+CODE: 
+vector<int> nextGreaterElements(vector<int>& nums) {
+    // Traverse for 2 times 
+    int n = nums.size();
+    stack<int> st;
+    vector<int> greater(n,-1);
+    int i = 2*n-1;
+    while(i>=0){
+        while(st.size() && nums[i%n]>=st.top()){
+            st.pop();
+        }
+        if(st.size() && i<n){
+            greater[i] = st.top();
+        }
+        st.push(nums[i%n]);
+        i--;
+    }
+    return greater;
+}
+
+
+################## Next Smaller Element is just same as Next Greater Element #################
 
