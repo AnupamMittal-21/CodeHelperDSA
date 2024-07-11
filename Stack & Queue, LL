@@ -1,0 +1,45 @@
+Stacks and Queue
+################################ Implementation based Questions #################################
+
+Implement Stack Using Arrays
+  => Array lo, and one pointer at -1 initially, 
+  => Push => arr[++top] = x
+  => Pop => return arr[top--];
+
+
+Implement Queue Using Arrays
+  => Array lo, and two pointer at -1 initially, l = -1, r = -1 
+  => Push => arr[rear++] = x
+  => Pop => if(front<rear) return arr[front++];
+
+
+Implement Stack Using Queue
+  => Pop Takes O(N)
+      => Simply push in q1
+      => Push all the elements in q2 except the last element 
+
+  => Push Takes O(N)
+      => take q1, q2, push element in q2, then transfer elements from q1 to q2 and then swap q1,q2
+      => Pop just return front of q1 
+
+  => Using single Queue
+      => Pop, If we want sigle queue, then we run loop for q.size()-1 
+          and push the elements again, and remove the front. 
+      => Push is simply push
+
+
+Implement Queue Using Stack
+
+Implement Stack Using Linked List
+Implement Queue Using Linked List
+
+Check For Balanced Paranthesis
+Implement Min Stack
+
+
+
+
+################################ Monotonic Stack ###########################################
+
+
+
