@@ -36,7 +36,66 @@ Implement Queue Using Linked List
 Check For Balanced Paranthesis
 Implement Min Stack
 
+################################ Conversion Questions #####################################
 
+################################ Infix to PostFix ##########################################
+
+if operand, add to string
+if ( push to stack 
+if ) then take out elements from stack and add to string till ( in stack
+if operator then pop until we get lesser precedance operator then push existing 
+
+
+bool isSmall(char ch1, char ch2){
+    if(ch1=='('){
+        return false;
+    }
+    if(ch1=='+' || ch1 =='-'){
+        return (ch2 == '+' || ch2 =='-');
+    }
+    if(ch1=='*' || ch1 == '/'){
+        return (ch2 != '^');
+    }
+    return true;
+}
+string infixToPostfix(string s) {
+    // Your code here
+    string ans = "";
+    stack<char> st;
+    for(auto ch:s){
+        if(ch=='*' || ch == '/' || ch == '+' || ch == '-' || ch == '^'){
+            while(st.size() && isSmall(st.top(), ch)){
+                ans+=st.top();
+                st.pop();
+            }
+            st.push(ch);
+        }
+        else if(ch=='('){
+            st.push(ch);
+        }
+        else if(ch ==')'){
+            while(st.size() && st.top()!='('){
+                ans+=st.top();
+                st.pop();
+            }
+            st.pop();
+        }
+        else{
+            ans+=ch;
+        }
+    }
+    while(st.size()){
+        ans+=st.top();
+        st.pop();
+    }
+    return ans;
+}
+
+
+################################ Infix to PostFix ##########################################
+
+
+////
 
 
 ################################ Monotonic Stack ###########################################
