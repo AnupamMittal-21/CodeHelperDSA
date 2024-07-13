@@ -149,7 +149,9 @@ vector<int> nextGreaterElements(vector<int>& nums) {
 ######################################             ###########################################
 
 
-
+Every Linked List Problem, if you can't do it in LinkedList format,
+copy the data in list and now your question would become for an 
+array, solve it.
 
 ################# Basics ################
 
@@ -212,3 +214,211 @@ vector<int> nextGreaterElements(vector<int>& nums) {
         
         return X;
     }
+
+
+################################# Medium Questions ###########################################
+
+####### 1 - Middle of LL ##############
+
+=> Brute is find length then again iterate to n/2 elements 
+=> Optimal is Tortoise & Hare Method or Slow Fast Pointers
+
+    ListNode* middleNode(ListNode* head) {
+        ListNode *slow = head, *fast = head;
+        while(fast && fast->next){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        return slow;
+    }
+
+####### 2 - Reversing a LL ############
+
+=> Recursion
+    ListNode *fun(ListNode *head, ListNode *&newHead){
+        if(head->next==NULL){
+            newHead = head;
+            return newHead;
+        }
+        ListNode * newN = fun(head->next, newHead);
+        newN->next = head;
+        head->next = NULL;
+        return head;
+    }
+
+=> Iterative 
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL)return NULL;
+        ListNode *X = NULL;
+        while(head){
+            ListNode *temp = head->next;
+            head->next = X;
+            X = head;
+            head = temp;
+        }
+        return X;
+    }
+
+################## 3 - Check for cycle in LL ##########################
+
+=> Brute: Create a map and check if the node is visited or not, so if any one is visited then
+   we have cycle, NOTE: Store the node itself, not the value.
+
+
+=> Using fast and slow pointers, we can start as head, and next of head, then if they meet
+    it means there is cycle.
+
+  wHY does this work? 
+  => Because when slow enters in cycle we can say we stop the slow and move fast by one
+  => so they are bound to meet, as it is kinda relative motion, or simply the speed of fast 
+  => is 2 units whereas speed of slow is 1 unit, 
+  => now, distance btw them decreases by one everytime we do a loop. 
+  => Why not 3 steps and 1 step, as we need jump of 1, else we may skip 
+
+TC = O(N)
+SC = O(1)
+
+    bool hasCycle(ListNode *head) {
+        if(head==NULL || head->next == NULL)return false;
+        ListNode *slow = head;
+        ListNode *fast = head->next;
+        // Make sure to check the condition of fast and next of fast exists, as we are doing 
+        // 2 next of fast.
+        while(slow!=NULL && fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow==fast)return true;
+        }
+        return false;
+    }
+
+
+################## 3 - Check for cycle element in LL ##########################
+
+
+################## 3 - Check for cycle Length in LL ##########################
+
+=> Using Hashing and as we traverse we increment the count and store the count 
+  return the difference in time when we got the already existing element in map
+
+=> Using 2 pointers 
+
+
+int countNodesinLoop(struct Node *head)
+{
+     // Code here
+    if(head==NULL || head->next == NULL)return false;
+    Node *slow = head;
+    Node *fast = head->next;
+    // Make sure to check the condition of fast and next of fast exists, as we are doing 
+    // 2 next of fast.
+    bool hasCycle = false;
+    while(slow!=NULL && fast!=NULL && fast->next!=NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow==fast){
+            hasCycle = true;
+            break;
+        }
+    }
+    if(!hasCycle)return 0;
+    slow = slow;
+    fast = fast->next;
+    int cnt = 1;
+    while(slow!=fast){
+        slow = slow->next;
+        fast = fast->next->next;
+        cnt++;
+    }
+    
+    return cnt;
+}
+
+
+###################### Check for Palindrome ##################################################
+
+
+=> Using List => Simply put all elements in a list and then iterate and see if it is palindrome,
+    which also means reverse == array 
+
+=> using Stack, traverse LL and store elements in stack, since Stack is LIFO it will store the elements in reverse order
+    now traverse again in linkedList and see if it matches the top 
+
+=> Using recursion, => As you know, if any problem you can do using stack only then you can use recursion as well ( mostly ).
+    So we will have one global pointer as curr we will move this pointer once we reach the end and recursion will start from end of the list.
+  
+  class Solution {
+      ListNode* curr;
+  public:
+      bool isPalindrome(ListNode* head) {
+          curr = head;
+          return solve(head);
+      }
+  
+      bool solve(ListNode* head) {
+          if (head == nullptr) return true;
+          bool ans = solve(head->next) && head->val == curr->val;
+          curr = curr->next;
+          return ans;
+      }
+  };
+
+=> O(1) Space => Find Middle, Reverse the second half, then compare 
+    
+    bool isPalindrome(ListNode* head) {
+        // go to middle and then reverse the list 
+        ListNode *slow = head;
+        ListNode* fast = head;
+        ListNode* start = head;
+
+        while(fast && fast->next){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        ListNode *stop = slow;
+        // Now reverse from slow;
+        
+        ListNode *X = NULL;
+        while(slow){
+            ListNode* temp = slow->next;
+            slow->next = X;
+            X = slow;
+            slow = temp;
+        }
+
+        while(X && start!=stop){
+            if(X->val!=start->val)return false;
+            X = X->next;
+            start = start->next;
+        }
+        return true;
+    }
+
+
+
+############################### Segregate Even and ODD ######################################
+
+
+ListNode* oddEvenList(ListNode* head) {
+    if (head == nullptr || head->next == nullptr)
+        return head;
+        
+    ListNode *odd = head, *even = head->next, *temp = even;
+    int cnt = 0;
+    while(even && even->next){
+        odd->next = odd->next->next;
+        even->next = even->next->next;
+        even = even->next;
+        odd = odd->next;
+    }
+    odd->next = temp;
+    return head;
+}
+
+
+############################### Delete Middle element ######################################
+
+Just keep the previous pointer and take any method to find the middle element 
+and just delete the node 
+
+################################
