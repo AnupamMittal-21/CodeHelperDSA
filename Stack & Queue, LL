@@ -153,6 +153,15 @@ Every Linked List Problem, if you can't do it in LinkedList format,
 copy the data in list and now your question would become for an 
 array, solve it.
 
+********** NOTE **********
+
+In total, 
+Slow and fast pointer ka socho
+Reverse ka socho
+Kuch naye pointers bana ke divide krne ka socho 
+kuch ek ptr ko aage badhao then dono ko saath me 
+yhi h bass LL me 
+
 ################# Basics ################
 
 1 - Insertion,
@@ -421,4 +430,23 @@ ListNode* oddEvenList(ListNode* head) {
 Just keep the previous pointer and take any method to find the middle element 
 and just delete the node 
 
-################################
+################################ Delete Nth from end #######################################
+
+Two pass => Do count Length and then again iterate len-N times
+One Pass => Increment the first ptr N-1 times, now second ptr at head and move both ptrs 
+          simultaneously and just delete...
+
+
+################################ Intersection of Two LL ###################################
+
+=> Stand at one node, iterate in other list if matches return, move to next
+O(N^2)
+
+=> Use Hashing and store one of the LL in map, traverse in other if this node is in Map return that
+O(NlogN)
+
+=> Reverse both the ll and then check ki kaha mil rhe h 
+TC: O(N)
+
+=> Calculate len of each and jo bada ho usse extra pointer move kro
+    and then dono ko simultaneously move krao and jab same ho to return 
