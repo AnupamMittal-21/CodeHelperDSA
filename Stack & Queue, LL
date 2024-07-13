@@ -140,3 +140,75 @@ vector<int> nextGreaterElements(vector<int>& nums) {
 
 ################## Next Smaller Element is just same as Next Greater Element #################
 
+
+
+######################################             ###########################################
+######################################             ###########################################
+###################################### Linked List ###########################################
+######################################             ###########################################
+######################################             ###########################################
+
+
+
+
+################# Basics ################
+
+1 - Insertion,
+2 - Deletion
+3 - Delete but head is not given, so this is interesting 
+        
+        ListNode *nextN = node->next;
+        node->val = nextN->val;
+        node->next = nextN->next;
+
+4 - Traverel 
+5 - Searching
+
+6 - Create Doubly LL
+7 - Insert Node in Double LL
+8 - Delete Node in Double LL
+
+    Node* deleteNode(Node* head, int x) {
+        if(head == NULL) return NULL;
+        Node *temp = head;
+        while(head!=NULL && x>1){ // head->data!=x
+            head = head->next;
+            x--;
+        }
+        if(head->prev){
+            head->prev->next = head->next;
+        }
+        else{
+            head->next->prev = NULL;
+            temp = head->next;
+        }
+        if(head->next){
+            head->next->prev = head->prev;
+        }
+        else{
+            head->prev->next = NULL;
+        }
+        head->prev = NULL;
+        head->next = NULL;
+        return temp;
+    }
+
+9 - Reverse a Double LL 
+    Node* reverseDLL(Node * head)
+    {
+        if(head == NULL)return NULL;
+        
+        Node *X = new Node(head->data);
+        head = head->next;
+        
+        while(head){
+            Node *temp = head->next;
+            head->next = X;
+            head->prev = NULL;  // Important to do, other wise TLE aayegi
+            X->prev = head;
+            X = head;
+            head = temp;
+        }
+        
+        return X;
+    }
