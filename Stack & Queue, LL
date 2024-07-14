@@ -304,6 +304,48 @@ SC = O(1)
 
 ################## 3 - Check for cycle element in LL ##########################
 
+=> First onw is hashing, jab bhi map me exist kre to vhi h phla node, so just return
+
+=> Tortoise and hare method 
+    slow and fast chalao and stop when vo equal ho jaye
+    so step 1 = Detect a loop 
+    place fast at start, and slow at collision point 
+    now increment both by one, and both will collide again is answer
+
+WHY??
+    coz...
+    see, 
+starting me l1 chala to slow phuch gya cycle element pe
+to itme me fast chala 2*l1 or cycle element se l1 chala hoga
+now lets say ki fast and cycle element ka distance = d. 
+so cycle length = l1 + d;
+now lets say collision pt is some point, ab collision point would be d distance away from 
+cycle element and now, 
+l1 + d = d + x, so x = l1
+thats why this approach works...
+
+
+ListNode *detectCycle(ListNode *head) {
+    if(head==NULL || head->next == NULL)return NULL;
+    ListNode *slow = head;
+    ListNode *fast = head;
+  // Note fast ko head pe hi rakhna h nhi to ans nhi aayega kyuki ye logic depends on distance
+    bool hasCycle = false;
+    while(fast!=NULL && fast->next!=NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow==fast){
+            slow = head;
+            while(slow!=fast){
+                slow = slow->next;
+                fast = fast->next;
+            }
+            return fast;
+        }
+    }
+    return NULL;
+}
+
 
 ################## 3 - Check for cycle Length in LL ##########################
 
@@ -450,3 +492,182 @@ TC: O(N)
 
 => Calculate len of each and jo bada ho usse extra pointer move kro
     and then dono ko simultaneously move krao and jab same ho to return 
+
+
+
+############################# Remove all occurances of X ###################################
+
+void deleteAllOccurOfX(struct Node** head_ptr, int x) {
+    if(*head_ptr == NULL)return;
+    
+    Node *head = *head_ptr;
+    while(head){
+        Node* temp = head->next;
+        if(head->data == x){
+            // Delete the node.
+            if(head->next){
+                head->next->prev = head->prev;
+            }
+            if(head->prev){
+                head->prev->next = head->next;
+            }
+    // This Line is important in this ques as if head is deleted then we have to change
+    // Head_ptr t0 next...
+            else{
+                *head_ptr = head->next;
+            }
+            head->next = NULL;
+            head->prev = NULL;
+            
+        }
+        head = temp;
+    }
+    
+}
+
+
+################### Find pairs with given sum in doubly linked list #########################
+
+=> Hashing
+
+=> SO this is sorted, so 
+we know if start and end has sum > target  then we move the right pointer to prev
+if sum is less than target then we move the left ptr to next
+if it is equal then both ptr are moved..
+and we get all the answers as this is sorted and we have uniques...
+
+Code : 
+
+vector<pair<int, int>> findPairsWithGivenSum(Node *head, int target){
+        
+  vector<pair<int, int>> ans;
+  Node *front = head, *back = head;
+  
+  while(back->next) back = back->next;
+  
+  while(front->data < back->data){
+      int sum = front->data + back->data;
+      if(sum == target){
+          ans.push_back({front->data, back->data});
+          front = front->next;
+          back = back->prev;
+      } 
+      else if(sum > target){
+          back = back->prev;
+      }
+      else{
+          front = front->next;
+      } 
+  }
+}
+
+
+######################### Remove duplicates from sorted DLL #################################
+
+Simply 
+take a new DLL and add all the uniques
+
+Or simply iterate and check for previous and if it is same then delete it.
+nothing new
+
+
+########################### Add 1 to linked List ##############################################
+Simply do a recursive code 
+and return the carry and if carry is 1 then add in current 
+
+int fun(Node *head){
+    if(head->next== NULL){
+        int curr = head->data + 1;
+        if(curr>9){
+            head->data = 0;
+            return 1;
+        }
+        head->data = head->data + 1;
+        return 0;
+    }
+    
+    int a = fun(head->next);
+    if(a){
+        int curr = head->data + 1;
+        if(curr>9){
+            head->data = 0;
+            return 1;
+        }
+        head->data = head->data + 1;
+    }
+    return 0;
+}
+
+Or we can reverse the LL  - N
+then keep on adding one, if carry is one -N
+and finally reverse again -N
+
+SC: O(1) upar wale me n thi 
+
+
+
+################################# Add two linked List #########################################
+
+Keep 2 pointers, and check if the pointers values and carry > 9 , if it is then carry = 1
+and else carry = 0
+then just create a node with sum%10 and increment head, l1, l2 
+
+now check for l1 with same concept
+now for l2 
+now if carry is still 1 then create a new node of 1 
+
+
+
+################################# Sort a LL ####################################################
+
+Simply use the merge sort as this is most benefecial coz recursively break krke sort kr rhe h.
+class Solution {
+public:
+    ListNode* findMid(ListNode* head){
+        ListNode* prev=head;
+        ListNode* slow=head;
+        ListNode* fast=head;
+
+        while(fast!=NULL && fast->next!=NULL){
+            prev=slow;
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+
+        prev->next=NULL;
+        return slow;
+    }
+
+    ListNode* merge(ListNode *l1, ListNode* l2){
+        ListNode* newN = new ListNode(0);
+        ListNode* temp = newN;
+
+        while(l1!=NULL || l2!=NULL){
+            if(l2==NULL || (l1!=NULL && l1->val<l2->val)){
+                newN->next=l1;
+                newN=l1;
+                l1=l1->next;
+            }else{
+                newN->next=l2;
+                newN=l2;
+                l2=l2->next;
+            }
+        }
+        return temp->next;
+    }
+    ListNode* sortList(ListNode* head) {
+        // Merge Sort lagate h 
+        if(head==NULL || head->next == NULL) return head;
+
+        ListNode * middle = findMid(head);
+        ListNode *left = sortList(head);
+        ListNode *right = sortList(middle);
+        return merge(left, right);
+    }
+};
+
+
+
+
+
+############################### Hard Linked List Questions... ##################################
