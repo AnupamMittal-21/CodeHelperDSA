@@ -128,3 +128,143 @@ vector<long long int> twoOddNum(long long int Arr[], long long int N)
     }
     return (a<b)?{b,a}:{a,b};
 }
+
+
+
+############ Divide 2 numbers #################
+
+Concept is ki hm 2^1 * d  se start krenge, then 2^x*d tak jayenge St vo max value ho x ki
+jis se dividend divide ho raha ho 
+ab dividend ko km krdenge and ans me add krdenge power 
+
+
+int divide(int divident, int divisor) {
+    if(divident == divisor)return 1;
+    bool neg = false;
+    if((divident<0 && divisor>0) || (divident>0 && divisor<0)){
+        neg = true;
+    }
+    long n = abs(divident);
+    long d = abs(divisor);
+    long ans =0;
+    while(n>=d){
+        int cnt = 0;
+        while((d<<(cnt+1)) <= n){
+            cnt++;
+        }
+        n-=(d<<cnt);
+        ans+=(1<<cnt);
+    }
+    if(ans==(1<<31) && !neg){
+        return INT_MAX;
+    }
+    if(ans==(1<<31) && neg){
+        return INT_MIN;
+    }
+    if(neg){
+        return -1*ans;
+    }
+    return ans;
+}
+
+
+
+################## Important Observations ####################333333
+XOR upto that number is 
+
+N%4 == 1 then XOR = 1
+N%4 == 2 then XOR = N+1
+N%4 == 3 then XOR = 0
+N%4 == 0 then XOR = N
+
+Now, if we have to find the xor btw 4 to 7 then 
+we can find all xor upto 4
+and all xor upto 7
+and then do XOR of these
+
+and thats way we get the answer...
+
+int XORUptoX(int X){
+    if(X%4==1)return 1;
+    if(X%4==2)return X+1;
+    if(X%4==3)return 0;
+    return X;
+}
+int findXOR(int l, int r) {
+    return XORUptoX(l-1)^XORUptoX(r);
+}
+
+
+
+
+################ Divisors ####################
+
+=> loop 1 to N if divisible print it O(N) // BAD
+=> loop from 1 to sqrt N, print i, and n/i //TC is O(root(N))
+
+
+################### Sieve of Eratoshthenes ################3
+
+Simply kre to N*(root N) hoti 
+
+Simply root n tak chalo aur harr ek ke multiple ko mark krdo false; aur andr me i*i se chalo
+baaki phle hi ho chuke h marked.
+CODE: 
+    vector<bool> sieve;
+
+    void SieveFun(int n){
+        sieve.resize(n+1,true);
+        sieve[0] = sieve[1] = false;
+        for(int i = 2;i*i<=n;i++){
+            if(sieve[i]){
+                for(int j = i*i;j<=n;j+=i){
+                    sieve[j] = false;
+                }
+            }
+        }
+    }
+
+TC: O( Nlog(LogN))
+
+
+################# Pow x,n ####################
+Log n
+yaad rakho ki x = x*x krte h hm...
+
+double myPow(double x, int n) {
+    double ans = 1;
+    int n1 = n;
+    n = abs(n);
+    while(n>0){
+        if(n%2==1){
+            ans = ans * x;
+            n--;
+        }
+        else
+        {
+            x = x*x;
+            n = n/2;
+        }
+    }
+    return (n1>=0)?ans:1.0/ans;
+}
+
+
+########## Total set bits ########### means from 1 to n, all the set bits count 
+
+
+    int countSetBits(int n)
+    {
+        int count = 0;
+        for (int i = 0; i < 31; i++) {
+            // Calculate the number of full cycles of 2^(i+1) in n
+            int fullCycles = (n + 1) / (1 << (i + 1));
+            
+            // Calculate the remaining part after full cycles
+            int remainder = (n + 1) % (1 << (i + 1));
+            
+            // Add the set bits from full cycles and the remaining part
+            count += fullCycles * (1 << i) + max(0, remainder - (1 << i));
+        }
+        return count;
+    }
