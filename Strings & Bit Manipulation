@@ -1,0 +1,64 @@
+####################################### Bit Manipulation ######################################
+
+000........0001101
+ye aise store hoga memory me 32 bits me (4 Bytes)
+ll -> 64 
+
+1's Compliment of 00110 = 11001 (Just Flip)
+2's Compliment = 1's Compliment + 1
+
+
+XOR => No of 1's = even = 0
+    => No of 1's = ODD  = 1
+
+Right Shift (>>) means divide by 2 
+00...01101 >> 1 = 000....00110
+so N >> k means N/(2^k)
+
+Left shift (<<) means mutiply by 2
+so N >> k means N*(2^k)
+isme overflow ho jayega agar left krdenge IN_MAX ko 
+
+MSB stores sign, 1 means negative
+
+Negative Numbers 
+000...0001101
+111...1110010
++           1
+_____________
+111...1110011
+_____________
+
+2^31-1 = INT_MAX;
+-2^31 = INT_MIN; 
+
+~x = 
+1 = Flip bits 
+2 = Check if it is negative now then find 2's compliment, else leave as it is
+
+################################ Questions ##############################################33
+Get ith bit: ((1<<i) & num) !=0
+Set ith bit: num | (1<<i)
+Clear ith bit: num & ~(1<<i)
+
+Odd: if(N&1){ODD}
+Power of 2: return(__builtin_popcount(n)==1 && n!=INT_MIN);
+
+Swap 2 numbers :  
+        a = a^b; // a = a + b
+        b = a^b; // b = a - b
+        a = a^b; // a = a - b
+
+Remove the Rightmosot set bit = n&(n-1)
+because n-1 me N ki rightmost wali 0 ho jaati h and uske baad ki 1, and baaki same rhti h 
+
+to N & (N-1) == 0 means it is poower of 2;
+
+Count the set bits 
+=> n & N-1 kro aur cnt badhao  jab tak vo 0 na ho jaye 
+=> cnt+= n&1 , then n>>1 kro 
+=> simply 32 tak 1<<i ko & kro number se 
+
+
+Minimum Bit flips to make x to y 
+find the xor, as it will be 1 when bits are not equal, then find no of set bits.
