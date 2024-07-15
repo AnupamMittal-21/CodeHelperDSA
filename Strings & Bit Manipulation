@@ -1,5 +1,7 @@
 ####################################### Bit Manipulation ######################################
 
+# Concept....
+
 000........0001101
 ye aise store hoga memory me 32 bits me (4 Bytes)
 ll -> 64 
@@ -49,7 +51,7 @@ Swap 2 numbers :
         b = a^b; // b = a - b
         a = a^b; // a = a - b
 
-Remove the Rightmosot set bit = n&(n-1)
+Remove the Rightmosot set bit = n&(n-1) = (N & (N-1)) ^ N to get right most
 because n-1 me N ki rightmost wali 0 ho jaati h and uske baad ki 1, and baaki same rhti h 
 
 to N & (N-1) == 0 means it is poower of 2;
@@ -62,3 +64,67 @@ Count the set bits
 
 Minimum Bit flips to make x to y 
 find the xor, as it will be 1 when bits are not equal, then find no of set bits.
+
+
+############# 3 occurances of all number and 1 occurance of 1 number, find this number #########
+
+=> Now, lets say a bit position is set for a number so 3 occurances would be there, 
+    and another 3 occurances would be there and so on, so it the ans one is also set so 
+    cnt would be 3*x+1 now, we can see that if the cnt%3 == 1 means this bit is on , if==0 then off
+    
+    TC = O(32*N)
+
+=> Now simply sort the arrays, 1 se start kro, check i-1, i+1, agr same h to i+=3
+    if not get the ans then return last element, as we are jumping so will miss the last elem
+    TC: O(NlogN + N/3)
+    as phle jesa hone ke liye LogN ko 32 hona padega, mtlb 2^31 hona hoga 
+
+
+=> Buckets,  ones. twos. threes 
+now, it will go to ones if it is not in twos
+it will go to twos if it is in ones 
+it will go to three if it is in twos
+one = 0
+two =0
+for(i,0,n)
+    ones = one^ nums[i] & ~twos
+    twos = two^ nums[i] & ~onw
+return one
+
+TC: O(N)
+SC: O(1)
+
+
+################################# 2 elem single h baaki double #################################
+=> Use hash
+=> Sabhi ka XOR nikal lo 
+XOR = A^B
+now A and B me atleast one bit ka difference hoga, coz they are not equal
+so usse pata kr sakte h numbers kya h
+
+N&N-1 kro to XOR le lo ab 
+(N & (N-1)) ^ N
+RightMost Set bit ko dekho ki kaha kaha same h 
+
+Bucket With rightmost set bit in XOR = 0, to usme unique me se ek aayega aur kuch redundant
+similarly with value = 1
+
+so done now...
+
+vector<long long int> twoOddNum(long long int Arr[], long long int N)  
+{
+    ll a = 0;
+    ll b = 0;
+    ll XOR = 0;
+    for(int i = 0;i<N;i++){
+        XOR = XOR^Arr[i];
+    }
+    ll rightSet = (XOR&(XOR-1))^XOR;
+    for(int i = 0;i<N;i++){
+        if(rightSet & Arr[i])
+            a = a^Arr[i];
+        else
+            b = b^Arr[i];
+    }
+    return (a<b)?{b,a}:{a,b};
+}
