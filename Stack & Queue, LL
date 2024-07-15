@@ -671,3 +671,117 @@ public:
 
 
 ############################### Hard Linked List Questions... ##################################
+
+## Flattening LL 
+Great Question man....
+Approach is ki last se 2 uthao list unhe merge kro
+phir jo merged hui h usko ek ek krke krte jao merge...
+and bass yhi return krdo 
+n,m vertical 
+TC: ( n * (m+m))
+SC: (1)
+Node * merge2List(Node*temp1, Node* temp2){
+    Node *x = new Node(-1), *x_ptr = x;
+    while(temp1 && temp2){
+        if(temp1->data<temp2->data){
+            x->bottom = temp1;
+            temp1 = temp1->bottom;
+        }
+        else{
+            x->bottom = temp2;
+            temp2 = temp2->bottom;
+        }
+        x = x->bottom;
+    }
+    if(temp1){
+        x->bottom = temp1;
+    }
+    if(temp2){
+        x->bottom = temp2;
+    }
+    return x_ptr->bottom;
+}
+Node* recuresivelyFlatten(Node* root){
+    if(root->next->next==NULL){
+        return merge2List(root, root->next);
+    }
+    return merge2List(root,recuresivelyFlatten(root->next));
+}
+Node *flatten(Node *root) {
+    if(root==NULL || root->next==NULL)return root;
+    return recuresivelyFlatten(root);
+}
+
+put all elements in array and then simply sort it 
+
+
+###################### Random Pointer question to create deep copy ##########################
+Nice this one also...
+
+Simple hi h basss ye h ki phle iterate krke map me corresponding nodes rakhlo
+ab simply iterate krke next and random set krdo 
+
+Node* copyRandomList(Node* head) {
+    map<Node*, Node*> mp;
+
+    Node* ptr = head;
+    while(ptr){
+        int val_ = ptr->val;
+        Node* newN = new Node(val_);
+        mp[ptr] = newN;
+        ptr = ptr->next;
+    }
+
+    ptr = head;
+    Node* ans_ptr = mp[head];
+    while(ptr){
+        mp[ptr]->next = mp[ptr->next];
+        mp[ptr]->random = mp[ptr->random];
+        ptr = ptr->next;
+    }
+    return ans_ptr;
+}
+
+In this we are using extra space, which can be optimised, by putting the new nodes after the 
+current nodes, and then going to next 2nodes 
+and when we iterate again then we can update the new ones...
+
+
+Node* copyRandomList(Node* head) {
+    Node* ptr = head;
+    
+    // Append New Nodes just after Original Nodes
+    while(ptr){
+        int val_ = ptr->val;
+        Node* newN = new Node(val_);
+        newN->next = ptr->next;
+        ptr->next = newN;
+        ptr = newN->next;
+    }
+    
+    // Adjust the Random Pointers...
+    ptr = head;
+    while(ptr){
+        Node* curr_ptr = ptr->next;
+        if(ptr->random)curr_ptr->random = ptr->random->next;
+        ptr = ptr->next->next;
+    }
+    
+    // Delete the original ones...
+    ptr = head;
+    Node * dNode = new Node(-1), *res = dNode;
+    while(ptr){
+        res->next = ptr->next;
+        res = res->next;
+        ptr->next = ptr->next->next;
+        ptr = ptr->next;
+    }
+    return dNode->next;
+}
+
+
+LL me vhi browser history bana sakte h , forward, previous, constructor, visit bana ke 
+using Doubly LL 
+
+
+******************************** LL Completed **************************************
