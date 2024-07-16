@@ -305,3 +305,68 @@ so we use the condition like sum<=k(x) and sum>=k(y) and then subtract ans = x-y
 
 We create a valid window and then try to shrink and check for validity
 and get the answer.
+
+
+
+################# qUESTIONS : maximum pts from start and end ##########################
+
+isme fixed size h window ka so starting wala le lo
+ab right se  badhao and left se km kro and ans ko max lete rho bass
+
+TC: O(2K)
+int maxScore(vector<int>& nums, int k) {
+    int l = 0, n = nums.size(), r = n-1;
+    int sum = 0;
+    while(l<k){
+        sum+=nums[l];
+        l++;
+    }
+    l--;
+    int ans = sum;
+    while(l>=0){
+        sum-=nums[l];
+        sum+=nums[r];
+        l--; r--;
+        ans = max(ans, sum);
+    }
+    return ans;
+}
+
+################################ Longest Substring without repeating characters ###########
+
+=> Brute: generate all substring : O(N^2)
+simply ek map rakho and isme variable hoga length as vhi to puchi h 
+ab start kro and map me daalte rho aur agar violate ho gya to reduce kro 
+
+
+O(N) as we are moving R, 
+isme ye remove na kr ke index store kr sakte h and agr vo exist krta h and index>=l h to hi vo
+window me h, and update krna h ab 
+
+
+O(N) => 
+wala code, isme bass inner while loop hata dia h, to coz hme max window chaiye this
+ab max mil gyi h to while l ko km mt kro bas ek se move krte chalo window ko
+and jab satisfy ho jaye constraint to update ans
+
+int longestKSubstr(string s, int k) {
+    // your code here
+        map<char,int> mp;
+        int n = s.size();
+        int l = 0, r = 0;
+        
+        int ans =-1;
+        while(r<n)
+        {
+            mp[s[r]]++;
+            if(mp.size()>k){
+                mp[s[l]]--;
+                if(mp[s[l]]==0)mp.erase(s[l]);
+                l++;
+            }
+            if(mp.size()==k)
+            ans = max(ans, r-l+1);
+            r++;
+        }
+        return ans;
+    }
