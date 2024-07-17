@@ -201,7 +201,7 @@ bool canJump(vector<int>& nums) {
     return maxi>=n-1;
 }
 
-#################################### Jump Game 2############################################
+#################################### Jump Game 2 ############################################
 
 f(idx, jump){
   if(idx >=n-1) return jump;
@@ -217,6 +217,44 @@ SC: O(N)
 
 Use DP, 
 Memoisation: TC: O(N*N)
+
+############################ Job Sequencing ################################################
+isme basically profit jyada chaiye h to profit pe seort kro descending, and then jo deadline h usko peeche se fill kfro
+isme hash array le lo maxDeadline ki..
+.
+iss se jyada optimise krna h to hme use krna hoga  DSU
+TC of this = O(N logN + N*maxDeadline)
+so this maxDeadLine term would be done in 1 in DSU so TC = NlogN + N
+
+static bool comp(Job &j1, Job &j2){
+        if(j1.profit==j2.profit){
+            return (j1.dead<j2.dead);
+        }
+        return (j1.profit>j2.profit);
+    }
+    vector<int> JobScheduling(Job arr[], int n) 
+    { 
+        // your code here
+        sort(arr, arr+n, comp);
+
+        unordered_map<int, int> mp;
+        int maxProfit = 0;
+        int cnt = 0;
+        for(int it = 0;it<n;it++){
+            int profit = arr[it].profit;
+            int dead = arr[it].dead;
+    
+            for(int i = dead;i>0;i--){
+                if(mp.find(i)==mp.end()){
+                    mp[i] = profit;
+                    maxProfit+=profit;
+                    cnt++;
+                    break;
+                }
+            }
+        }
+        return {cnt,maxProfit};
+    } 
 ############################ N Meetings in Room ############################################
 
 
