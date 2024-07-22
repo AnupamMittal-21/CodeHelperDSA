@@ -1,1 +1,204 @@
+Simple BS 
+Lower Bound : Vo elem jo X se just chota h ya X h, so chote wale me ans = mid krdo
+Upper Bound : Vo elem jo X se just bada h ya X h, bade wale case me and = mid krdo 
 
+
+################## Find the first and last occuracnce of element in array ####################
+So we implement lowerbound
+  and we sbtract for x+1 wala lower bound 
+nice...
+
+class Solution {
+private:
+    int lower_bound(vector<int>& nums, int low, int high, int target){
+        while(low <= high){
+            int mid = (low + high) >> 1;
+            if(nums[mid] < target){
+                low = mid + 1;
+            }
+            else{
+                high = mid - 1;
+            }
+        }
+        return low;
+    }
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int low = 0, high = nums.size()-1;
+        int startingPosition = lower_bound(nums, low, high, target);
+        int endingPosition = lower_bound(nums, low, high, target + 1) - 1;
+        if(startingPosition < nums.size() && nums[startingPosition] == target){
+            return {startingPosition, endingPosition};
+        }
+        return {-1, -1};
+    }
+};
+
+
+#############################################################################################
+############################################################################################
+############################# Rotation Based question on sorted array ######################
+
+Search in Rotated : 
+
+class Solution {
+public:
+    int search(std::vector<int>& nums, int target) {
+        int low = 0, high = nums.size() - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[low] <= nums[mid]) {
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+
+############################## Finding Peak Element ##########################################
+
+int findPeakElement(vector<int>& nums) {
+        int start = nums[0];
+        int l = 0, r = nums.size()-1;
+        int n = nums.size();
+        while(l<r){ // Boundarys ko consider krne ke liye
+            int mid = (l+r)/2;
+            if(nums[mid]<nums[mid+1]){
+                l = mid+1; // kyuki mid to chota h to ye ans nhi ho sakta
+            }
+            else{
+                r = mid; // mid bada h to ye and ho sakta h isiliye MID pe raho
+            }
+        }
+        return l;
+        
+    }
+
+
+#######################............BS ON ANSWERSS...........###################################
+isme ye h ki -1 and N index = -INF so vo bhi ans me ho sakte h, aur mutliple Peak ho sakte h
+to kahi bhi converge kro 
+################ This is the Pattern for BS on answers ########################################
+
+See isme kya identification h : Maximise the minimum OR Minimise the maximum 
+
+This ques is similar to 
+1 - Book allocation, ki array h to subarray le sakte h 
+    and k students ko allot krna h such that sum is minimum unke beech me 
+
+2 - Split Array Largest sum, so isme subarray lena h (k subarrays) such that sum jo ho subarray
+    ka , unka jo maximum ho na, vo minimise ho sake
+    so maximum sum ho sakta h sum of all elem, minimum hoga, mini element, so ye range ho gyi
+    ab x sum minimum h to k ya k se jyada split wale subarray such that unka sum <= x h 
+    to vo valid h 
+
+3  - Capacity to ship package within D days, isme bhi subarray and sum h to ye bhi same h. isme 
+    bhi  minimum wieght chaiye h 
+
+4 - Painter's Partition Problem ye bhi same h ki ek number of painters h , 
+    and nums[I] time h kitna lega ek painting ko ek paineter
+    contiguous hi kr sakte h, to batao ki kitna minimum time lagega K painters ko... same....
+
+5 - Minimum Number of Days to Make m Bouquets, ye bhi same h isme m boquet bano consecutive 
+    flowers see , and minimum days chaiye h , days diye h array me 
+
+
+bool helper(vector<int> &nums , int val, int days){
+    int temp = val;
+    int n = nums.size();
+    int i = 0;
+    while(i<n)
+    {
+        temp= val;
+        if(nums[i]<=temp){
+            while(i<n && nums[i]<=temp){
+                temp-=nums[i];
+                i++;
+            }
+            days--;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    return days>=0;
+}
+int splitArray(vector<int>& nums, int k) {
+    int maxi = 0;
+    for(auto it:nums){
+        maxi+=it;
+    }
+    int l = 0;
+    int r = maxi;
+
+    while(l<=r){
+        int mid = l + (r-l)/2;
+        bool a = helper(nums, mid, k);
+        cout<<mid<<" "<<a<<endl;
+        if(a)
+        {
+            r = mid-1;
+        }
+        else{
+            l = mid+1;
+        }
+    }
+    return l;
+}
+
+
+######################### Aggressive Cow ##################################
+
+bool checkCows(vector<int>&stalls,int mid,int Givencows){
+	int cows=1;
+	int lastPos=stalls[0];
+
+	for(int i=1;i<stalls.size();i++){
+		if(stalls[i]-lastPos>=mid){
+			cows++;
+			lastPos=stalls[i];	
+		}
+	}
+	if(cows>=Givencows){
+				return true;
+	}
+	return false;
+}
+
+int aggressiveCows(vector<int> &stalls, int k)
+{
+   int n=stalls.size();
+	sort(stalls.begin(),stalls.end());// first we sort the array
+	int l=0;
+	int h=stalls[n-1]-stalls[0];// maximum element - minimum element this is max smallest distace we can take
+	int res=-1;
+	while(l<=h){
+		int mid=l+(h-l)/2;
+		if(checkCows(stalls,mid,k)){// if we are able to place k cows in mid distance
+			res=mid;// store the answer
+			l=mid+1;// check for max distance in the right 
+		}
+		else{
+			h=mid-1;
+		}
+	}
+	return res;
+}
