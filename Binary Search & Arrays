@@ -92,6 +92,26 @@ int findPeakElement(vector<int>& nums) {
     }
 
 
+############################## Minimum in rotated sorted array ############################
+imp baat, l < r tak chalo 
+2 - mid and end ko compare kro 
+
+int findMin(vector<int>& nums) {
+        int left = 0;
+        int right = nums.size()-1;
+        while(left<right){
+            int m = (right+left)/2;
+            if(nums[m]<nums[right]){
+                right=m;
+            }
+            else{
+                left = m+1;
+            }
+        }
+        return nums[left];
+    }
+
+
 #######################............BS ON ANSWERSS...........###################################
 isme ye h ki -1 and N index = -INF so vo bhi ans me ho sakte h, aur mutliple Peak ho sakte h
 to kahi bhi converge kro 
