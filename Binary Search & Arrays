@@ -72,6 +72,44 @@ public:
     }
 };
 
+########## Search in rotated 2 (Having Duplicates) ##########################
+
+bool search(vector<int>& nums, int target) {
+		int n = nums.size();
+		int l = 0, r = n-1;
+		while(l<=r){
+				int mid = l + (r-l)/2;
+				if(nums[mid] == target)return true;
+				if(nums[l]==nums[mid]&& nums[mid]==nums[r]) {
+						l++;
+						r--;
+						continue;
+				}
+				if(nums[mid]>=nums[l]){
+						// Sorted is left...
+						if(target<=nums[mid] && target>=nums[l]){
+								r = mid - 1;
+						}
+						else{
+								l = mid+1;
+						}
+				}
+				else{
+						// Sorted is right...
+						if(target>=nums[mid] && target<=nums[r]){
+								l = mid + 1;
+						}
+						else{
+								r = mid-1;
+						}
+				}
+		}
+		return false;
+}
+
+//// isme jab mid and low and high equal h to hm decide nhi kr payenge ki kaha jaana h to uss case me l++, r-- krdo baki same h
+
+
 ############################## Finding Peak Element ##########################################
 
 int findPeakElement(vector<int>& nums) {
@@ -91,6 +129,40 @@ int findPeakElement(vector<int>& nums) {
         
     }
 
+Finding Peak in 2D arrat
+Brute : scan each elem and check for 4 nighbour : n*m*4  => worst case
+so we can only optimiset the worst case scenario... 
+
+Better : find the largest one = m*n for best, avg 
+
+BS me skip krenge kuch part ko 
+
+
+left bada h mid se left me peak hoga
+right bada h mid se to right me peak hoga 
+aur agr mid bada h left and right se to vo ans h
+
+vector<int> findPeakGrid(vector<vector<int>>& nums) {
+		int l = 0;
+		int r = nums.size()-1;
+		int n = nums.size();
+
+		while(l<=r){
+				int mid = (l+r)/2;
+				int maxIdx = findMax(nums[mid]);
+				int left = mid-1>=0?nums[mid-1][maxIdx]:-1;
+				int right = mid+1<n?nums[mid+1][maxIdx]:-1;
+				int curr = nums[mid][maxIdx];
+				if(curr>left && curr>right)return {mid, maxIdx};
+				else if(curr<left){
+						r = mid-1;
+				}
+				else{
+						l = mid + 1;
+				}
+		}
+		return {-1,-1};
+}
 
 ############################## Minimum in rotated sorted array ############################
 imp baat, l < r tak chalo 
@@ -222,3 +294,132 @@ int aggressiveCows(vector<int> &stalls, int k)
 	}
 	return res;
 }
+
+
+
+
+
+###################################### BS ON 2D arrays #####################################################
+
+################### Row with max 1s
+
+	ye interesting ques h as isme phle sorted h on each list, so hme max no of ones ka count batana h 
+	now ism brute ho gy i n*m ki
+	better ho gyi  nLogm
+	best ho gyi n+m jo ki start kro topright see, 
+	and vah se neeche chalo agr 0 aa gya to neeche, 1 h to left and left jate hue idx = i krdo
+
+
+int bs(vector<int> &nums, int l, int r){
+        int ans = nums.size();
+        while(l<=r){
+            int mid = l + (r-l)/2;
+            if(nums[mid]==1){
+                ans = mid;
+                r = mid-1;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return ans;
+    }
+    int rowWithMax1s(vector<vector<int> > arr) {
+        // code here
+        int n = arr.size();
+        int m = arr[0].size();
+        int l = 0;
+        int r = m-1;
+        int ans = m;
+        int idx = -1;
+        // for(int i = 0;i<n;i++){
+        //     int mini = bs(arr[i], l,r);
+        //     // cout<<mini<<" ";
+        //     if(mini<ans){
+        //         idx = i;
+        //         ans = mini;
+        //     }
+        //     r = ans;
+        // }
+        // return idx;
+        while(l<n && r>=0){
+            if(arr[l][r]==1){
+                r--;
+                idx = l;
+            }
+            else{
+                l++;
+            }
+        }
+        return idx;        
+    }
+
+
+################# Search in 2D matrix ##########################3
+ye case h ki element in next row is graeter then last element o previous row , tabhi hm vo log(n*m ) wala laga sakteh 
+
+Brute is O(n*m)
+
+Better is (n + logM) - harr row me jao and see if starting and ending ke beech me h target agar h 
+to BS lagado uss row me
+else neeche chalte rho 
+
+Better : O(n + m) start from top right element, and start from there and if elem is greater than the curr elem then go to left
+else go down, so n + m chalenge 
+
+Best: O(log(n*m)) : to isme assume ki n*m ki flatten h to simplt BS lagao ,and row = mid/cols , col = mid%ccols
+
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size();
+        int col = matrix[0].size();
+
+        int start = 0;
+        // because we are thinking it as linear array (sorted already)
+        int end = (row*col) - 1;
+        int mid = start + (end - start)/2;
+        while(start <= end){
+            int element = matrix[mid / col][mid % col];
+            if(element == target){
+                return true;
+            }
+            if(element < target){
+                start = mid + 1;
+            }
+            else{
+                end = mid - 1;
+            }
+            mid = start + (end - start)/2;
+        }
+        return false;
+    }
+
+
+
+################## Search in 2d part 2 ##########################
+
+Better : isme n + log m nhi lagega kyuki multiple rows ho sakti h jisme vo lie kre
+		so n * log m hoga better solution 
+Best : isme column wise and row wise sorted h to o(n+m) 
+
+bool searchMatrix(vector<vector<int>>& nums, int target) {
+        int n = nums.size(), m = nums[0].size();
+        int i = 0, j = m-1;
+
+        while(i<n && j>=0){
+            if(nums[i][j] == target){
+                return true;
+            }
+            else if(nums[i][j]>target){
+                j--;
+            }
+            else{
+                i++;
+            }
+        }
+        return false;
+    }
+
+
+Median in 2d 
+
+BRUTE : 1d me daalo , sort kro and middle nikal lo 
