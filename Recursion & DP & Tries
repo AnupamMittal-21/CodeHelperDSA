@@ -1,1 +1,17 @@
+When to use Tries...
 
+Tries helps in major 3 ways
+1 - Find whether the given word ke liye exist krti h kya strings jinka prefix given word h
+    ex: given word = "hel" and words in tries = help, hello , so it returns true
+
+2 - Check whether exact same string exists or not 
+
+3 - Insert string in trie.
+
+Trie{
+2 parameters hote h 
+int arr[26]
+bool flag 
+}
+
+root hoga ek (initially flag false hoga, array are empty)
