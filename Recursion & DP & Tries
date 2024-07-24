@@ -15,3 +15,189 @@ bool flag
 }
 
 root hoga ek (initially flag false hoga, array are empty)
+
+
+class Node{
+    Node* links[26];
+    bool flag;
+public:
+
+    Node(){
+        flag = false;
+        for(int i = 0;i<26;i++){
+            links[i] = NULL;
+        }
+    }
+    bool containsKey(char ch) {
+        return links[ch - 'a'] != NULL;
+    }
+
+
+    void put(char ch, Node* node) {
+        links[ch - 'a'] = node;
+    }
+
+    Node* get(char ch) {
+        return links[ch - 'a'];
+    }
+
+    void setEnd() {
+        flag = true;
+    }
+
+    bool isEnd() {
+        return flag;
+    }
+};
+class Trie {
+private:
+    Node* root;
+public:
+
+    Trie() {
+        root = new Node();
+    }
+    
+    void insert(string word) {
+        Node* node = root;
+        for (int i = 0; i < word.length(); i++) {
+            if (!node->containsKey(word[i])) {
+                node->put(word[i], new Node());
+            }
+            node = node->get(word[i]);
+        }
+        node->setEnd();
+    }
+    
+    bool search(string word) {
+        Node* node = root;
+        for (int i = 0; i < word.length(); i++) {
+            if (!node->containsKey(word[i])) {
+                return false;
+            }
+            node = node->get(word[i]);
+        }
+        return node->isEnd();
+    }
+    
+    bool startsWith(string prefix) {
+        Node* node = root;
+        for (int i = 0; i < prefix.length(); i++) {
+            if (!node->containsKey(prefix[i])) {
+                return false;
+            }
+            node = node->get(prefix[i]);
+        }
+        return true;
+    }
+};
+
+
+####################### TRIE 2 With count prefix and ends with ###############################
+
+#include <bits/stdc++.h>
+class Node{
+
+private:
+    int endsWith;
+    int countPrefix;
+    Node *links[26];
+
+public:
+    Node(){
+        endsWith = 0;
+        countPrefix = 0;
+        for(int i = 0;i<26;i++){
+            links[i] = NULL;
+        }
+    }
+
+    void createNode(char ch, Node *newN){
+        links[ch-'a'] = newN;
+    }
+    
+    bool charExist(char ch){
+        return links[ch-'a']!=NULL;
+    }
+
+    void increaseCP(){
+        countPrefix++;
+    }
+
+    Node *getCharNode(char ch){
+        return links[ch-'a'];
+    }
+
+    void increseEW(){
+        endsWith++;
+    }
+    
+    int getEndsWith(){
+        return endsWith;
+    }
+
+    int getCountPrefix(){
+        return countPrefix;
+    }
+
+    void reduceCountPrefix(){
+        countPrefix--;
+    }
+
+    void reduceEndsWith(){
+        endsWith--;
+    }
+};
+class Trie {
+
+Node* root;
+public:
+  Trie() {
+    root = new Node();
+  }
+
+  void insert(string &word) {
+    Node * node = root;
+    for(int i = 0;i<word.size(); i++){
+        if(!node->charExist(word[i])){
+            node->createNode(word[i], new Node());
+        }
+        node = node->getCharNode(word[i]);
+        node->increaseCP();
+    }
+    node->increseEW();
+  }
+
+  int countWordsEqualTo(string &word) {
+    Node * node = root;
+    for(int i = 0;i<word.size(); i++){
+        if(!node->charExist(word[i])){
+            return 0;
+        }
+        node = node->getCharNode(word[i]);
+    }
+    return node->getEndsWith();
+  }
+
+  int countWordsStartingWith(string &word) {
+    Node * node = root;
+    for(int i = 0;i<word.size(); i++){
+        if(!node->charExist(word[i])){
+            return 0;
+        }
+        node = node->getCharNode(word[i]);
+    }
+    return node->getCountPrefix();
+  }
+
+  void erase(string &word) {
+    Node * node = root;
+    for(int i = 0;i<word.size(); i++){
+        if(node->charExist(word[i])){
+            node = node->getCharNode(word[i]);
+            node->reduceCountPrefix();
+        }
+    }
+    node->reduceEndsWith();
+  }
+};
