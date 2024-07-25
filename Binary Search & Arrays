@@ -297,8 +297,102 @@ int aggressiveCows(vector<int> &stalls, int k)
 
 
 
+##################################### BS Median of 2 sorted ARRAYS ###########################
 
+Brute too vhi h merge krdo and median nikal do , isme bhi space use krne ki jarurat nhi h 
+simply 2 vaiable me store krlo jab len n.2 ho jaye
 
+Optimal: dekho isme aisa dekho ki array one pe chalo ki usme se kitne uthane h elements 
+to n1+n2+1/2 elements automatically nums2 me se uth jayenge 
+now agar l1 < u2 and l2< u1 to sahi h mtlb ki sorted h to answer return kr do
+
+but agar l1 > u2 se mtlb l1 ke jyada le liye elements to r = mid-1 krdo nhi to l = mid+1 kdo
+bass isme thoda l1, l2, u1, u2 ko lene me if else laga do
+
+also imp ki r = n1 h, na ki r = n1-1 bcz n1 ka mtlb h saare lena nums1 ke 
+NICE QUESTION...
+
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+		int n1 = nums1.size();
+		int n2 = nums2.size();
+
+		if(n1>n2){
+				return findMedianSortedArrays(nums2, nums1);
+		}
+		int n = n1+n2+1;
+		int rem = n/2;
+
+		int l = 0;
+		int r = n1;
+
+		while(l<=r){
+				int mid = l + (r-l)/2;
+				int mid2 = rem - mid;
+
+				int l1 = mid-1>=0?nums1[mid-1]:-1e9;
+				int u1 = mid<n1?nums1[mid]:1e9;
+
+				int l2 = mid2-1>=0?nums2[mid2-1]:-1e9;
+				int u2 = mid2<n2?nums2[mid2]:1e9;
+
+				if(l1<=u2 && l2<=u1){
+						int m1 = max(l1,l2);
+						int m2 = min(u1,u2);
+						if(n%2==1){
+								return double(m1+m2)/2.0;
+						}
+						else{
+								return m1;
+						}
+				}
+				else if(l2>u1){
+						l = mid + 1;
+				}
+				else{
+						r = mid-1;
+				}
+		}
+		return -1;
+}
+ both ki 
+TC : log of min(n1,n2);
+Iska extensaion h Kth number in 2 sorted array 
+so isme e imp baat h ki low = max(0, k-n2) and high = min(n1, k) becoz 
+5 6 h n1, n2 and  k = 8 h to atleast 2 to lena hi padega nums1 me se .....
+baki sab same h 
+
+##### Median in 2d row wise sorted array #############
+
+To isme hme krna h ki aisa element dhundhna h jiska <= wala count >=n/2 ho
+basically count ke liye to upper bound use kr lia and BS laga dia mini se maxi pe 
+int smallerElement(vector<vector<int>> &nums, int mid, int R){
+        int ans = 0;
+        for(int i = 0;i<R;i++){
+            ans+= upper_bound(nums[i].begin(), nums[i].end(), mid)-nums[i].begin();
+        }
+        return ans;
+    }
+    int median(vector<vector<int>> &nums, int R, int C){
+        int l = 1e9;
+        int r = -1e9;
+        for(int i = 0;i<R;i++){
+            l = min(l, nums[i][0]);
+            r = max(r, nums[i][C-1]);
+        }
+        
+        while(l<=r)
+        {
+            int mid = l + (r-l)/2;
+            int se = smallerElement(nums, mid, R);
+            if(se>(R*C)/2){
+                r = mid-1;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return l;
+    }
 ###################################### BS ON 2D arrays #####################################################
 
 ################### Row with max 1s
@@ -419,7 +513,4 @@ bool searchMatrix(vector<vector<int>>& nums, int target) {
         return false;
     }
 
-
-Median in 2d 
-
-BRUTE : 1d me daalo , sort kro and middle nikal lo 
+.......................................BS DONE........................................
