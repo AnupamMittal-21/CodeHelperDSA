@@ -95,6 +95,17 @@ public:
 
 ####################### TRIE 2 With count prefix and ends with ###############################
 
+isme hmne flag ke jagah 2 int rakhe h 
+count prsfix mtlb abhi tak iss node se start hone wale kitne h 
+ends with mtlb iss node pe kon konse end ho rhe h
+
+RULES :
+1 - Insert me harr node pe count Prefix increase hoga but bass last ne endswith increase hoga
+2 - Count Words equal to, so isme iterate kro and agr last wale ka endswith return krdo
+3 - Count Words prefix wale, so isme last wale ka coutnPrefix krdo return 
+4 - Erase me simply count resuce krte rho and last wale me endsWith bhi reduce krdo 
+
+
 #include <bits/stdc++.h>
 class Node{
 
@@ -201,3 +212,138 @@ public:
     node->reduceEndsWith();
   }
 };
+
+
+############## Ques 1 : Complete String ###############################
+
+isme krna h ki ek string find krni h jiski saari substrings ho hamre pass array me 
+
+so phle saari strings ko add kro apne trie me 
+ab start kro iterate krna again , now agar meri iterate krte hue vo character ka node nhi h 
+mtlb h ki vo phle nhi mila h to return krdo false
+and agar uss node ka flag = false h mtlb yaha ki substring nhi mili h to bhi false krdo return 
+
+to aise krke max length wala le lo... 
+
+
+
+class Node{
+public:
+    Node *links[26];
+    bool flag;
+
+    Node(){
+        flag = false;
+        for(int i =0;i<26;i++){
+            links[i] = NULL;
+        }
+    }
+
+    bool charExists(char ch){
+        return links[ch-'a']!=NULL;
+    }
+
+    void createNode(char ch, Node *node){
+        links[ch-'a'] = node;
+    }
+
+    Node *getCharNode(char ch){
+        return links[ch-'a'];
+    }
+};
+
+class Trie{
+    Node *root;
+
+public:
+    Trie(){
+        root = new Node();
+    }
+
+    void insertInTrie(string word){
+        Node *node = root;
+        for(int i = 0;i<word.size(); i++){
+            if(!node->charExists(word[i])){
+                node->createNode(word[i], new Node());
+            }
+            node = node->getCharNode(word[i]);
+        }
+        node->flag = true;
+    }
+
+    bool isPresentPrefix(string word){
+        Node *node  = root;
+        for(int i = 0;i<word.size(); i++){
+            if(!node->charExists(word[i])){
+                return false;
+            }
+            node = node->getCharNode(word[i]);
+            if(!node->flag){
+                return false;
+            }
+        }
+        return node->flag;
+    }
+};
+
+string completeString(int n, vector<string> &a){
+    // Write your code here.
+    Trie *obj = new Trie();
+
+    int len = 0;
+    string ans = "";
+    for(auto it:a){
+        obj->insertInTrie(it);
+    }
+
+    for(auto it:a){
+        int currLen = it.size();
+        if(currLen>=ans.size()){
+            bool isP = obj->isPresentPrefix(it);
+            if(isP){
+                if(ans==""){
+                    ans = it;
+                }
+                else{
+                    if(it.size()>ans.size()){
+                        ans = it;
+                    }
+                    if(it.size() == ans.size() && it<ans){
+                        ans = it;
+                    }
+                }
+            }
+        }
+    }
+    if(ans == "")return "None";
+    return ans;
+}
+
+
+######################## Ques 2 ; Count distinct substrings ###########################
+
+isme kya h ki agar hm set use krte to usme approx N*N*N ki sc jaati 
+and N*N* log set size jaati 
+
+so, isme 
+int countDistinctSubstrings(string &s) {
+    int i = 0;
+    int N = s.size();
+    Node *root = new Node();
+
+    int ans =1;
+    while(i<N){
+        Node *node = root;
+        int j = i;
+        while(j<N){
+            if(!node->hasChar(s[j])){
+                ans +=1;
+                node->createNode(s[j],new Node());
+            }
+            node = node->get(s[j]);
+            j++;
+        }
+        i++;
+    }
+    return ans;
+}
