@@ -347,3 +347,161 @@ int countDistinctSubstrings(string &s) {
     }
     return ans;
 }
+
+
+
+
+######################## Trie on BITS... #############################
+
+isme kya h ki hm 2 lete h size links ka
+0 and 1 
+and 32 size starting from MSB start krte h 
+and insert me jo bhi set h bit uss hisab se nodes banate h 
+and ek h check ka ki xor krna h to uske dusri bit h to udhar jao 
+and ans me | krte jao
+
+
+class Node{
+    Node *links[2];
+
+public:
+    Node(){
+        links[0] = NULL;
+        links[1] = NULL;
+    }
+
+    bool bitExist(int f){
+        return (links[f]!=NULL);
+    }
+
+    void createNode(int f, Node* node){
+        links[f] = node;
+    }
+
+    Node* get(int f){
+        return links[f];
+    }
+};
+
+class Trie{
+    Node *root;
+
+public:
+    Trie(){
+        root = new Node();
+    }
+
+    void insert(int num){
+        Node *node = root;
+        for(int i = 31;i>=0;i--){
+            int bit = (num>>i) & 1;
+
+            if(!node->bitExist(bit)){
+                node->createNode(bit, new Node);
+            }
+            node = node->get(bit);
+        }
+    }
+
+    int check(int num){
+        int ans = 0;
+        Node *node = root;
+        for(int i = 31;i>=0;i--)
+        {
+            int bit = ((num>>i) & 1);
+            if(node->bitExist(1-bit)){
+                ans = ans | (1<<i);
+                node = node->get(1-bit);
+            }
+            else{
+                node = node->get(bit);
+            }
+        }
+        return ans;
+    }
+    
+};
+
+class Solution {
+public:
+    int findMaximumXOR(vector<int>& nums) {
+        int n = nums.size();
+        Trie *obj = new Trie();
+        for(int i = 0;i<n;i++){
+            obj->insert(nums[i]);
+        }
+        int ans = 0;
+        for(int i = 0;i<n;i++){
+            ans = max(ans, obj->check(nums[i]));
+        }
+
+        return ans;
+    }
+};
+
+
+next ques tha ki quesries h xi xor krna h maximise krne ke liye but ekements m se bade nhi hone chaoiye h 
+
+to OFFLINE queries ka concept lagao
+means ki phle aane wale limit se sort krdo and index bhi le lo 
+phir existing trie me search krlo max XOR and agle baar insert krlo nexr limit se chote elemnts 
+
+
+
+struct offlineQueries{
+    int val;
+    int limit;
+    int idx;
+    offlineQueries(int a, int b, int c){
+        val = a;
+        limit = b;
+        idx = c;
+    }
+};
+
+class Solution {
+public:
+    static bool comp(offlineQueries &q1, offlineQueries &q2){
+        return q1.limit<q2.limit;
+    }
+    vector<int> maximizeXor(vector<int>& nums, vector<vector<int>>& queries) {
+        sort(nums.begin(),nums.end());
+
+        int q = queries.size();
+        int n = nums.size();
+
+        vector<offlineQueries> of;
+        // Q
+        for(int i = 0;i<q;i++){
+            offlineQueries newOF = offlineQueries(queries[i][0], queries[i][1], i);
+            of.push_back(newOF);
+        }
+
+        // QlogQ
+        sort(of.begin(), of.end(), comp);
+
+        Trie obj;
+        vector<int> ans(q,0);
+        int i = 0;
+        int j = 0;
+        // Q*32 + N*32 
+        while(j<q){
+            int limit = of[j].limit;
+            int toXor = of[j].val;
+            int idx = of[j].idx;
+            while(i<n && nums[i]<=limit){
+                obj.insert(nums[i]);
+                i++;
+            }
+            if(i == 0){
+                ans[idx] = -1;
+            }
+            else{
+                ans[idx] = obj.check(toXor);
+            }
+            j++;
+        }
+
+        return ans;
+    }
+};
