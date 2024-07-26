@@ -3,6 +3,41 @@ Lower Bound : Vo elem jo X se just chota h ya X h, so chote wale me ans = mid kr
 Upper Bound : Vo elem jo X se just bada h ya X h, bade wale case me and = mid krdo 
 
 
+
+Ek acha ques,,,, Ki negative  and 0 ho sakte h to longest subarray with sum k 
+
+so isme hm ye use krenge ki ek array h to uss last elem tak kitna sum h 
+to agar sum == k h ya sum-k phle exist krta h to vo ans ho jayega...
+important.. ki 0 ki vajah se hm isme sum agar nhi h map me to hi insert krenge 
+1 0 0 3, k= 2 h to map me sum =1 , idx = 0, 1, 2 pe push hoga, but we want max length so
+we will update only on 0th index
+
+TC + NlogN
+int lenOfLongSubarr(int nums[],  int n, int k) 
+    { 
+        // Complete the function
+        map<int,int> mp;
+        int ans = 0;
+        int sum = 0;
+        for(int i =0;i<n;i++){
+            
+            sum+=nums[i];
+            if(sum==k){
+                ans = max(ans,i+1);
+            }
+            if(mp.find(sum-k)!=mp.end()){
+                ans = max(ans, i - mp[sum-k] );
+            }
+            if(mp.find(sum)==mp.end()){
+                mp[sum] = i;
+            }
+        }
+        return ans;
+    }
+
+agr positive hota to simply Sliding window hota optimal 
+but for negaitves upar wala is optimal....
+
 ################## Find the first and last occuracnce of element in array ####################
 So we implement lowerbound
   and we sbtract for x+1 wala lower bound 
