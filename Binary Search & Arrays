@@ -1,3 +1,234 @@
+Arrays....
+Kadane algo me longest subarray me maximise sum with negative val krna hota h 
+to usme ye hota h ki jab bhi sum <0 ho jaye to sum = 0 krdo 
+Algorithm / Intuition
+
+The steps are as follows:
+NlogN
+First, we will declare a map to store the prefix sums and their counts.
+Then, we will set the value of 0 as 1 on the map.
+Then we will run a loop(say i) from index 0 to n-1(n = size of the array).
+For each index i, we will do the following:
+We will add the current element i.e. arr[i] to the prefix sum.
+We will calculate the prefix sum i.e. x-k, for which we need the occurrence.
+We will add the occurrence of the prefix sum x-k i.e. mpp[x-k] to our answer.
+Then we will store the current prefix sum in the map increasing its occurrence by 1.
+######################################  
+
+Longest consecutive in unsorted array: 
+mtlb ki 1 2 3 4 ye ek consecutive h, order doesnot matter 
+Brute : N^2 me chalo and ek element uthao and jab tak elem+1 nhi h tab tak chalo 
+Better sot krke count krlo jab tak +1 ho raha h
+Optimal: Isme set use kro and sabko daal do set me amd iterate kro
+agar elem-1 present h to continue: else while me +1 krke search 
+
+vrna map me mp[prev} + 1 + mp[next] krdo 
+and insert krte chalo.
+
+######################################  
+Set Matrix zero. yhi ki 0 h to uski row and col = 0 krdo
+so simply phle to 2D me 0 walo ko store krlo and chalo n*m me and agar uss row ya col m 0 h 
+to 0 krdo nhi to same => O((NM)(N+M)), SC : O(N*M).
+Solved using Matrix with Extra space. TC : O((NM)(N+M)), SC : O(N*M).
+Solved using Matrix with Constant space. TC : O((NM)(N+M)), SC : O(1).
+Solved using Array + Hash Table (Unordered set). TC : O(N*M), SC : O(N+M).
+Solved using Matrix with Constant space. Optimized Approaches. TC : O(N*M), SC : O(1).
+
+1 = for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix[i][j] == 0){
+                    for(int k=0; k<m; k++){
+                        visited[i][k] = 0;
+                    }
+		    // Similary column bhi krdo 0 
+                }
+            }
+        }
+
+First, we will use two loops(nested loops) to traverse all the cells of the matrix.
+If any cell (i,j) contains the value 0, we will mark all cells in row i and column j with -1 except those which contain 0.
+We will perform step 2 for every cell containing 0.
+Finally, we will mark all the cells containing -1 with 0.
+Thus the given matrix will be modified according to the question.
+
+2 = for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix[i][j] == 0){
+                    for(int k=0; k<m; k++){
+                        if(matrix[i][k] != 0){
+                            matrix[i][k] = -9999;
+                        }
+                    }
+                }
+            }
+        } ab baad me 0 krdo inn 9999 walo ko
+
+Approach (Using two extra arrays):
+
+The steps are as follows:
+
+First, we will declare two arrays: a row array of size N and a col array of size M and both are initialized with 0.
+Then, we will use two loops(nested loops) to traverse all the cells of the matrix.
+If any cell (i,j) contains the value 0, we will mark ith index of row array i.e. row[i] and jth index of col array col[j] as 1. It signifies that all the elements in the ith row and jth column will be 0 in the final matrix.
+We will perform step 3 for every cell containing 0.
+Finally, we will again traverse the entire matrix and we will put 0 into all the cells (i, j) for which either row[i] or col[j] is marked as 1.
+Thus we will get our final matrix.
+
+Optimal: 
+First, we will traverse the matrix and mark the proper cells of 1st row and 1st column with 0 accordingly. The marking will be like this: if cell(i, j) contains 0, we will mark the i-th row i.e. matrix[i][0] with 0 and we will mark j-th column i.e. matrix[0][j] with 0.
+If i is 0, we will mark matrix[0][0] with 0 but if j is 0, we will mark the col0 variable with 0 instead of marking matrix[0][0] again.
+
+After step 1 is completed, we will modify the cells from (1,1) to (n-1, m-1) using the values from the 1st row, 1st column, and col0 variable.
+We will not modify the 1st row and 1st column of the matrix here as the modification of the rest of the matrix(i.e. From (1,1) to (n-1, m-1)) is dependent on that row and column.
+
+Finally, we will change the 1st row and column using the values from matrix[0][0] and col0 variable. Here also we will change the row first and then the column.
+If matrix[0][0] = 0, we will change all the elements from the cell (0,1) to (0, m-1), to 0.
+If col0 = 0, we will change all the elements from the cell (0,0) to (n-1, 0), to 0
+
+vector<vector<int>> zeroMatrix(vector<vector<int>> &matrix, int n, int m) {
+
+    // int row[n] = {0}; --> matrix[..][0]
+    // int col[m] = {0}; --> matrix[0][..]
+
+    int col0 = 1;
+    // step 1: Traverse the matrix and
+    // mark 1st row & col accordingly:
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+                // mark i-th row:
+                matrix[i][0] = 0;
+
+                // mark j-th column:
+                if (j != 0)
+                    matrix[0][j] = 0;
+                else
+                    col0 = 0;
+            }
+        }
+    }
+
+    // Step 2: Mark with 0 from (1,1) to (n-1, m-1):
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < m; j++) {
+            if (matrix[i][j] != 0) {
+                // check for col & row:
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    //step 3: Finally mark the 1st col & then 1st row:
+    if (matrix[0][0] == 0) {
+        for (int j = 0; j < m; j++) {
+            matrix[0][j] = 0;
+        }
+    }
+    if (col0 == 0) {
+        for (int i = 0; i < n; i++) {
+            matrix[i][0] = 0;
+        }
+    }
+
+    return matrix;
+}
+
+######################################  
+Rotate Image b y 90 Degree
+1-> Approach: Take another dummy matrix of n*n, and then take the first row of the matrix
+and put it in the last column of the dummy matrix, take the second row of the matrix, and 
+put it in the second last column of the matrix and so.
+rotated[j][n - i - 1] = matrix[i][j];
+
+2-> we transpose the matrix and then reverse each row,
+//transposing the matrix
+    for (int i = 0; i < n; i++) {
+    for (int j = 0; j < i; j++) {
+        swap(matrix[i][j], matrix[j][i]);
+    }
+    }
+    //reversing each row of the matrix
+    for (int i = 0; i < n; i++) {
+    reverse(matrix[i].begin(), matrix[i].end());
+    }
+
+######################################  
+Spiral print of array :
+isme left, right, top bottom pointers le lo 
+and 4 loop laga ke krdo print...
+
+int top = 0, left = 0, bottom = n - 1, right = m - 1;
+while (top <= bottom && left <= right) {
+	for (int i = left; i <= right; i++) top++
+	for (int i = top; i <= bottom; i++) right--;
+	if (top <= bottom) {
+		for (int i = right; i >= left; i--) bottom--;
+	if (left <= right)
+		for (int i = bottom; i >= top; i--) left++;
+
+######################################  
+
+Next permutation 
+1 - sare banao permutation 
+
+2 - C++ provides an in-built function called next_permutation() which directly returns the 
+lexicographically next greater permutation of the input.
+
+3 - 3241 h to next hoga 3412, ab isme ye h ki 32 (41) ye 41 decreasing me tha 
+to find peeche se chalo and i-1<i h ojaye to break
+now jo next elem hoga vo uss waqt max hoga to ab jo pivot h vo max elem ban jayega 
+and baaki array reverse krdo aage ki and add that number 
+
+ for (int i = n - 2; i >= 0; i--) {
+        if (A[i] < A[i + 1]) {
+            // index i is the break point
+            ind = i;
+            break;
+        }
+    }
+
+    // If break point does not exist:
+    if (ind == -1) {
+        // reverse the whole array:
+        reverse(A.begin(), A.end());
+        return A;
+    }
+
+    // Step 2: Find the next greater element
+    //         and swap it with arr[ind]:
+
+    for (int i = n - 1; i > ind; i--) {
+        if (A[i] > A[ind]) {
+            swap(A[i], A[ind]);
+            break;
+        }
+    }
+
+    // Step 3: reverse the right half:
+    reverse(A.begin() + ind + 1, A.end());
+
+######################################  
+Negative and pos ko alag kro 
+int posIndex = 0, negIndex = 1;
+  for(int i = 0;i<n;i++){ 
+      // Fill negative elements in odd indices and inc by 2.
+      if(A[i]<0){
+          ans[negIndex] = A[i];
+          negIndex+=2;
+      }
+      // Fill positive elements in even indices and inc by 2.
+      else{
+          ans[posIndex] = A[i];
+          posIndex+=2;
+      }
+	}
+
+Alternative pw 
+0-pos 1 - neg 2 - pos 3 - neg.. 
+######################################33
+
 Simple BS 
 Lower Bound : Vo elem jo X se just chota h ya X h, so chote wale me ans = mid krdo
 Upper Bound : Vo elem jo X se just bada h ya X h, bade wale case me and = mid krdo 
