@@ -1,3 +1,38 @@
+................. Recursion ....................
+
+1 - Reverse stack, so isme ye h ki top lo pop kro and then insertAtBottom function call kro
+so recursion se stack reverse ho jayegi.
+
+2 - Sort Stack, so isme h ki simply subproblems me todo ki ek ek element hatao and last se sort
+chalu kro
+and now usme sahi jagah insert kro element 
+
+void insert(stack<int> &st, int x){
+    if(st.size()==0 || st.top()<=x){
+        st.push(x);
+        return;
+    }
+    int a = st.top();
+    st.pop();
+    
+    insert(st, x);
+    st.push(a);
+}
+void sorting(stack<int> &st){
+    if(st.size()==0){
+        return;
+    }
+    
+    int x = st.top();
+    st.pop();
+    
+    sorting(st);
+    insert(st, x);
+}
+
+
+
+......... TRIES.........
 When to use Tries...
 
 Tries helps in major 3 ways
