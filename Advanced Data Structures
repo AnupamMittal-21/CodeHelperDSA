@@ -16,9 +16,7 @@
   
 /******************************************************************************
 
-                              Online C++ Debugger.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Debug" button to debug it.
+
 
 *******************************************************************************/
 
@@ -46,6 +44,17 @@ public:
             fen[i] += val;
             i = i + (i & (-i));
         }
+    }
+    // Lower Bound of k 
+    int find(int k){
+        int curr = 0, ans = 0, prevSum = 0;
+        for(int i = log2(n);i>=0;i--){
+            if(fen[curr+(1<<i)] + prevSum < k){
+                curr = curr + (i<<i);
+                prevSum+=fen[curr];
+            }
+        }
+        return (curr+1);
     }
     
     int sum(int i){
@@ -134,5 +143,22 @@ public:
         int right = query(2*idx + 2, mid+1, high, l, r);
         return max(left, right);
         // return left + right; // In Case if we want to get the sum 
+    }
+
+    // Update a node with increment by value 
+    void pointUpdate(int idx, int low, int high, int node, int val){
+        if(low==high){
+            seg[idx] += val;
+        }
+        else{
+            int mid = (low + high)>>1;
+            if(node<=min && node>=low ){
+                pointUpdate(2*idx + 1, low, mid, node, val);
+            }
+            else{
+                pointUpdate(2*idx + 2, mid + 1, high, node, val);
+            }
+            seg[idx] = seg[2*idx + 1] + seg[2*idx+2];
+        }
     }
 };
