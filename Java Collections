@@ -1,0 +1,133 @@
+Collection ek framework h jo data structures provide krta h
+so that we dont have to implement again and again
+and vo optimised hote h 
+
+ye teen h collections m
+list(interface) => ArrayList(class), LinkedList, Stack, Vector
+Set => EnumSet, HashSet, LinkedHashSet, TreeSet
+Queue => ArrayDeque, LinkedList, PriorityQueue
+
+Map => HashMap, TreeMap, EnumMap, LinkedHashMap, WeakHashMap
+
+Iterator => ListIterator
+
+##############3  ArrayList #############
+import java.util.ArrayList me hota h 
+
+public class LearnArrayList{
+  public static void main(String[] args){
+    ArrayList<String> students = new ArrayList<>();
+    students.add("A");
+  }
+}
+phle to 0 size hoga, then vo badha ke kr dega 10
+phir n + n/2 + 1 ye hoga size badhte badhte 
+dynamically...
+naya array banayega and purane ko copy krenga and 
+purane ko delete krega 
+
+add ke types -> end me add 
+
+add(1) last m 
+add(1,9) index 1 pe 9
+add(newList) to ye last me new list append kr degi just like python 
+
+GET
+list.get(1) => 1st index wala 
+
+list.remove(1) 1st index ko remove 
+list.remove(Integer.valueOf(30)) -> 30 value remove ho jayega
+list.clear() puri list empty ho jayegi 
+
+list.set(1, 19) -> 1st index ko update with 19
+
+list.contains(50) => t/F , O(N)
+
+iterate in list 
+
+
+jab bhi sout me likhte h koi bhi to uska vo toString wala function call 
+kr deta h 
+sout(list1) tabhi to ye print ho jata h 
+
+for(i  = 0;i< list.size();i++){
+  sout list.get(i);
+}
+for(Integer elem:list){
+sout (elem)
+}
+
+Iterator<Integer> it = list.iterator();
+
+while(it.hasNext()){
+sout(it.next())
+}
+
+
+##################### Stack ###################3
+
+LIFO 
+
+java.util.Stack
+
+Stack<String> st = new Stack<>();
+
+st.push()
+st.peek(); top h ye 
+st.pop()
+
+
+############### queue ############# 
+
+Queue<Integer> queue = new LinkedList<>();
+
+offer, poll, peak  ye true/false krte h return
+queue.offer(10) / insert krne k liye
+agar add function laga rhe ho to vo exception throw 
+kr sakta h 
+queue.poll() ye return krna h front element and deletes it 
+same ye remove h jo null hone pe exception
+queue.peek() ye h front nikalne ke liye 
+ye peek return null if queue is empty
+
+but element() ye function null nhi exception throw krega 
+if queue is empty 
+
+
+
+########### Priority Queue #############33
+Queue<Integer> pq = new PriorityQueue<>();
+
+pq.offer(10)
+pq.offer(3)
+
+to top pe 3 hoga kyuki min heap h ye 
+pq.poll()
+pq.peek()
+heapify call ho raha hoga 
+
+Max Heap 
+Comparator.reverseOrder()
+ye likh do () me 
+PrirityQueue<>(Comparator.reverseOrder())
+
+
+################# Deque ####################
+
+deck pronounced 
+ArrayDeque<Integer> adq = new ArrayDeque<>();
+
+ye simple wale aye h queue interface se ,and vo last wale ke same h
+adq.offer(23); last me add  ye aaya queue se 
+adq.offerFirst(12)
+adq.offerLast(32);
+
+peek
+peekFirst()
+peekLast()
+
+poll
+pollFirst
+pollLast
+
+
