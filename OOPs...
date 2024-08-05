@@ -123,3 +123,36 @@ A member function of another class : friend void anotherClass::memberFunction(ba
 
 Scope resolution operator in C++
 1) To access a global variable when there is a local variable with same name:
+int x; // Global x
+
+int main()
+{
+int x = 10; // Local x
+cout << "Value of global x is " << ::x;
+cout << "\nValue of local x is " << x; 
+return 0;
+}
+
+2) To define a function outside a class.
+void A::fun() { cout << "fun() called"; }
+
+3) To access a class’s static variables. 
+Test::x = 1;
+
+4) In case of multiple Inheritance: If the same variable name exists in two ancestor classes, we can use scope resolution operator to distinguish. 
+
+class C: public A, public B
+< A::x; A and B me dono me X h , and C inherits both A and B
+< B::x;
+
+5) Refer to a member of the base class in the derived object:
+Derived obj;
+    obj.Base::func();
+    obj.func();
+
+
+
+
+
+
+
