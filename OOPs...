@@ -165,8 +165,192 @@ Parameterized Constructor: Takes parameters. Used to create an object with speci
 
 Copy Constructor: Takes a reference to another object of the 
 same class. Used to create a copy of an object.
+ClassName (ClassName &obj)
 
 Move Constructor: Takes an rvalue reference to another object. Transfers resources from a temporary object.
 
 
 unlike the default constructor where the presence of any type of explicit constructor results in the deletion of the implicit default constructor, the implicit copy constructor will always be created by the compiler if there is no explicit copy constructor or explicit move constructor is present.
+
+
+Shallow Copy: Shallow repetition is quicker. and isme same hi object ko point krte h new nhi create krte.
+// Shallow Copy of Honda
+    Car* copy_honda = &honda;
+
+Deep Copy: isme exact copy banate h class ki 
+// Deepcopy of Honda
+    Car deepcopy_honda = honda;
+
+
+Copy Constructor vs Assignment Operator in C++
+It creates a separate memory block for the new object.
+className(const className &obj) {
+} 
+vs 
+Assignment Operato
+It does not create a separate memory block or new memory space.
+className obj1, obj2;
+obj2 = obj1;
+
+Virtual constructor 
+The virtual mechanism works only when we have a base class pointer to a derived class object.
+
+In C++, the constructor cannot be virtual, because when a constructor of a class is executed there is no virtual table in the memory, means no virtual pointer defined yet. So, the constructor should always be non-virtual.
+
+But virtual destructor is possible.
+
+#include<iostream>
+using namespace std;
+class b {
+   public:
+      b() {
+         cout<<"Constructing base \n";
+      }
+      virtual ~b() {
+         cout<<"Destructing base \n";
+      }
+};
+class d: public b {
+   public:
+      d() {
+         cout<<"Constructing derived \n";
+      }
+      ~d() {
+         cout<<"Destructing derived \n";
+      }
+};
+int main(void) {
+   d *derived = new d();
+   b *bptr = derived;
+   delete bptr;
+   return 0;
+}
+Output
+Constructing base
+Constructing derived
+Destructing derived
+Destructing base
+
+agr virtual nhi lagaoge to derived ka destructor call nhi hoga
+
+
+copy Constructor is used to creating an object copied from another. but if you want the program to decide at the runtime about the type of object created i.e. that object type is defined at runtime, not at compile-time and is based on some input provided by the user for a certain condition. in this situation, We need a copy constructor with some special powers to do this thing. So so to do this virtual copy constructor is declared that offers the cloning of objects in real-time.
+
+Ye palle nhi pada code 
+#include <iostream>
+using namespace std;
+class figure{
+   public:
+   figure() { }
+   virtual
+   ~figure() { }
+   virtual void ChangeAttributes() = 0;
+   static figure *Create(int id);
+   virtual figure *Clone() = 0;
+};
+class square : public figure{
+   public:
+   square(){
+      cout << "square created" << endl;
+   }
+   square(const square& rhs) { }
+   ~square() { }
+   void ChangeAttributes(){
+      int a;
+      cout<<"The side of square";
+      cin>>a;
+      cout<<"Area of square is "<<a*a;
+   }
+   figure *Clone(){
+      return new square(*this);
+   }
+};
+class circle : public figure{
+   public:
+   circle(){
+      cout << "circle created" << endl;
+   }
+   circle(const circle& rhs) { }
+   ~circle() { }
+   void ChangeAttributes(){
+      int r;
+      cout << "enter the radius of the circle ";
+      cin>>r;
+      cout<<"the area of circle is "<<((3.14)*r*r);
+   }
+   figure *Clone(){
+      return new circle(*this);
+   }
+};
+class rectangle : public figure{
+   public:
+   rectangle(){
+      cout << "rectangle created" << endl;
+   }
+   rectangle(const rectangle& rhs) { }
+   ~rectangle() { }
+   void ChangeAttributes(){
+      int a ,b;
+      cout<<"The dimensions of rectangle ";
+      cin>>a>>b;
+      cout<<"Area of rectangle is "<<a*b;
+   }
+   figure*Clone(){
+      return new rectangle(*this);
+   }
+};
+figure *figure::Create(int id){
+   if( id == 1 ){
+      return new square;
+   }
+   else if( id == 2 ){
+      return new circle;
+   }
+   else{
+      return new rectangle;
+   }
+}
+class User{
+   public:
+   User() : figures(0){
+      int input;
+      cout << "Enter ID (1, 2 or 3): ";
+      cin >> input;
+      while( (input != 1) && (input != 2) && (input != 3) ){
+         cout << "Enter ID (1, 2 or 3 only): ";
+         cin >> input;
+      }
+      figures = figure::Create(input);
+   }
+   ~User(){
+      if( figures ){
+         delete figures;
+         figures = 0;
+      }
+   }
+   void Action(){
+      figure *newfigure = figures->Clone();
+      newfigure->ChangeAttributes();
+      delete newfigure;
+   }
+   private:
+   figure *figures;
+};
+int main(){
+   User *user = new User();
+   user->Action();
+   delete user;
+}
+Enter ID (1, 2 or 3): 2
+circle created
+enter the radius of the circle R 3
+the area of circle is 28.26
+
+
+.................................................................
+
+
+
+
+
+
