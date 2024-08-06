@@ -350,6 +350,94 @@ the area of circle is 28.26
 .................................................................
 
 
+Destructor : 
+
+Inside ya outside class kr sakte h scope resolution operator see 
+
+
+
+It is not possible to define more than one destructor.
+ tilde (~) symbol.
+The destructor is only one way to destroy the object created by the constructor. Hence, destructor cannot be overloaded.
+It cannot be declared static or const.
+Destructor neither requires any argument nor returns any value.
+It is automatically called when an object goes out of scope. 
+Destructor release memory space occupied by the objects created by the constructor.
+In destructor, objects are destroyed in the reverse of an object creation.
+
+Objects are destroyed in the reverse order of their creation. In this case, t3 is the first to be destroyed, while t is the last.
+
+object_name.~class_name() explicitly call krna destructor ko 
+
+The default destructor works fine unless we have dynamically allocated memory or pointer in class. When a class contains a pointer to memory allocated in the class, we should write a destructor to release memory before the class instance is destroyed. This must be done to avoid memory leaks.
+
+Yes, destructor can be defined as private when we want to control the deletion of the object manually
+
+Private descturtor 
+For dynamically created objects, it may happen that you pass a pointer to the object to a function and the function deletes the object. If the object is referred after the function call, the reference will become dangling. 
+iss case ko handle krne ke liye hm control kr sakte h private 
+destructor use krke
+
+cases 
+
+class Test {
+private:
+    ~Test() {}
+}; 
+It is not a compiler error to create private destructors.
+
+
+int main() { Test t; }
+fails in the compilation.
+The compiler notices that the local variable ‘t’ cannot be destructed because the destructor is private. 
+
+int main() { Test* t; }
+no object being constructed, just creates a pointer of type “Test *”, so nothing is destructed.
+
+
+ { Test* t = new Test; }
+dynamic memory allocation, it is the programmer’s responsibility to delete 
+where the destructor is declared private, an instance of the class can also be created using the malloc() function.
+
+Test* t = (Test*)malloc(sizeof(Test)); ye bhi sahi h 
+
+Test* t = new Test;
+    delete t; ye nhi chalega kyuki delete ke liye public destrcutor chaiye h 
+
+
+parent* p;
+    p = new parent;
+    // destructor called
+    p->destruct();
+chal jayega 
+
+
+
+Deleting a derived class object using a pointer of base class type that has a non-virtual destructor results in undefined behavior. To correct this situation, the base class should be defined with a virtual destructor. 
+
+vhi ki virtual nhi banaya base ka and base ptr delete kr rhe ho 
+to derived ka delete nhi hoga 
+
+
+A pure virtual destructor can be declared in C++.
+for a pure virtual destructor, you must specify a destructor body.
+
+The reason is that destructors (unlike other functions) are not actually ‘overridden’, rather they are always called in the reverse order of the class derivation. This means that a derived class destructor will be invoked first, then the base class destructor will be called.
+
+class Base {
+public:
+    virtual ~Base() = 0; // Pure virtual destructor
+};
+Base::~Base() // Explicit destructor call
+{
+    std::cout << "Pure virtual destructor is called";
+} sahi h 
+
+
+
+
+
+
 
 
 
