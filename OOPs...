@@ -435,6 +435,42 @@ Base::~Base() // Explicit destructor call
 
 
 
+Inheritance represents the IS-A relationship which is also known as a parent-child relationship.
+
+Java : class Programmer extends Employee
+Cpp = class A : public B{}
+
+there can be three types of inheritance in java: 
+single, multilevel and hierarchical.
+
+When one class inherits multiple classes, it is known as multiple inheritance.
+and multiple inheritence is not supported in java using class
+
+coz...To reduce the complexity and simplify the language, multiple inheritance is not supported in java.
+
+Consider a scenario where A, B, and C are three classes. The C class inherits A and B classes. If A and B classes have the same method and you call it from child class object, there will be ambiguity to call the method of A or B class.
+
+The sealed modifier is used to prevent derivation from a class. 
+mtlb inheritance hone se rokna. An error occurs if a sealed class is specified as the base class of another class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
