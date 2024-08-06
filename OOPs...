@@ -454,6 +454,289 @@ The sealed modifier is used to prevent derivation from a class.
 mtlb inheritance hone se rokna. An error occurs if a sealed class is specified as the base class of another class
 
 
+The diamond problem
+For instance, let us assume that Java does support multiple inheritance. With that assumption consider the following example
+
+
+public class abstract Sample {
+   public abstract demo();
+}
+
+
+ye next level 
+public class Super1 extends Sample{
+   public void demo() {
+      System.out.println("demo method of super1");
+   }
+}
+public class Super2 extends Sample{
+   public void demo() {
+      System.out.println("demo method of super2");
+   }
+}
+
+next level 
+public class SubClass extends Super1, Super2 {
+   public static void main(String args[]) {
+      SubClass obj = new SubClass();
+      obj.demo();
+   }
+}
+
+now compiler demo ki do copies banayega and jab call krenge to nhi pta hoga usse ki konsa call krna h 
+so error aa jayegi, isiliye runtime na aaye to vo allow hi nhi krta as compile error is better than run time error 
+
+
+solution 
+public class InterfaceExample implements MyInterface1, MyInterface2{
+interfaces banao usse kr sakte h multiple inheritence
+
+
+
+What is object slicing?
+"Slicing" is where you assign an object of a derived class to an instance of a base class, thereby losing part of the information - some of it is "sliced" away.
+
+class A {
+   int foo;
+};
+
+class B : public A {
+   int bar;
+};
+So an object of type B has two data members, foo and bar.
+
+Then if you were to write this:
+
+B b;
+
+A a = b;
+Then the information in b about member bar is lost in a
+
+
+
+
+Does overloading work with Inheritance?
+
+class Base
+{
+    public int f(int i)
+    {
+        System.out.print("f (int): ");
+        return i+3;
+    }
+}
+class Derived extends Base
+{
+    public double f(double i)
+    {
+        System.out.print("f (double) : ");
+        return i + 3.3;
+    }
+}
+class myprogram3
+{
+    public static void main(String args[])
+    {
+        Derived obj = new Derived();
+        System.out.println(obj.f(3));
+        System.out.println(obj.f(3.3));
+    }
+}
+C++ me agar ye case h to keval derived ka hi call hoga 
+but java me based on input function overloading ho jayegi across classes 
+
+
+
+
+
+Association
+Association is a relationship between two objects. In other words, association defines the multiplicity between objects. 
+one-to-one, one-to-many, many-to-one, many-to-many 
+Aggregation is a special form of association. Composition is a special form of aggregation.
+
+Aggregation
+When an object ‘has-a’ another object, then you have got an aggregation between them
+
+
+Composition
+Composition is a special case of aggregation. In a more specific manner, a restricted aggregation is called composition. When an object contains the other object, if the contained object cannot exist without the existence of container object, then it is called composition.
+
+
+
+Generalization
+Converting a subclass type into a superclass type is called ‘Generalization‘ because we are making the subclass to become more general and its scope is widening. This is also called widening or up casting. Widening is safe because the classes will become more general.
+Java compiler will not ask for cast operator in generalization
+
+Father father;
+  
+ // new operator returns a subclass reference
+ father = (Father) new Son();
+but iss se ab child wale nhi kr sakte call 
+we can access all the superclass methods, but not the subclass methods.
+
+
+
+
+Specialization
+Converting a super class type into a sub class type is called ‘Specialization‘. Here, we are coming down from more general form to a specific form and hence the scope is narrowed. Hence, this is called narrowing or down-casting.
+
+Narrowing is not safe because the classes will become more and more specific thus giving rise to more and more doubts.
+Java compiler specifically asks for the casting. This is called explicit casting.
+
+try {
+            // son is a sub class reference
+            Son son;
+  
+            // new operator returns a superclass reference
+            // which is narrowed using casting
+            // and stored in son variable
+  
+            // This will throw exception
+            son = (Son) new Father();
+  
+            // Through a narrowed reference of the superclass
+            // we can neither access superclass method
+            // and nor the subclass methods
+  
+            // Below lines will show
+            // an error when uncommented
+            // son.work();
+            // son.play();
+        }
+        catch (Exception e) {
+
+but 
+// son is a subclass reference
+        Father father;
+  
+        // new operator returns a subclass reference
+        // which is stored in the father variable
+        // father stores a Father class reference
+        // because of implicit casting
+        father = new Son();
+  
+        // father is narrowed
+        Son son = (Son)father;
+  
+        son.work(); // works well
+        son.play(); // works well
+
+
+
+
+Polymorphism in Java
+an overridden method is called through the reference variable of a superclass. The determination of the method to be called is based on the object being referred to by the reference variable.
+
+Upcasting
+If the reference variable of Parent class refers to the object of Child class, it is known as upcasting.
+
+
+class Bike{  
+  void run(){System.out.println("running");}  
+}  
+class Splendor extends Bike{  
+  void run(){System.out.println("running safely with 60km");}  
+  
+  public static void main(String args[]){  
+    Bike b = new Splendor();//upcasting  
+    b.run();  
+  }  
+}  
+Test it Now
+Output:
+
+running safely with 60km.
+
+
+
+static binding
+When type of the object is determined at compiled time(by the compiler), it is known as static binding.
+
+If there is any private, final or static method in a class, there is static binding.
+
+
+Dynamic binding
+When type of the object is determined at run-time, it is known as dynamic binding. done by JVM not compiler 
+
+
+
+
+Advantage of Encapsulation in Java
+ye kaam hota h access modifiers ki help se 
+
+By providing only a setter or getter method, you can make the class read-only or write-only. In other words, you can skip the getter or setter methods.
+
+It provides you the control over the data. Suppose you want to set the value of id which should be greater than 100 only, you can write the logic inside the setter method. You can write the logic not to store the negative numbers in the setter methods.
+
+It is a way to achieve data hiding in Java because other class will not be able to access the data through the private data members.
+
+The encapsulate class is easy to test. So, it is better for unit testing.
+
+The standard IDE's are providing the facility to generate the getters and setters. So, it is easy and fast to create an encapsulated class in Java.
+
+
+
+
+
+Abstraction
+Using Abstract Class
+Using Interface
+
+Abstract classes are the same as normal Java classes the difference is only that an abstract class uses abstract keyword while the normal Java class does not use.
+
+An abstract class contains abstract methods as well as concrete methods If we want to use an abstract class, we have to inherit it from the base class.
+
+If the class does not have the implementation of all the methods of the interface, we should declare the class as abstract. It provides complete abstraction. It means that fields are public static and final by default and methods are empty.
+
+abstract class Demo  
+{  
+//abstract method  
+abstract void display();  
+} 
+
+
+
+an interface contains empty methods (methods that do not have method implementation) and variables.
+ it is a collection of abstract methods (the method that does not have a method body) and static constants. 
+each method is public and abstract and does not contain any constructor.
+also helps to achieve multiple inheritance. 
+
+
+Abstraction is a concept, which is allowed by encapsulation.
+
+
+......................................................................
+
+
+Questions at the end.....
+
+....................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
