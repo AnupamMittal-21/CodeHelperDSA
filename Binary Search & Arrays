@@ -427,9 +427,16 @@ int number = (xr & ~(xr - 1));
 
 
 Simple BS 
-Lower Bound : Vo elem jo X se just chota h ya X h, so chote wale me ans = mid krdo
-Upper Bound : Vo elem jo X se just bada h ya X h, bade wale case me and = mid krdo 
+lower bound algorithm finds the first or the smallest index in a sorted array where the value at that index is greater than or equal to a given key i.e. x
+ISME ARR[MID]>=X PE ANS = MID HOGA 
 
+The upper bound algorithm finds the first or the smallest index in a sorted array where the value at that index is greater than the given key i.e. x.
+ISME ARR[MID]>X PE ANS = MID HOGA 
+
+
+
+The floor of x is the largest element in the array which is smaller than or equal to x. (jUST CHOTA)
+The ceiling of x is the smallest element in the array greater than or equal to x. (jUST BADA)
 
 
 Ek acha ques,,,, Ki negative  and 0 ho sakte h to longest subarray with sum k 
