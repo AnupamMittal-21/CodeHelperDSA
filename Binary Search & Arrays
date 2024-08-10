@@ -1,6 +1,28 @@
 Arrays....
 Kadane algo me longest subarray me maximise sum with negative val krna hota h 
 to usme ye hota h ki jab bhi sum <0 ho jaye to sum = 0 krdo 
+
+
+For Rotating Elements to left
+Step 1: Reverse the first k elements of the array
+
+Step 2: Reverse the last n-k elements of the array.
+
+Step 3: Reverse the whole array.
+
+
+
+zeroes to end 
+
+First, using a loop, we will place the pointer j. If we don’t find any 0, we will not perform the following steps.
+After that, we will point i to index j+1 and start moving the pointer using a loop.
+While moving the pointer i, we will do the following:
+If a[i] != 0 i.e. a[i] is a non-zero element: We will swap a[i] and a[j]. Now, the current j is pointing to the non-zero element a[i]. So, we will shift the pointer j by 1 so that it can again point to the first zero.
+Finally, our array will be set in the right manner.
+
+#####################################################
+
+Longest subarray ones.... 
 Algorithm / Intuition
 
 The steps are as follows:
@@ -13,7 +35,65 @@ We will add the current element i.e. arr[i] to the prefix sum.
 We will calculate the prefix sum i.e. x-k, for which we need the occurrence.
 We will add the occurrence of the prefix sum x-k i.e. mpp[x-k] to our answer.
 Then we will store the current prefix sum in the map increasing its occurrence by 1.
+
+for (int i = 0; i < n; i++) {
+        //calculate the prefix sum till index i:
+        sum += a[i];
+
+        // if the sum = k, update the maxLen:
+        if (sum == k) {
+            maxLen = max(maxLen, i + 1);
+        }
+
+        // calculate the sum of remaining part i.e. x-k:
+        long long rem = sum - k;
+
+        //Calculate the length and update maxLen:
+        if (preSumMap.find(rem) != preSumMap.end()) {
+            int len = i - preSumMap[rem];
+            maxLen = max(maxLen, len);
+        }
+
+        //Finally, update the map checking the conditions:
+        if (preSumMap.find(sum) == preSumMap.end()) {
+            preSumMap[sum] = i;
+        }
+    }
+
+sliding window se krenge jab positives h , negative and zero mefail ho jayegi ye technique..
+####################################################
+Dutch National flag algorithm. 
+arr[0….low-1] contains 0. [Extreme left part]
+arr[low….mid-1] contains 1.
+arr[high+1….n-1] contains 2. [Extreme right part], n = size of the array
+
+int low = 0, mid = 0, high = n - 1; // 3 pointers
+
+    while (mid <= high) {
+        if (arr[mid] == 0) {
+            swap(arr[low], arr[mid]);
+            low++;
+            mid++;
+        }
+        else if (arr[mid] == 1) {
+            mid++;
+        }
+        else {
+            swap(arr[mid], arr[high]);
+            high--;
+	    // Yaha mid ko increment nhi krna ye imp h
+        }
+    }
 ######################################  
+
+next permutation 
+
+vhi h ki 8431 ye decresaing h to sahi h jaha break ho vo ppivot lo
+and dobara piche se dekho jaha bada ho swap kr do and pivot+1 se end tak reverse kr do 
+
+next_permutation(arr.begin(), arr.end()) se bhi aa jayega
+
+####################################
 
 Longest consecutive in unsorted array: 
 mtlb ki 1 2 3 4 ye ek consecutive h, order doesnot matter 
@@ -26,6 +106,7 @@ vrna map me mp[prev} + 1 + mp[next] krdo
 and insert krte chalo.
 
 ######################################  
+
 Set Matrix zero. yhi ki 0 h to uski row and col = 0 krdo
 so simply phle to 2D me 0 walo ko store krlo and chalo n*m me and agar uss row ya col m 0 h 
 to 0 krdo nhi to same => O((NM)(N+M)), SC : O(N*M).
@@ -228,6 +309,17 @@ int posIndex = 0, negIndex = 1;
 Alternative pw 
 0-pos 1 - neg 2 - pos 3 - neg.. 
 ######################################33
+
+
+
+
+
+....................... BINARY SEARCH............................
+
+
+
+
+
 
 Simple BS 
 Lower Bound : Vo elem jo X se just chota h ya X h, so chote wale me ans = mid krdo
