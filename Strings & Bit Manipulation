@@ -325,3 +325,48 @@ public:
         return -1;
     }
 };
+
+
+Z functions 
+    vector<int> ZFunction(string s){
+        int n = s.size();
+        vector<int> Z(n, 0);
+        int l = 0, r = 0;
+        for(int i = 1;i<n;i++){
+            if(i>r){
+                l=r=i;
+                while(r<n && s[r-l] == s[r])
+                    r++;
+                Z[i] = r-l;
+                r--;
+            }
+            else if(i + Z[i-l] <= r){
+                Z[i] = Z[i-l];
+            }
+            else{
+                l=i;
+                while(r<n && s[r-l] == s[r])
+                    r++;
+                Z[i] = r-l;
+                r--;
+            }
+        }
+        return Z;
+    }
+    int strStr(string haystack, string needle) {
+        int m = needle.size();
+        
+        string s = needle + "$" + haystack;
+        vector<int> Z = ZFunction(s);
+      
+        for(int i = 0;i<s.size();i++){
+            if(Z[i] == m){
+                return i-m-1;
+            }
+        }
+        return -1;
+    }
+
+isme jab m hota h to match hota h to vo sare ans me push kr sakte j 
+
+dono hi m + n h 
