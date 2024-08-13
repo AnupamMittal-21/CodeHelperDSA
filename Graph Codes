@@ -1075,3 +1075,128 @@ vector<int> articulationPoints(int n, vector<int>adj[]) {
     if (ans.size() == 0) return { -1};
     return ans;
 }
+
+###################### Prims ####################33
+
+int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        int n = V;
+        
+        priority_queue<pair<int,pair<int,int>> ,vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> pq;
+        
+        vi vis(n,0);
+        
+        int ans = 0;
+        
+        pq.push({0,{0,-1}});
+        while(pq.size()){
+            pair<int, pii> pt = pq.top();
+            pq.pop();
+
+            int wt=pt.fi;
+            int curr = pt.se.fi;
+            int par = pt.se.se;
+
+            if(vis[curr]==1)continue;
+
+            vis[curr] = 1;
+            ans+=wt;
+            // Store here
+            
+            for(auto it:adj[curr]){
+                int neigh = it[0];
+                int new_dist = it[1];
+                if(!vis[neigh]){
+                    pq.push({new_dist,{neigh,curr}});
+                }
+            }
+            
+        }
+        
+        return ans;
+        // code here
+    }
+
+############################################################
+
+
+Kruskal & DSU 
+
+class disjointSet{
+    vector<int> parent, rank;
+public:
+    disjointSet(int n){
+        rank.resize(n+1,0);
+        parent.resize(n+1,0);
+        for(int i = 0;i<=n;i++){
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int u){
+        if(u==parent[u]){
+            return u;
+        }
+        return parent[u] = findParent(parent[u]);
+    }
+
+    // Union
+    void findByRank(int u, int v){
+        int pu = findParent(u);
+        int pv = findParent(v);
+        
+        if(pu==pv)return;
+        
+        if(rank[pu]<rank[pv]){
+            parent[pu] = pv;
+        }
+        else if(rank[pv]<rank[pu]){
+            parent[pv] = pu;
+        }
+        else{
+            parent[pv] = pu;
+            rank[pu]++;
+        }
+    }
+};
+
+class Solution
+{
+	public:
+	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // code here
+        
+        vector<pair<int,pii>> edges;
+        
+        for(int i = 0;i<V;i++){
+            for(int j = 0;j<adj[i].size();j++){
+                // int u = adj[i][j][0];
+                int v = adj[i][j][0];
+                int wt =adj[i][j][1];
+                int u = i;
+                edges.pb({wt,{u,v}});
+            }
+        }
+        
+        sort(all(edges));
+        
+        int ans =0;
+        
+        disjointSet ds(V);
+        
+        for(auto it:edges){
+            int wt = it.first;
+            int u =  it.se.fi;
+            int v =  it.se.se;
+            
+            if(ds.findParent(u)!=ds.findParent(v)){
+                ans+=wt;
+                ds.findByRank(u,v);
+            }
+        }
+        
+        return ans;
+    }
+};
