@@ -124,3 +124,19 @@ km dikkat honge,
 
 to aaj kl to microservices hi chalti h 
 DIs adv dekhte h iske 
+
+
+Loosely coupled micro services honi chaiye h 
+
+jab ek service dusri service se communicate krti h to there is a latency 
+so jitni km kraoge communication means jitna loosely coupled hoga utna acha  
+
+Deployment me service 3 h to agar service ka response koi aur service use kr rhi h to vo change hone se dursi service me error aa sakta h 
+to debugging is hard 
+
+3 - Transaction Management: ACID hona cahiye h satisfy 
+multiple services me ek transaction nhi ban sakti 
+ek service ki hi transaction banegi, so uss caseme dikkat hoti h 
+
+MICRO: kitna small ?? 
+any defination>?  
