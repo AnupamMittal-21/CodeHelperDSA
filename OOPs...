@@ -350,6 +350,29 @@ the area of circle is 28.26
 .................................................................
 
 
+Upcasting vs Downcasting in java
+
+Upcasting:
+ye implicitly and explicity dono ho jati h 
+
+Parent p = new Child();
+agar parent and child me same methods h to child call hoga means overriding ho rhi h 
+agr parent and child me same data members h to parent ke changes hongi
+age child ke alag wale method call krna chahunga to vo access nhi kr sakte na hi variables 
+but parent ke sare variables and methods kr sakte h access 
+
+Downcasting:
+isme explicitly krna hoga 
+Parent p = new Child();
+Child c = (Child)p;
+ye sahi h 
+implicit nhi hoga means Child c = new Parent() nhi hoga , child object parent object ko reference nhi kr sakta
+ab isme kya h ki hm 
+child and parent ke common members and method h to child wale hi call honge
+aur alg h parent me to vo bhi call ho jayenge and child me alag h to vo bhi call ho jayenge
+
+
+....................................................................
 Destructor : 
 
 Inside ya outside class kr sakte h scope resolution operator see 
