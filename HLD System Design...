@@ -1,0 +1,126 @@
+Lets learn about networking 
+
+2 layers ki baat krte h 
+1 - Application
+
+application layer me 2 protocols h 
+peer to peer protocol,  => WebRTC
+Client Server Protocol 
+  HTTP, FPT, SMTP, Web sockets
+
+HTTP, FTP, SMTP inn teeno me client hoga web browser and vo request bhejega web server ko and web server respond krega
+to ye ek one way communication h 
+now WEb socket me thoda alag  h 
+isme bi directionall h 
+whatsapp, FB, jo ye messaging apps h unme use hota h kyuki jese message ayega to server talk krega hmse
+
+HTTP -> Connection-oriented,1 connection create hota h , webpages use krte h. 
+File Transfer Protocol -> 2 connection maintain hote h 
+control and data connection (ye connect disconnect hote rhte h )
+but control wala connected hi rhta  h
+
+SMTP used with IMAP or POP 
+sending the email , imap use hota reading the mail 
+pop me download krna hota h to vo use nhi hota ab 
+
+
+Peer to peer 
+client ek dusre client se bhi baat kr sakte h 
+client1, client2, server teeno ek durse se baat kr sakte h 
+but client to client communication nhi hoti client server me 
+WEBRTC h ye eg 
+
+
+
+
+2 - Transport Layer 
+TCP/IP or UDP/IP
+TCP/IP me hota h ek virtual connection banta h 
+and uske through data jata h , sequencing of data packet is done
+and harr packet ka acknowledgment jata h vapas 
+and koi missing h to vo resent hoga 
+
+
+UDP me koi connection nhi bana , datagraph me parallel me bhej deta h 
+ordering nhi h isme koi , but fast h , no acknowledgment 
+best effort to transfer 
+live streaming h usme use ata h 
+
+WEBRTC uses UDP 
+
+
+jaha bhi data fast chaiye h to usme UDP use krenge 
+Reliable cahiye h to TCP 
+
+
+FTP use nhi krte h hm, kyuki vo secure  nhi h
+
+
+############################## CAP Theorem ####################
+c - consistency
+a - availability
+p - partition tolerance
+
+agar distributed system h to p to rakhna hi padega, 
+A|c me se koi prefer krna hoga 
+ye ek tradeoff 
+
+distributed means ek server india me h ,e us me h to user kahi bh  ho sakte h to vo request kahi bhi ja sakti h dono server pe see 
+db bhi distributed ho sakte h ya server bhi 
+
+
+ye teeno kabhi ek saaath achieve nhi ho sakte 
+CA | CP | PA yhi options h 
+
+Partition Tolerance  -> B and C me replicated data h, to agar  B and C ka communication break ho gaya h 
+but user abhi bhi system as a whole se query kr paa raha h 
+then it is partition tolerance,  and agr distributed h to ye to cahiye hi h 
+mtlb system up h as a whole
+
+Consistency -> node B ke pass data h , a = 10 hua B ne, to C ne write kra a = 10;
+so, consistency ka mtlb h ki kahi bhi write kro and dusre se read kro to same hi data milega
+
+
+ Availablity -> means all nodes should respond kre
+
+WHY NOT CAP teeno > 
+
+see CP case me availablity gyi 
+dekho, agar B and C ka link tuta h to C ko down kr do 
+to sari request B handle krega and data consistent hoga 
+and bcz as a whole its working so it is P 
+
+CA
+to isme jab link tuta to system hi down kr dia 
+to jab up hoga to Consistent rhega and available h 
+
+AP 
+usme data consistent nhi rhega kyuki link down h to B pe update ho gya but C pe purana data h but available h dono 
+
+ab CAP nhi hoga 
+kuki agar link break hua to ya to ek ko down krna padega 
+ya inconsistent data rakhna padega 
+
+
+################### Microservices ##########################
+
+Monolithic-> legacy services, ek hi application me sari functionality daal di 
+payment, order, custormer sab kuch ek me 
+disadvantages; overloaded IDE, GBs me phuch jaate h code hi load nhi hoke data 
+
+scaling is hard, CI jobs = Continous Integration 
+thoda bhut bhi change krna h to 
+pure ko me change kro , tight coupled honge, so dikkat hoge,
+
+puri hi application deploy krna hoga 
+ek particular order wali cheez (API) pe hi jyada request aa rhi h to keval usse upgrade nhi kr sakte 
+to sare ko upgrade krna hoga 
+
+Saare dis of monolithic is advantage of microservices 
+
+choti choti services me tod do, 
+ek hi particular service ko update, scale, CI CD kro, 
+km dikkat honge,
+
+to aaj kl to microservices hi chalti h 
+DIs adv dekhte h iske 
