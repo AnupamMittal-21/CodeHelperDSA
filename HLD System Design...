@@ -140,3 +140,105 @@ ek service ki hi transaction banegi, so uss caseme dikkat hoti h
 
 MICRO: kitna small ?? 
 any defination>?  
+
+phases of microservices 
+
+Decomposition 
+By business capablities 
+by subdomain
+Database 
+Communicaion  API
+INTEGRATION API gateway
+Observity 
+
+
+Decomposition in detail 
+
+by business capablities 
+online order app: order management, prduct management, 
+account management, billing, payment, login inn sab ki alag service bana do  
+
+Decomposition by submodulees domain driven design(DDD)
+
+order management is domain ab iske mutliple microservices ho sakti h 
+
+3 patterns 
+
+Strangler Pattern | SAGA Pattern  | CQRS pattern
+
+Strangler kaam lete h jab monolithic se micro me jate h 
+imp h ye 
+to basically isme h ki monolithic se load km kro dheere dheere 
+and agar micro wale sahi se chal rheh to uspe traffic increase kro 
+nd monolithic pe decrease krdo 
+and agar kahi fail hota h micro to sara traffic monolithic pe transfer kr do 
+
+
+SAGA -> Data management in microservices , Database for each individual service, shared DB 
+
+Database for each individual service: s1 has d1, s2 has d2 
+shared me s1, s2, s3 has d1 
+
+to shared bekar h kyuki shared h to individual component ka db scale nhi kr sakte 
+kisi ko data delete krna h to dekhna padega ki koi aur service to nhi afect honge iss se 
+
+easy baat h ki join vghr easy h 
+transactional (ACID) easily follow ho jayega 
+
+
+individual is success 
+Local transaction is possible 
+ACID maintain ho jayegni 
+koi aisi query ya data h jo teeno db ko use kre 
+to distributed db me kese query krenge 
+
+Join ko solve kra h CQRS ne agar tables different db me h to 
+
+s1 has db1 , s2 has db2 s1 ko db2 se data chaiye h to dorect access nhi krega 
+vo s2 se maangega via API 
+
+
+SAGA 
+isme aisa h ki sequence bana rhe h hm local transactions ki 
+and isme event generate hoga isse listen krega next wala micro sevvice and upadate krega its db. if it fails then vo revert back krega failure event ko and aage wale sab rollback kr lenge 
+
+2 types : Choreography and orcheastrator
+choreo me queue me update krte h status and multiple service waha se read krti h 
+and isme loop ho sakta h 
+
+ochestrator me ek admin maan lo jo sequence ko maintain rakhta h 
+
+
+
+CQRS : Command Query Request Segregation 
+Joins krne h tables from different db 
+
+so we create a new view 
+CRUD ye apne apne db pe honge, 
+Read operation view pe hoga 
+View upadate hote rhte  h 
+procedure bana sakte h
+
+
+########################## Scale from 1 to 1 Million ###########
+...........
+.........
+.......
+.....
+...
+.
+
+
+1 - Single Server 
+isme  server application and DB saath me h, client ho sakta h  koi web ya mobile 
+and ye simple most h jo hm clg me banate h 
+
+2 - Application and DB seperation 
+client
+application server (Business logic - Mid tier)
+db server 
+
+yaha ab 3 layer ho gyi h 
+
+
+3 - Implement load balancer 
