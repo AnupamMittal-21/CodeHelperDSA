@@ -1,0 +1,101 @@
+Keval rand() function same hi values banata h baar baar bcz vo ek particular jagah pe point krta h 
+and agar time(0) daal dete h to vo time ke saath sath starting change ho jati h to different call krta h 
+
+
+// C++ program to generate random numbers 
+#include <cstdlib> 
+#include <iostream> 
+#include <time.h> 
+using namespace std; 
+  
+int main() 
+{ 
+    // This program will create different sequence of 
+    // random numbers on every program run 
+  
+    // Use current time as seed for random generator 
+    srand(time(0)); 
+  
+    for (int i = 0; i < 4; i++) 
+        cout << rand() << " "; 
+  
+    return 0; 
+}
+
+How srand() and rand() are related to each other?
+srand() sets the seed which is used by rand to generate “random” numbers. If you don’t call srand before your first call to rand, it’s as if you had called srand(1) to set the seed to one. 
+In short, srand() — Set Seed for rand() Function. 
+
+
+Deck shuffling problem 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Function which shuffle and print the array
+void shuffle(int card[], int n)
+{
+    // Initialize seed randomly
+    srand(time(0));
+ 
+    for (int i=0; i<n ;i++)
+    {
+        // Random for remaining positions.
+        int r = i + (rand() % (52 -i));
+ 
+        swap(card[i], card[r]);
+    }
+}
+ 
+// Driver code
+int main()
+{
+    // Array from 0 to 51
+    int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8,
+               9, 10, 11, 12, 13, 14, 15,
+               16, 17, 18, 19, 20, 21, 22,
+               23, 24, 25, 26, 27, 28, 29,
+               30, 31, 32, 33, 34, 35, 36,
+               37, 38, 39, 40, 41, 42, 43,
+               44, 45, 46, 47, 48, 49, 50,
+               51};
+ 
+    shuffle(a, 52);
+ 
+    // Printing all shuffled elements of cards
+    for (int i=0; i<52; i++)
+        cout << a[i] << " ";
+    cout << endl;
+ 
+    return 0;
+}
+
+
+Captcha generation 
+
+using namespace std;
+ 
+// Returns true if given two strings are same
+bool checkCaptcha(string& captcha, string& user_captcha)
+{
+    return captcha.compare(user_captcha) == 0;
+}
+ 
+// Generates a CAPTCHA of given length
+string generateCaptcha(int n)
+{
+    time_t t;
+    srand((unsigned)time(&t));
+ 
+    // Characters to be included
+    char* chrs = "abcdefghijklmnopqrstuvwxyzABCDEFGHI"
+                 "JKLMNOPQRSTUVWXYZ0123456789";
+ 
+    // Generate n characters from above set and
+    // add these characters to captcha.
+    string captcha = "";
+    while (n--)
+        captcha.push_back(chrs[rand() % 62]);
+ 
+    return captcha;
+}
+ 
