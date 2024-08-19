@@ -1,0 +1,62 @@
+Modern Databases
+Key value db 
+Redis hota h 
+like js objects pyhton dict 
+
+redis -> set user:23:bio "isfaj"
+get user:23:bio 
+
+DB server me ram me store hota h  (stores on disk)
+they are very fast but has limited space 
+no querying , no joinds
+
+caching/pub/sub/leaderboards usecase 
+
+
+Wide column cassandra, hbase
+can handle unstructures, 
+scaling aasan 
+decentrailsed so hori scaling is easy
+
+freq write 
+
+
+Document based : Mongo db, firestore, dynamo db
+ye ache h stable and reliable 
+no schema , collections hote h . heiracthy
+no joins 
+
+read fast/ write slow
+
+
+
+System design ke liye dbms 
+
+Caching => Redis 
+video, audio vghr => blob storages => Amazon S3 + CDN => distribution ke ;iye 
+accross the globe baatne ke liye 
+
+seller , amazon types : searching vghr ke liye 
+Text search enginfe, elastic search, solar 
+
+airportt search kra, galat spell pe bhi to edit distance, me fuzziness dalte h 
+
+ye search engine h, 
+db me hota h ki data loss nhi hoga 
+
+matrix vghr time series databases use krte h t1. t2 me append hoga 
+openTS db use krenge 
+
+bhut bada data h, amazon ka and analysis chaiyeh 
+to use krenge big data concept, data warehouse, hadoop  use kro 
+
+structured h to relational use kro, 
+need acid then RDBMS (oracle sql server, MS sql. mysql, postgres), 
+
+catalogue types to use document types eg mongodb, couch base, 
+isme raad and query dono ache hote h 
+bhut sare data types h 
+
+ever increasing data, h to use columnar db, cassandra , HBase 
+and less query 
+
