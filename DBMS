@@ -21,6 +21,99 @@ decentrailsed so hori scaling is easy
 freq write 
 
 
+
+
+Triggers in DBMS 
+
+automatically code run after/before some condition 
+eg sending email on registering new users 
+
+Create Trigger trigger_name 
+(before | after)
+INsert | update | delte 
+on table_name
+[for each row | for each column ]
+[trigger body]
+
+
+
+eg:
+create trigger sample_trigger 
+before insert on students
+for each row
+set new.marks = new.marks+6;
+
+Nested Ttrigger 
+infinite loop lag sakta h to sahi se use kro 
+operations in trigger 
+
+drop: remove trigger from db
+DROP TRIGGER trigeer_name ;
+show: 
+SHOW TRIGGERS IN db_name;
+insert : 
+before : update or validate recodrd before saved to db
+
+
+Create trigger trigger_name 
+after INSERT
+on student
+for each row
+insert into final_mark values(new.marks);
+
+
+
+STORED PROCEDURES: 
+piece of code that we use more often 
+mtlb function type hi samajh lo ki bass call kr dia 
+baar baar 
+
+DELIMITER $$  becoz ; milte hi vo stop ho jata h to hmne temporarily change kr dia 
+CREATE PROCEDURE get_cust()
+BEGIN
+ SELECT * FROM customers;
+END $$
+DELIMITER ;
+
+
+invoke ke liye
+CALL get_cust();
+CALL get_cust()
+
+DROP get_cust;
+
+DELIMITER $$
+CREATE get_cust(IN id INT, IN f_name VARCHAR(50))
+BEGIN
+  SELECT * FROM STU where Cust_id = id AND 
+  f_name = f_name;
+END $$
+DELIMITER ;
+
+CALL find_cust(1, "larry");
+
+
+reduces network traffic
+increases performance
+control 
+
+create table stu(empID varchar(255), fname varchar(33), 
+id INT primary key auto increment);
+
+select empId, TRIM(empID) as IDTRim 
+from emp;
+dono end se spaces hata dega 
+, REPLACE(lastName, '-Fired', '') as LAST
+
+, start, length  hota h isme 
+SUBSTRING(firstName, 1, 3)
+1 se start hoke 3 char 
+indexing string ki 1 se hi hoti h isme 
+
+
+SELECT DISTINCT
+
+
 Document based : Mongo db, firestore, dynamo db
 ye ache h stable and reliable 
 no schema , collections hote h . heiracthy
