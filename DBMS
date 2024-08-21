@@ -153,3 +153,99 @@ bhut sare data types h
 ever increasing data, h to use columnar db, cassandra , HBase 
 and less query 
 
+
+
+INDEXING 
+
+see, koi bhi query krte h to hme vo data Secondary storage se lana hota h 
+and usko phle ram me load krenge tab uspe cpu search kr sakega
+but ram me laate h hm blocks 
+maan lo block size = 100 , so ek i/o me 100 records aaye and unpe search hua 
+ab mil gya to hit, bhi to miss,s and swap hoga next block see 
+
+now indexing se hm ye i/o wali cheez reduce krte h 
+means hm no of block in / out reduce krte  h 
+
+searching time to lagega hi utn a 
+
+Now sparse tabhi lagegi agar vo ordered h to, nhi to dense lagegi 
+
+types of indexing 
+
+1 - Primary 
+clustered 
+secondary 
+
+ordered file => Primaary index | Clustered Index
+Unordeed file > Secondary Index| Secondaey index
+                -> Key         | Non Key 
+
+
+primary key lagai h to oracle ya sql me automatically primary key lag jati h 
+to isme sparse ban sakti h indexing 
+
+harr block ke liye ek entry hoti h sparse me 
+dense me no of entreies = no of records total walw 
+log2N + 1 itna TC h 
+
+
+Clustered index, 
+lik1 
+1 
+1
+1
+2
+2
+3
+3
+3
+3
+3
+3
+3 h to 
+1 ke liye ek pointer
+2 ke liye ek pointerr aisa kuch kr sakte h 
+but ho sakta h ki 1 ek block me na fit ho
+to block hanker, use hoga 
+mtlb ki agle block me bhi krte raho 
+
+Sparse banega 
+
+
+Atmost 1 primary ya clustered bante h
+
+
+Secondary means 
+ki jese ID pe primary index laga diya h 
+ab laga rhe h PAN Number pe 
+and ye hmesha dense hoga coz ek block ko represeent nhi kr sakte aise 
+
+key type h to vo indexing wale table me to sorted lag sakte h 
+
+aur non key h to ek Name_1 ka ek block bana dia kind of vector bana dia 
+h 
+dense + sparse 
+dense hi h ye 
+ye ek intermediate layer h 
+
+
+
+
+VIEWS in SQl
+
+
+CREATE VIEW DetailsView AS
+SELECT NAME, ADDRESS
+FROM StudentDetails
+WHERE S_ID < 5;
+
+
+Multiple tables se 
+CREATE VIEW MarksView AS
+SELECT StudentDetails.NAME, StudentDetails.ADDRESS, StudentMarks.MARKS
+FROM StudentDetails, StudentMarks
+WHERE StudentDetails.NAME = StudentMarks.NAME;
+
+
+Dropn
+DROP VIEW view_name;
