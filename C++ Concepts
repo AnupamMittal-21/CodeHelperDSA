@@ -98,4 +98,51 @@ string generateCaptcha(int n)
  
     return captcha;
 }
- 
+
+
+
+About Compiler 
+Machine keval Machine Language samajhti h 
+ie 0 and 1 
+set of instructions in 0, 1 is known as machine language 
+
+high level languages have to be re-written (translated) into machine language at some point. This is done by special programs called compilers, interpreters, or assemblers that are built into the various programming applications.
+
+
+C++ is compiled language,  that it is generally translated into machine language that can be understood directly by the system, making the generated program highly efficient. For that, a set of tools are needed, known as the development toolchain, whose core are a compiler and its link
+
+Console programs are programs that use text to communicate with the user and the environment, such as printing text to the screen or reading input from a keyboard.
+
+#include <iostream>
+Lines beginning with a hash sign (#) are directives read and interpreted by what is known as the preprocessor. They are special lines interpreted before the compilation of the program itself begins. In this case, the directive #include <iostream>, instructs the preprocessor to include a section of standard C++ code, known as header iostream, that allows to perform standard input and output operations, such as writing the output of this program (Hello World) to the screen.
+
+The function named main is a special function in all C++ programs; it is the function called when the program is run. The execution of all C++ programs begins with the main function, regardless of where the function is actually located within the code.
+
+First, std::cout, which identifies the standard character output device (usually, this is the computer screen). Second, the insertion operator (<<), which indicates that what follows is inserted into std::cout.
+
+
+// line comment
+/* block comment */
+
+the first one uses its unqualified name (cout), while the second qualifies it directly within the namespace std (as std::court).
+
+although note that explicit qualification is the only way to guarantee that name collisions never happen means std::cout 
+acha h agar collision ke chances h to 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
