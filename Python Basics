@@ -1,0 +1,68 @@
+PYTHON 
+
+Python Division Operator
+The division operator ‘/ ‘ performs standard division, which can result in a floating-point number. However, if both the dividend and divisor are integers, Python will perform integer division only if the result is an integer. Otherwise, it will produce a floating-point result.
+
+10 / 3 = 3.333333…
+10 / 5 = 2.0
+5 / 2 = 2.5
+-17 / 5 = -3.4
+-17 / -5 = 3.4
+
+Floor Division in Python
+The floor division operator // performs division and returns the largest integer that is less than or equal to the division result. It truncates (rounds down) the fractional part of the result, ensuring that the result is always an integer.
+10 // 3 = 3
+10 // 5 = 2
+5 // 2 = 2
+-17 // 5 = -4
+-17 // -5 = 3
+
+Star Operator in Python
+* means 2*3 = 6
+** means power 2**3 = 8
+
+/// 
+arr = ['sunday', 'monday', 'tuesday', 'wednesday']
+# without using asterisk
+print(' '.join(map(str,arr))) 
+# using asterisk
+print (*arr) 
+o/p
+sunday monday tuesday wednesday
+sunday monday tuesday wednesday
+
+
+Passing a Function Using with an arbitrary number of positional arguments
+Here a single asterisk( * ) is also used in *args. It  is used to pass a variable number of arguments to a function, it is mostly used to pass a non-key argument and variable-length argument list.
+
+def addition(*args):
+  return sum(args)
+
+print(addition(5, 10, 20, 6))
+isme kitne bhi arguments pass kr do 
+
+
+Passing a  Function Using with an arbitrary number of keyword arguments
+Here a double asterisk( ** ) is also used as **kwargs, the double asterisks allow passing keyword arguments. This special symbol is used to pass a keyword arguments and variable-length argument lists. It has many uses, one such example is illustrated below
+ 
+# using asterisk
+def food(**kwargs):
+  for items in kwargs:
+    print(f"{kwargs[items]} is a {items}")    
+food(fruit = 'cherry', vegetable = 'potato', boy = 'srikrishna')
+o/p = cherry is a fruit
+isme key ke sath bhejne hote h 
+
+
+Precedence of Arithmetic Operators in Python
+The precedence of Arithmetic Operators in Python is as follows:
+
+P – Parentheses
+E – Exponentiation
+M – Multiplication (Multiplication and division have the same precedence)
+D – Division
+A – Addition (Addition and subtraction have the same precedence)
+S – Subtraction
+
+Ternary in Py : 
+min = a if a < b else b
