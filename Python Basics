@@ -66,3 +66,163 @@ S – Subtraction
 
 Ternary in Py : 
 min = a if a < b else b
+
+
+
+== and is me difference 
+== basically value compare krta h 
+is compare krta h address 
+
+What is == Operator?
+To compare objects based on their values, It calls the left object’s __eq__() class method, which specifies the criteria for determining equality.
+
+What is the ‘is’ Operator?
+Python identity operators (is, is not) are used to compare objects based on their identity. When the variables on either side of an operator point at the exact same object, the “is” operator’s evaluation is true. Otherwise, it would provide us with a false assessment.
+
+Identity vs Equality operators
+# Equality operator
+a=10
+b=10
+
+Case 1:
+# Return True because both a and b have the same value
+print(a==b)
+True
+
+Case 2:
+# Return True because both a and b is pointing to the same object   
+print(id(a))
+2813000247664   
+
+print(id(b))
+2813000247664    
+
+a is b
+True
+
+Case 3:
+# Here variable a is assigned to new variable c, 
+# which holds same object and same memory location
+c=a       
+id(c)
+2813000247664
+
+a is c     
+True
+Example 1: 
+list1 = []
+list2 = []
+list3 = list1
+ 
+# case 1
+if (list1 == list2):
+True
+
+# case 2
+if (list1 is list2):
+False
+ 
+# case 3
+if (list1 is list3):
+True
+     
+# case 4
+list3 = list3 + list2
+ 
+if (list1 is list3):
+False
+
+Explanation:
+
+The output of the first case, if the condition is “True” as both list1 and list2 are empty lists
+The output of the second case, if the condition shows “False” because two empty lists are at different memory locations. Hence list1 and list2 refer to different objects. We can check it with id() function in python which returns the “identity” of an object.
+The output of the third case, if the condition is “True” as both list1 and list3 are pointing to the same object.
+The output of the fourth case, if the condition is “False” because the concatenation of two lists always produces a new list.
+Example 2:
+This shows that list1 and list2 refer to different objects.
+
+list1 = []
+list2 = []
+ 
+print(id(list1))
+print(id(list2))
+Output: 
+
+139877155242696
+139877155253640
+The difference between == and is operators in Python
+Parameters	
+is Operator
+
+== Operator
+
+Name	The ‘is’ is known as the identity operator.	The ‘==’ is known as the equality operator.
+Uses	When the variables on either side of an operator point at the exact same object, the is operator’s evaluation is true. Otherwise, it will evaluate as False.	When the variables on either side have the exact same value, the == operator evaluation is true. Otherwise, it will evaluate as False.
+
+
+Both High level language and low level language are the programming languages’s types. The main difference between high level language and low level language is that, Programmers can easily understand or interpret or compile the high level language in comparison of machine. On the other hand, Machine can easily understand the low level language in comparison of human beings. Examples of high level languages are C, C++, Java, Python, etc. Let’s see the difference between high level and low level languages:
+
+1.	It is programmer friendly language. -------------	It is a machine friendly language.
+2.	High level language is less memory efficient. -------------	Low level language is high memory efficient.
+3.	It is easy to understand.	------------- It is tough to understand.
+4.	Debugging is easy. -------------	Debugging is complex comparatively.
+5.	It is simple to maintain.	-------------It is complex to maintain comparatively.
+6.	It is portable.	-------------It is non-portable.
+7.	It can run on any platform.	-------------It is machine-dependent.
+8.	It needs compiler or interpreter for translation.	-------------It needs assembler for translation.
+9.	It is used widely for programming.	-------------It is not commonly used now-a-days in programming.
+
+
+Pthon
+It is an interpreted language because it executes line-by-line instructions. 
+
+Python does not convert high level code into low level code as many other programming languages do rather it will scan the entire code into something called bytecode. every time when Python developer runs the code and start to execute the compilation part execute first and then it generate an byte code which get converted by PVM Python Virtual machine that understand the analogy and give the desired output.
+IMPOrtant  h ye 
+
+
+Interpreted Languages: Perl, BASIC, Python, JavaScript, Ruby, PHP.
+Compiled Languages: C, C++, C#, COBOL and CLEO.
+
+interpreter high level code ko machine level language me kr deta h convert 
+vo bhi line by line 
+
+
+Python interpreter is written in C programming language as we all know that C is considered as mother of all programming languages, Python interpreter called “CPython”.
+
+ Python get source and check for some Indentation rule and check for errors
+
+Lexical analysis means if there are any errors Python stops its execution and make to modify to prevent errors. states that dividing the source code into list of individual tokens.
+
+In Byte code generation, once the python interpreter receives the tokens, it generates AST (Abstract Structure tree) which coverts to byte code and then byte code can be saved in (.py) extension.
+
+At last, by using Python Virtual Machine, interpreter loads the machine language and PVM converts in into 0s and 1 s which prints the results.
+
+
+in a nutshell, 
+interpreter of python in written in C, 
+python interpreter line by line chalega and lexical analysis krega means indendation and syntax check krega agr dikkat h to error dikha dega nd stop ho jayega, token banayega
+now byte code generation hota h , tokens ka , and creates AST(Abstract Syntax Tree)
+ye byte code me convert ho gya and ye byte code  save hote h .py file me 
+lastly. PVM(python virtual machine) interpreter loads the machine language and PVM convert into 0,1 and prints the result 
+
+difference
+Compiler --------- Interpreter
+
+It translates a program on a single run --------- It executes a program line by line.
+It is an Fast Process --------- It is an Slow Process
+It generates output in the form of .(exe) --------- It does not generate any form of outputs.
+It utilizes CPU more. --------- It takes less utilization of CPU
+It is used in Production environment --------- It is maximum used in Programming and development environment.
+C, C++, C# are the compiled languages ---------Python, Ruby, PHP are the interpreted languages.
+It takes lot of time to analyze the code structure ---------It takes less time compared to compilers.
+
+
+Advantages of using Interpreter
+It is flexible and error localization is easier.
+It is smaller in size.
+It executes line by line execution.
+
+Disadvantages of using Interpreters
+It takes lot of time to translate.
+It is slower.
+It uses lot of storage.
