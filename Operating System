@@ -1,0 +1,10 @@
+How does a program becomes process 
+A process is an instance of a program that is executing.
+Each instance has its own address space and execution state
+The operating system reads the program into memory. but ye enough nhi h 
+The process must have an ID (the process ID ) so that the operating system can distinguish among individual processes.
+The operating system keeps track of the process IDs and corresponding process states and uses the information to allocate and manage resources for the system. The operating system also manages the memory occupied by the processes and the memory available for allocation.
+When the operating system has added the appropriate information in the kernel data structures and has allocated the necessary resources to run the program code, the program has become a process.
+
+so basically, memory, execution state, process id ye sab jab mil jata h to vo proecess ban jata h
+
