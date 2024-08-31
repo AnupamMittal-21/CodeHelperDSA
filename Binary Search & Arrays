@@ -427,6 +427,14 @@ int number = (xr & ~(xr - 1));
 
 
 Simple BS 
+
+Iterator lower_bound (Iterator first, Iterator last, const val)  
+lower_bound returns an iterator pointing to the first element in the range [first,last) which has a value not less than ‘val’  and if the value is not present in the vector then it returns the end iterator.
+
+Iterator upper_bound (Iterator first, Iterator last, const val)
+upper_bound returns an iterator pointing to the first element in the range [first,last) which has a value greater than ‘val’  and if the value is not present in the vector then it returns the end iterator.
+
+
 lower bound algorithm finds the first or the smallest index in a sorted array where the value at that index is greater than or equal to a given key i.e. x
 ISME ARR[MID]>=X PE ANS = MID HOGA 
 
