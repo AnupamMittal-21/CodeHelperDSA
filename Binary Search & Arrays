@@ -61,6 +61,18 @@ for (int i = 0; i < n; i++) {
     }
 
 sliding window se krenge jab positives h , negative and zero mefail ho jayegi ye technique..
+
+
+#################################################
+Medium Questions 
+
+2 Sum 
+1 - Brute 2 loop laga ke nums[I] + nums[j] == target
+2 - Using hash map , store krte jao and if target - nums[I] is in map return 
+		ye 2 pass ya 1 pass ho sakta h 
+3 - Sort and iterate bada h to j-- chota h to i++
+
+
 ####################################################
 Dutch National flag algorithm. 
 arr[0….low-1] contains 0. [Extreme left part]
@@ -85,14 +97,85 @@ int low = 0, mid = 0, high = n - 1; // 3 pointers
         }
     }
 ######################################  
+Majority Elemnet 
 
+int majorityElement(vector<int>& nums) {
+		int elem = nums[0];
+		int cnt = 1;
+		for(int i =1;i<nums.size();i++)
+		{
+				if(cnt==0){
+						elem = nums[i];
+				}
+				if(elem==nums[i])cnt++;
+				else cnt--;
+		}
+		return elem;
+}
+
+#####################################
+Kadane algo 
+
+int maxSubArray(vector<int>& nums) {
+		int ans = nums[0];
+		int curr= 0;
+		for(int i = 0;i<nums.size();i++){
+				// if(sum == 0) start = i;
+				curr+=nums[i];
+				ans = max(ans,curr);
+				// if(sum>maxi){maxi = sum; ansStart = start; ansEnd = i;}
+				if(curr<0){
+					 curr=0;
+				}
+		}
+		return ans;
+}
+
+to print the subarray 
+0 means starting
+maxi condition means start and end i pe ho raha h
+
+######################################
 next permutation 
 
-vhi h ki 8431 ye decresaing h to sahi h jaha break ho vo ppivot lo
-and dobara piche se dekho jaha bada ho swap kr do and pivot+1 se end tak reverse kr do 
+vhi h ki 8431 ye decreasing h to sahi h jaha break ho vo pivot lo
+and Dobara piche se Dekho jaha bada ho swap kr do and pivot+1 se end tak reverse kr do 
 
 next_permutation(arr.begin(), arr.end()) se bhi aa jayega
 
+vector<int> nextGreaterPermutation(vector<int> &A) {
+    int n = A.size();
+
+    // Step 1: Find the break point:
+    int ind = -1; // break point
+    for (int i = n - 2; i >= 0; i--) {
+        if (A[i] < A[i + 1]) {
+            ind = i;
+            break;
+        }
+    }
+
+    // If break point does not exist:
+    if (ind == -1) {
+        reverse(A.begin(), A.end());
+        return A;
+    }
+
+    // Step 2: Find the next greater element
+    //         and swap it with arr[ind]:
+
+    for (int i = n - 1; i > ind; i--) {
+        if (A[i] > A[ind]) {
+            swap(A[i], A[ind]);
+            break;
+        }
+    }
+
+    // Step 3: reverse the right half:
+    reverse(A.begin() + ind + 1, A.end());
+
+    return A;
+}
 ####################################
 
 Longest consecutive in unsorted array: 
@@ -104,6 +187,60 @@ agar elem-1 present h to continue: else while me +1 krke search
 
 vrna map me mp[prev} + 1 + mp[next] krdo 
 and insert krte chalo.
+
+######################################
+
+Duplicate and missing one
+
+Step 1: Find the XOR of the repeating number(X) and the missing number(Y)
+Step 2: Find the first different bit from right between the repeating and the missing number i.e. the first set bit from right in (X^Y)
+Step 3: Based on the position of the different bits we will group all the elements ( i.e. all array elements + all elements between 1 to N) into 2 different groups
+Last step: Figure out which one of the numbers is repeating and which one is missing
+
+
+vector<int> findTwoElement(vector<int> nums, int n) {
+		int xor_ = 0;
+		
+		for(int i = 0;i<n;i++){
+				xor_ = xor_^nums[i];
+				xor_ ^= (i+1);
+		}
+		
+		int number = (xor_ & ~(xor_-1));
+		
+		int zero = 0;
+		int ones = 0;
+		
+		for(int i = 0;i<n;i++){
+				if(nums[i] & number){
+						ones = ones ^ nums[i];
+				}
+				else{
+						zero = zero ^ nums[i];
+				}
+				int t = i+1;
+				if(t & number){
+						ones = ones ^ t;
+				}
+				else{
+						zero = zero ^ t;
+				}
+		}
+		
+		int present = -1;
+		for(int i = 0; i<n;i++){
+				if(nums[i] == zero){
+						present = zero;
+						break;
+				}
+		}
+		
+		// occur, non Occur
+		if(present == -1){
+				return {ones, zero};
+		}
+		return {zero, ones};
+}
 
 ######################################  
 
@@ -216,7 +353,8 @@ vector<vector<int>> zeroMatrix(vector<vector<int>> &matrix, int n, int m) {
     return matrix;
 }
 
-######################################  
+###################################### 
+
 Rotate Image b y 90 Degree
 1-> Approach: Take another dummy matrix of n*n, and then take the first row of the matrix
 and put it in the last column of the dummy matrix, take the second row of the matrix, and 
@@ -308,19 +446,66 @@ int posIndex = 0, negIndex = 1;
 
 Alternative pw 
 0-pos 1 - neg 2 - pos 3 - neg.. 
-######################################33
 
+######################################33
 3 sum 
+
 isme i j ka loop lagao and i se j ke beech ke store kro set me
 and if found to vo ans hoga 
 i se j bexause same elements repeat na ho 
+
+for (int i = 0; i < n; i++) {
+		set<int> hashset;
+		for (int j = i + 1; j < n; j++) {
+				//Calculate the 3rd element:
+				int third = -(arr[i] + arr[j]);
+
+				//Find the element in the set:
+				if (hashset.find(third) != hashset.end()) {
+						vector<int> temp = {arr[i], arr[j], third};
+						sort(temp.begin(), temp.end());
+						st.insert(temp);
+				}
+				hashset.insert(arr[j]);
+		}
+}
 
 optimal me 
 sort krdo 
 1 ptr fixed 2 ko move kro
 vhi sum greater to j ko km, smaller to i++ aise krna h
 
+vector<vector<int>> ans;
+sort(arr.begin(), arr.end());
+for (int i = 0; i < n; i++) {
+		//remove duplicates:
+		if (i != 0 && arr[i] == arr[i - 1]) continue;
 
+		//moving 2 pointers:
+		int j = i + 1;
+		int k = n - 1;
+		while (j < k) {
+				int sum = arr[i] + arr[j] + arr[k];
+				if (sum < 0) {
+						j++;
+				}
+				else if (sum > 0) {
+						k--;
+				}
+				else {
+						vector<int> temp = {arr[i], arr[j], arr[k]};
+						ans.push_back(temp);
+						j++;
+						k--;
+						//skip the duplicates:
+						while (j < k && arr[j] == arr[j - 1]) j++;
+						while (j < k && arr[k] == arr[k + 1]) k--;
+				}
+		}
+}
+
+
+#########################################
 4 sum 
 n^4, 
 3 loop and set
@@ -329,7 +514,7 @@ isme i j hoga phir j se k beech me set me store krnge
 isme 2 fixed honge and 2 moving me vhi logic bada chota wala 
 
 
-##################
+####################################
 
 xor wala 
 to isme n3 wala to sahi h normal h 
@@ -340,18 +525,18 @@ vo simply curr_xor ^ K hoga, kyuki k phle hi le chuke h and
 ab dobara le rhe h to cancel ho gye 
 
 int xor_ = 0;
-    int ans = 0;
-    for(int i = 0;i<n;i++){
-        xor_^= A[i];
-        if(xor_ == B){
-            ans++;
-        }
-        
-        if(mp.find(xor_^B)!=mp.end()){
-            ans+=mp[xor_^B];
-        }
-        mp[xor_]+=1;
-    }
+int ans = 0;
+for(int i = 0;i<n;i++){
+		xor_^= A[i];
+		if(xor_ == B){
+				ans++;
+		}
+		
+		if(mp.find(xor_^B)!=mp.end()){
+				ans+=mp[xor_^B];
+		}
+		mp[xor_]+=1;
+}
 
 #############################
 Find the repeating and missing numbers
@@ -418,12 +603,116 @@ ACHAA H QUESTION YE....
 int number = (xr & ~(xr - 1));
 
 
+####################################################
+Count Inversions and similar question Reverse Pairs (nums[i] > 2*nums[j])
+
+Merge Sort based h ye question
+Merge sort ka code likh do and bass merge me vo concept laga do jo bhi check krna h 
+
+int Merge(vector < int > & nums, int low, int mid, int high) {
+		int total = 0;
+		int j = mid + 1;
+		for (int i = low; i <= mid; i++) {
+				while (j <= high && nums[i] > (long long)2 * nums[j]) {
+				j++;
+				}
+				total += (j - (mid + 1));
+		}
+
+		vector < int > t;
+		int left = low, right = mid + 1;
+
+		while (left <= mid && right <= high) {
+
+				if (nums[left] <= nums[right]) {
+				t.push_back(nums[left++]);
+				} else {
+				t.push_back(nums[right++]);
+				}
+		}
+
+		while (left <= mid) {
+				t.push_back(nums[left++]);
+		}
+		while (right <= high) {
+				t.push_back(nums[right++]);
+		}
+
+		for (int i = low; i <= high; i++) {
+				nums[i] = t[i - low];
+		}
+		return total;
+		}
+int MergeSort(vector < int > & nums, int low, int high) {
+
+		if (low >= high) return 0;
+		int mid = (low + high) / 2;
+		int inv = MergeSort(nums, low, mid);
+		inv += MergeSort(nums, mid + 1, high);
+		inv += Merge(nums, low, mid, high);
+		return inv;
+}
+int reversePairs(vector < int > & arr) {
+		return MergeSort(arr, 0, arr.size() - 1);
+}
+
+
+######################################
+Majority Element >n/3
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int count1 = 0, count2 = 0; 
+        int candidate1 = 0, candidate2 = 0; 
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (count1 == 0 && nums[i] != candidate2) {
+                count1 = 1;
+                candidate1 = nums[i];
+            } 
+            else if (count2 == 0 && nums[i] != candidate1) {
+                count2 = 1;
+                candidate2 = nums[i];
+            } 
+            else if (candidate1 == nums[i]) {
+                count1++;
+            } else if (candidate2 == nums[i]) {
+                count2++;
+            } 
+            else {
+                count1--;
+                count2--;
+            }
+        }
+
+        vector<int> result;
+        int threshold = nums.size() / 3; // Threshold for majority element
+        count1 = 0, count2 = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (candidate1 == nums[i]) {
+                count1++;
+            } else if (candidate2 == nums[i]) {
+                count2++;
+            }
+        }
+        if (count1 > threshold) {
+            result.push_back(candidate1);
+        }
+        if (count2 > threshold) {
+            result.push_back(candidate2);
+        }
+
+        return result;
+    }
+};
 
 ....................... BINARY SEARCH............................
-
-
-
-
+....................... BINARY SEARCH............................
+....................... BINARY SEARCH............................
+....................... BINARY SEARCH............................
+....................... BINARY SEARCH............................
+....................... BINARY SEARCH............................
 
 
 Simple BS 
