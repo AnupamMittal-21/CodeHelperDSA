@@ -92,10 +92,22 @@ string infixToPostfix(string s) {
     return ans;
 }
 
+################################ Infix to PreFix ##########################################
 
-################################ Infix to PostFix ##########################################
+1 - Reverse the infix
+2 - Infix to postfix priority lower h to hi pop(phle <= pe pop tha)
+but ^ ke case me <= chalega  baakio me only < chalega
+3 - Reverse the postfix
 
 
+################################ PostFix to Infix ##########################################
+2 operand uthao stack se and beech me operator lagao and push kr do result ko stack me
+after wrapping around brackets
+
+################################ PreFix to Infix ##########################################
+-MN
+h to 
+M - N  push krna h 
 ////
 
 
