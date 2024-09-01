@@ -1,5 +1,6 @@
 Stacks and Queue
-################################ Implementation based Questions #################################
+
+############## Implementation based Questions ###############
 
 Implement Stack Using Arrays
   => Array lo, and one pointer at -1 initially, 
@@ -487,12 +488,12 @@ O(N^2)
 => Use Hashing and store one of the LL in map, traverse in other if this node is in Map return that
 O(NlogN)
 
-=> Reverse both the ll and then check ki kaha mil rhe h 
-TC: O(N)
-
 => Calculate len of each and jo bada ho usse extra pointer move kro
     and then dono ko simultaneously move krao and jab same ho to return 
 
+=> Ek tareeka h jo length jesa hi h vo h ki ek ptr jab null ho jaye to durse ke head pe point krdo and vice versa until they meet...
+termination condition is temp1 != temp2
+if temp1 is not null means there is an intersection else no intersection
 
 
 ############################# Remove all occurances of X ###################################
@@ -571,7 +572,8 @@ Or simply iterate and check for previous and if it is same then delete it.
 nothing new
 
 
-########################### Add 1 to linked List ##############################################
+################ Add 1 to linked List ###################
+
 Simply do a recursive code 
 and return the carry and if carry is 1 then add in current 
 
@@ -606,7 +608,7 @@ SC: O(1) upar wale me n thi
 
 
 
-################################# Add two linked List #########################################
+################## Add two linked List ######################
 
 Keep 2 pointers, and check if the pointers values and carry > 9 , if it is then carry = 1
 and else carry = 0
@@ -618,7 +620,7 @@ now if carry is still 1 then create a new node of 1
 
 
 
-################################# Sort a LL ####################################################
+########################### Sort a LL ###############################
 
 Simply use the merge sort as this is most benefecial coz recursively break krke sort kr rhe h.
 class Solution {
@@ -670,7 +672,7 @@ public:
 
 
 
-############################### Hard Linked List Questions... ##################################
+######################### Hard Linked List Questions... ###################
 
 ## Flattening LL 
 Great Question man....
@@ -715,7 +717,7 @@ Node *flatten(Node *root) {
 put all elements in array and then simply sort it 
 
 
-###################### Random Pointer question to create deep copy ##########################
+################### Random Pointer question to create deep copy #################
 Nice this one also...
 
 Simple hi h basss ye h ki phle iterate krke map me corresponding nodes rakhlo
