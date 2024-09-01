@@ -802,9 +802,7 @@ public:
 };
 
 
-#############################################################################################
-############################################################################################
-############################# Rotation Based question on sorted array ######################
+################## Rotation Based question on sorted array ######################
 
 Search in Rotated : 
 
@@ -877,7 +875,7 @@ bool search(vector<int>& nums, int target) {
 //// isme jab mid and low and high equal h to hm decide nhi kr payenge ki kaha jaana h to uss case me l++, r-- krdo baki same h
 
 
-############################## Finding Peak Element ##########################################
+################# Finding Peak Element ###########################
 
 int findPeakElement(vector<int>& nums) {
         int start = nums[0];
@@ -898,6 +896,7 @@ int findPeakElement(vector<int>& nums) {
 
 Finding Peak in 2D arrat
 Brute : scan each elem and check for 4 nighbour : n*m*4  => worst case
+
 so we can only optimiset the worst case scenario... 
 
 Better : find the largest one = m*n for best, avg 
@@ -951,10 +950,15 @@ int findMin(vector<int>& nums) {
     }
 
 
-#######################............BS ON ANSWERSS...........###################################
+...........................BS ON ANSWERS............................
+...........................BS ON ANSWERS............................
+...........................BS ON ANSWERS............................
+...........................BS ON ANSWERS............................
+
 isme ye h ki -1 and N index = -INF so vo bhi ans me ho sakte h, aur mutliple Peak ho sakte h
 to kahi bhi converge kro 
-################ This is the Pattern for BS on answers ########################################
+
+########### This is the Pattern for BS on answers ###################
 
 See isme kya identification h : Maximise the minimum OR Minimise the maximum 
 
@@ -1064,7 +1068,7 @@ int aggressiveCows(vector<int> &stalls, int k)
 
 
 
-##################################### BS Median of 2 sorted ARRAYS ###########################
+############### BS Median of 2 sorted ARRAYS ###########################
 
 Brute too vhi h merge krdo and median nikal do , isme bhi space use krne ki jarurat nhi h 
 simply 2 vaiable me store krlo jab len n.2 ho jaye
@@ -1121,17 +1125,22 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
 		}
 		return -1;
 }
- both ki 
+
+both ki 
 TC : log of min(n1,n2);
+
+
 Iska extensaion h Kth number in 2 sorted array 
 so isme e imp baat h ki low = max(0, k-n2) and high = min(n1, k) becoz 
 5 6 h n1, n2 and  k = 8 h to atleast 2 to lena hi padega nums1 me se .....
 baki sab same h 
 
-##### Median in 2d row wise sorted array #############
+
+############## Median in 2d row wise sorted array ###################
 
 To isme hme krna h ki aisa element dhundhna h jiska <= wala count >=n/2 ho
 basically count ke liye to upper bound use kr lia and BS laga dia mini se maxi pe 
+
 int smallerElement(vector<vector<int>> &nums, int mid, int R){
         int ans = 0;
         for(int i = 0;i<R;i++){
@@ -1139,6 +1148,7 @@ int smallerElement(vector<vector<int>> &nums, int mid, int R){
         }
         return ans;
     }
+
     int median(vector<vector<int>> &nums, int R, int C){
         int l = 1e9;
         int r = -1e9;
@@ -1160,9 +1170,11 @@ int smallerElement(vector<vector<int>> &nums, int mid, int R){
         }
         return l;
     }
-###################################### BS ON 2D arrays #####################################################
 
-################### Row with max 1s
+
+############### BS ON 2D arrays ########################
+
+################### Row with max 1s ############
 
 	ye interesting ques h as isme phle sorted h on each list, so hme max no of ones ka count batana h 
 	now ism brute ho gy i n*m ki
@@ -1216,12 +1228,14 @@ int bs(vector<int> &nums, int l, int r){
     }
 
 
-################# Search in 2D matrix ##########################3
+################# Search in 2D matrix ##########################
+
 ye case h ki element in next row is graeter then last element o previous row , tabhi hm vo log(n*m ) wala laga sakteh 
 
 Brute is O(n*m)
 
 Better is (n + logM) - harr row me jao and see if starting and ending ke beech me h target agar h 
+
 to BS lagado uss row me
 else neeche chalte rho 
 
