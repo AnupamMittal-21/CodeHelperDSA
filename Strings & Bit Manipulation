@@ -1,4 +1,4 @@
-####################################### Bit Manipulation ######################################
+############################ Bit Manipulation #############################
 
 # Concept....
 
@@ -38,7 +38,7 @@ _____________
 1 = Flip bits 
 2 = Check if it is negative now then find 2's compliment, else leave as it is
 
-################################ Questions ##############################################33
+################################ Questions #################################
 Get ith bit: ((1<<i) & num) !=0
 Set ith bit: num | (1<<i)
 Clear ith bit: num & ~(1<<i)
@@ -66,7 +66,7 @@ Minimum Bit flips to make x to y
 find the xor, as it will be 1 when bits are not equal, then find no of set bits.
 
 
-############# 3 occurances of all number and 1 occurance of 1 number, find this number #########
+##### 3 occurances of all number and 1 occurance of 1 number, find this number #####
 
 => Now, lets say a bit position is set for a number so 3 occurances would be there, 
     and another 3 occurances would be there and so on, so it the ans one is also set so 
@@ -95,7 +95,7 @@ TC: O(N)
 SC: O(1)
 
 
-################################# 2 elem single h baaki double #################################
+########################## 2 elem single h baaki double ###############
 => Use hash
 => Sabhi ka XOR nikal lo 
 XOR = A^B
