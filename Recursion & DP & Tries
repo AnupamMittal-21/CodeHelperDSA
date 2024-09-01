@@ -213,8 +213,77 @@ Create Power Set in uniques
     fun(i+1, n, nums, temp, ans);
 }
 
+############################
+Count the number of subset with sum = k 
+void fun(int i, int n, int sum, int *nums, int &ans){
+   if(i==n){
+       if(sum == 0){
+           ans++;
+       }
+       return;
+   }
+   
+   if(nums[i]<=sum)
+   fun(i+1, n, sum-nums[i], nums, ans);
+   fun(i+1, n, sum, nums, ans);
+   
+}
 
-......... TRIES.........
+##############################
+Better String, means ki kiske subsequences jyada honge uniques wale, length same h 
+
+bhut hi acha question h ye....
+see dp[0] = 1 means ki {} empty string 
+ab as we move we have 2 options, take, and not take isiliye *2 kr rhe h hm 
+
+now map me store krenge ki kaha tha previously encounter vo string
+and do store krega yaha tak kitni subsequences h 
+to indexing one based h isiliye map me and s me i-1 h 
+and dp[idx] h kyuki uss element ke ek peeche wala hi chaiye h count kyuki vhi repeat honge
+
+....nice question....
+
+class Solution {
+  public:
+    int helper(string s){
+        map<char,int> mp;
+        int n = s.size();
+        vector<int> dp(n+1, 0);
+        dp[0] = 1;
+        
+        for(int i = 1;i<=s.size();i++){
+            
+            // take and not take h to *2 ho jayega phle se 
+            dp[i] = dp[i-1] * 2;
+            
+            // But agar repeating h to hme uss char tak phuchna h 
+            // and uske phle wale ke count ko minus krna h 
+            // i-1 because hm i ka mtlb h ki i size subsequence.
+            if(mp.find(s[i-1]) != mp.end()){
+                int idx = mp[s[i-1]];
+                dp[i]-=dp[idx];
+            }
+            mp[s[i-1]] = i-1;
+        }
+        return dp[s.size()];
+    }
+    string betterString(string str1, string str2) {
+        // code here
+        int a = helper(str1);
+        int b = helper(str2);
+        if(b>a){
+            return str2;
+        }
+        return str1;
+    }
+};
+
+......................... TRIES.........................
+......................... TRIES.........................
+......................... TRIES.........................
+......................... TRIES.........................
+......................... TRIES.........................
+
 When to use Tries...
 
 Tries helps in major 3 ways
