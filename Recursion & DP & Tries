@@ -490,11 +490,128 @@ void solveSudoku(vector<vector<char>>& board) {
 
 Recursion Done...
 
-......................... TRIES.........................
-......................... TRIES.........................
-......................... TRIES.........................
-......................... TRIES.........................
-......................... TRIES.........................
+.......................... DP ..........................
+.......................... DP ..........................
+.......................... DP ..........................
+.......................... DP ..........................
+.......................... DP ..........................
+.......................... DP ..........................
+
+DP on LIS..
+
+1 - LIS 
+
+dp[i] signifies the longest LIS that ends at idx i
+
+class Solution {
+public:
+    int fun(int prev, vector<int>&nums, vector<int> &dp)
+    {
+        if(prev == nums.size()){
+            return 0;
+        }
+        if(prev!= -1 && dp[prev] != -1){
+            return dp[prev];
+        }
+        int ans = 0;
+        for(int i = prev+1; i<nums.size(); i++){
+            if(prev == -1 || nums[prev]<nums[i])
+            {
+                int a= fun(i, nums, dp) + 1;
+                ans = max(a, ans);
+            }
+        }
+        if(prev!=-1){
+            dp[prev] = ans;
+        }
+        return ans;
+    }    
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n+1, -1);
+        return fun(-1, nums, dp);
+    }
+};
+
+
+int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n,1), hash(n);
+        for(int i = 0;i<n;i++){
+            hash[i] = i;
+        }
+
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    if(dp[i]<1+dp[j]){
+                        dp[i] = 1 + dp[j];
+                        hash[i] = j;
+                    }
+                }
+            }
+        }
+        
+        int maxi = 0;
+        for(int i= 0;i<n;i++){
+            if(dp[i]>dp[maxi]){
+                maxi = i;
+            }
+        }
+        int Len = dp[maxi];
+
+        vector<int> ans;
+        int i = maxi;
+        while(hash[i]!=i){
+            ans.push_back(nums[i]);
+            i = hash[i];
+        }
+        
+        ans.push_back(nums[i]);
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+
+to print LIS 
+isme kya kr rhe h ki 
+nums [ = 4 5 1 8 7 
+dp   [ = 1 2 1 3 3
+hash [ = 1 1 3 2 2
+
+
+   int lengthOfLIS(vector<int>& nums) {
+
+        int n = nums.size();
+        vector<int> lis;
+
+        lis.push_back(nums[0]);
+        for(int i =0 ;i<n;i++){
+            if(lis.back()<nums[i]){
+                lis.push_back(nums[i]);
+            }
+            else{
+                int idx =lower_bound(lis.begin(), lis.end(), nums[i]) - lis.begin();
+                lis[idx] = nums[i];
+            }
+        }
+        return lis.size();
+    }
+
+ye lis is not actually lis 
+isme hm rewrite kr dete h to lis nhi hota but longest length jarur store krta h
+
+Binary search wala tareeka h ye
+
+Largest Divisible Subset....
+
+
+
+
+......................... TRIES .........................
+......................... TRIES .........................
+......................... TRIES .........................
+......................... TRIES .........................
+......................... TRIES .........................
 
 When to use Tries...
 
