@@ -8,3 +8,37 @@ When the operating system has added the appropriate information in the kernel da
 
 so basically, memory, execution state, process id ye sab jab mil jata h to vo proecess ban jata h
 
+
+PCB in OS 
+Program Control Block 
+PCB se OS process ki information manage krta h 
+Registers, quantum, Priority ye sab bhi hota h PCB me about a process
+current state, program counter, memory use, its open file, details about CPU scheduling are stored in PCB.
+OS me stored hoti h PCB 
+
+
+
+Scheduling. memory ka sahi use krne ke liye hota h optimised way me resources ko use krna hi main motive h (CPU and memory are resources)
+
+when Process is created, a PCB is created which controls how that process is being carried out.
+
+PCB me ye ye hote h 
+
+Process State: The state of the process is stored in the PCB which helps to manage the processes and schedule them. “running,” “waiting,” “ready,” or “terminated.”
+
+Process ID: The OS assigns a unique identifier to every process as soon as it is created which is known as Process ID, this helps to distinguish between processes.
+
+Program Counter: While running processes when the context switch occurs the last instruction to be executed is stored in the program counter which helps in resuming the execution of the process from where it left off.
+
+CPU Registers: The CPU registers of the process helps to restore the state of the process so the PCB stores a copy of them.
+
+Memory Information: The information like the base address or total memory allocated to a process is stored in PCB which helps in efficient memory allocation to the processes.
+
+Process Scheduling Information: The priority of the processes or the algorithm of scheduling is stored in the PCB to help in making scheduling decisions of the OS.
+
+Accounting Information: The information such as CPU time, memory usage, etc helps the OS to monitor the performance of the process.
+
+
+Processes carried out through PCB 
+...
+
