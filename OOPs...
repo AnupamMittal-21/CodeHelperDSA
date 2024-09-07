@@ -897,3 +897,6 @@ As for coupling, it refers to how related or dependent two classes/modules are t
 
 structs can have methods.
 structs cannot be inherited
+
+
+Vtable and Vptr in cpp...
