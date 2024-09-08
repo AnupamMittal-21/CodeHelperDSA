@@ -372,7 +372,7 @@ child and parent ke common members and method h to child wale hi call honge
 aur alg h parent me to vo bhi call ho jayenge and child me alag h to vo bhi call ho jayenge
 
 
-....................................................................
+.......................................................
 Destructor : 
 
 Inside ya outside class kr sakte h scope resolution operator see 
@@ -1021,3 +1021,55 @@ jab program tries to access a memory that is not allowed to access jese ki
 -Improper formatting specifiers in printf and scanf statements.
 -Stack overflow.
 -Writing to read-only memory.
+
+
+########### EXE files ########### 
+EXE files are portable, user friendly and efficient execution 
+also ther run in closed environment hence isolated 
+
+EXE file contains binary code carrying instruction for computer CPU 
+############### Executing C/C++ code ########
+direct main function hi nhi hota h entry point
+other function call hote h phle 
+which setups arguments , prepare environment variable for program execution etc 
+EXE (executible file )
+
+
+############# String Stream in C ############
+vector<string> split(const string &s, char delimiter) {
+    vector<string> tokens;
+    string token;
+    istringstream tokenStream(s);
+    while (getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+// Function to convert IPv4 to IPv6-like format
+string ipv4ToIpv6(const string& ipv4) {
+    // Split the IPv4 address on '.'
+    vector<string> octets = split(ipv4, '.');
+    
+    if (octets.size() != 4) {
+        return "Invalid IPv4 address";
+    }
+    
+    stringstream ipv6;
+    ipv6 << "::FFFF:";
+    // Convert each octet to hexadecimal and merge them in pairs
+    for (int i = 0; i < 4; i += 2) {
+        int firstOctet = stoi(octets[i]);     // Convert first octet of the pair to integer
+        int secondOctet = stoi(octets[i + 1]); // Convert second octet of the pair to integer
+        // Combine them into a 4-digit hexadecimal number
+        ipv6 << hex << setw(2) << setfill('0') << firstOctet
+             << setw(2) << setfill('0') << secondOctet;
+        
+        // Add ':' separator between every pair except the last one
+        if (i < 2) {
+            ipv6 << ":";
+        }
+    }
+    
+    return ipv6.str();
+}
