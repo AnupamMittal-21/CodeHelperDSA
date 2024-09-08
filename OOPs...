@@ -900,3 +900,124 @@ structs cannot be inherited
 
 
 Vtable and Vptr in cpp...
+
+
+
+Memory Leak in CPP
+When promgrammer uses new( or malloc/calloc) means dynamic allocation hota h memory ka and usse deallocate nhi krte 
+like delete operator or free()
+
+NO automatic Garbage collction in cpp , isiliye programmer ki responsiblity hoti h ki vo usse free kre 
+
+n C++, there is no automatic garbage collection. It means that any memory that is dynamically allocated by the programmer needs to be freed after its usage manually by the programmer. If the programmer forgets to free this memory, it will occupy the space from till the program lives and will be unavailable to other processes. This is called memory leak.
+
+Factors 
+Neglected Deallocation: Forgetting to release memory allocated with new or malloc.
+
+Lost Pointers: Losing the reference to dynamically allocated memory, making it impossible to deallocate it.
+ye to khatarnak h ki tumpe reference hi nhi  h
+
+Exception Handling: Failing to deallocate memory in the event of an exception. ha isiliye finally hota h java me 
+
+Complex Data Structures: Improper handling of memory in complex data structures like linked lists, trees, and graphs.
+
+int* ptr = new int(5); ye dynamic h ab isse free nhi kra to memory leak kehlayegi vo 
+
+DELETE and DELETE[]
+The delete operator should be used to free a single allocated memory space, whereas the delete [] operator should be used to free an array of data values.
+
+Memory leaks can be detected using tools like Valgrind, AddressSanitizer, and Dr. Memory, as well as through manual code review.
+
+
+best practices to avoid memory leak in C++:
+
+Instead of managing memory manually, try to use smart pointers where applicable.
+Use std::string instead of char *. The std::string class handles all memory management internally, and it’s fast and well-optimized.
+Never use a raw pointer unless it’s to interface with an older lib.
+Have as few new/delete calls at the program level as possible – ideally NONE. Anything that requires dynamic memory should be buried inside an RAII object that releases the memory when it goes out of scope. RAII allocate memory in constructor and release it in destructor, so that memory is guaranteed to be deallocated when the variable leave the current scope.
+Memory allocated by new keyword should be deallocated by delete keyword.
+Memory allocated by malloc, calloc, realloc should be deallocated by free.
+
+
+
+Smart Pointers | Dangling Pointers | Void Pointers 
+
+Dangling pointer: A pointer pointing to a memory location that has been deleted (or freed) is called a dangling pointer. There are three different ways where Pointer acts as a dangling pointer:
+By deallocating memory
+Function Call
+When the variable goes out of scope
+
+points to deleted object 
+occurs during object destruction time  (free())
+
+
+Void pOinter: 
+void * 
+ye ek type h pointer ka that doesnot have any specific type..
+to ye kisi ko bhi point kr sakta h 
+char ko krana chaha to char ko, int ko , ya kisi ko bhi
+
+void pointers cannot be dereferenced. However, it can be done using typecasting the void pointer
+Pointer arithmetic is not possible on pointers of void due to lack of concrete value and size.
+its a kind of general purpose pointer 
+
+
+############ C me deallocate memory.. ########
+
+void *realloc(void *ptr, size_t size);
+
+If “size” is zero, then call to realloc is equivalent to “free(ptr)”. And if “ptr” is NULL and size is non-zero then call to realloc is equivalent to “malloc(size)”. 
+
+int *ptr = (int*)malloc(10); // isme 10 bytes ki memory lost hogi
+
+int *ptr = (int*) malloc(10);
+ 
+/* we are calling realloc with size = 0 */
+realloc(ptr, 0);
+kyuki size = 0 h to ye ek tarah se free(ptr) ke tarah kaam krega
+ab isme nhi hogi memory leak 
+
+stdlib.h me hote h ye malloc, calloc, realloc, free function
+
+############### Function call stack in C ########### 
+we have  stack, stack pointer, stack frame with us...
+
+
+
+############## Runtime Errors in CPP ##########
+
+sucessfully compile hone ke baad runtime pe hota h ye errors 
+
+types of Runtime Errors: 
+
+1 - SIGFPE: SIGFPE is a floating-point error. It is virtually always caused by a division by 0. 
+Division by Zero.
+Modulo Operation by Zero.
+Integer Overflow.
+
+2 - SIGABRT: It is an error itself is detected by the program then this signal is generated using call to abort() function. This signal is also used by standard library to report an internal error. assert() function in C++ also uses abort() to generate this signal. Below is the program to illustrate the SIGBRT error:
+
+excessive memory dene ka try krna 
+int a = 100000000000;
+int* arr = new int[a];
+
+3 - NZEC: This error denotes “Non-Zero Exit Code”. 
+For C users, agr main() method return 0 na kre
+Java/C++ me exception case me hota h, jese ki 
+
+-Infinite Recursion or if you run out of stack memory.
+-Negative array index is accessed.
+-ArrayIndexOutOfBounds Exception.
+-StringIndexOutOfBounds Exception.
+
+4 - SIGSEGV: “Segmentation Fault“.
+jab program tries to access a memory that is not allowed to access jese ki
+
+-Accessing an array out of bounds.
+-Dereferencing NULL pointers.
+-Dereferencing freed memory.
+-Dereferencing uninitialized pointers.
+-Incorrect use of the “&” (address of) and “*”(dereferencing) operators.
+-Improper formatting specifiers in printf and scanf statements.
+-Stack overflow.
+-Writing to read-only memory.
