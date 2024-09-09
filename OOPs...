@@ -1154,3 +1154,78 @@ offset position of byte code
 name of byte code instruction
 instruction’s argument
 constants or names (in brackets)
+
+
+###############  Vptr and Vtable in cpp #############
+
+The C++ language uses Vtable and Vptr to manage virtual functions.
+
+A virtual function is a member function that is declared within a base class with the virtual keyword and is re-defined (Overridden) by a derived class.
+When a class contains a virtual function, it can be overridden in its derived class and tells the compiler to perform dynamic linkage (or late binding) on the function.
+
+
+to vtable 
+compiler uses Vtable to support dynamic polymorphism 
+jab bhi kisi class me virtual function hota h to compiler creates a vtable for that class 
+ab harr object ke liye ek hidden ptr higa iss table ka 
+known as vptr
+
+The Vtable has one entry for each virtual function accessible by the class. These entries are pointers to the most derived function that the current object should call.
+
+It’s important to note that vptr is created only if a class has or inherits a virtual function.
+
+Base class 
+ virtual f1
+ virtual f2
+ virtual f2
+
+Derived: Base
+ fi
+
+derived2 :Derived
+ f2
+
+
+Base* ptr1 = new Base(); 
+Base* ptr2 = new Derived1(); 
+Base* ptr3 = new Derived2(); 
+
+ptr1->function1(); Base function1()
+ptr1->function2(); Base function2()
+ptr1->function3(); Base function3()
+ptr2->function1(); Derived1 function1()
+ptr2->function2(); Base function1()
+ptr2->function3(); Base function1()
+ptr3->function1(); Derived1 function1()
+ptr3->function2(); Derived2 function2()
+ptr3->function3(); Base function3()
+
+nicee ye samajh lo 
+ab lets see how Vtable and Vptr helps 
+
+static to pointer, dynamic to jiska object (viirtual)
+
+base class : 3 virtual h to teeno ka vtable me jagah di jayefi
+So the vTable of the base class would have 3 elements i.e. function pointer to base::function()
+
+
+Vtable : base
+base::function1()
+base::function2()
+base::function3()
+
+Vtable : Derived
+Derived ::function1()
+base::function2()
+base::function3()
+
+Vtable : Derived2
+Derived ::function1()
+Derived2 ::function2()
+base::function3()
+
+
+######## Virtual Inheritence ######3 
+When we use virtual inheritance, we are guaranteed to get only a single instance of the common base class. In other words, the radio class will have only a single instance of the storable class, shared by both the transmitter and receiver classes. By having a single instance of storable, we've resolved the compiler's immediate issue, the ambiguity, and the code will compile fine.
+
+In order to keep track of the single instance of the storable object, the compiler will provide a virtual function table (vtable) for classes transmitter and receiver. When a radio object is constructed, it creates one storable instance, a transmitter instance and a receiver instance. The transmitter and receiver classes have a virtual pointer in their vtables that stores the offset to the storable class. When the transmitter class or the receiver class goes to access any fields of the storable, it uses the virtual pointer in its vtable to find the storable object and find the field in it. Thi
