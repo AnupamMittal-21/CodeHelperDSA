@@ -1073,3 +1073,84 @@ string ipv4ToIpv6(const string& ipv4) {
     
     return ipv6.str();
 }
+
+
+
+######### Compiling a C Program ######### 
+Compilation means csource code to machine code 
+
+compilation in terminal : gcc filename.c –o filename
+run: ./filename
+
+to save temp files: -Wall -save-temps filename.c –o filename  
+
+
+1. Pre-processing
+This is the first phase through which source code is passed. This phase includes:
+
+Removal of Comments
+Expansion of Macros
+Expansion of the included files.
+Conditional compilation
+The preprocessed output is stored in the filename.i. Let’s see what’s inside filename.i: using $vi filename.i 
+
+In the above output, the source file is filled with lots and lots of info, but in the end, our code is preserved. 
+
+printf contains now a + b rather than add(a, b) that’s because macros have expanded.
+Comments are stripped off.
+#include<stdio.h> is missing instead we see lots of code. So header files have been expanded and included in our source file.
+
+Assembly code : isme hote h english me code but expanded and not much readable
+
+O file me @^C ye sab likha hota h bhut sara and  beech me .comment, .note.GNU-Stack aisa kuch 
+
+2. Compiling
+The next step is to compile filename.i and produce an; intermediate compiled output file filename.s. This file is in assembly-level instructions. Let’s see through this file using $nano filename.s  terminal command.
+
+3. Assembling
+In this phase the filename.s is taken as input and turned into filename.o by the assembler. This file contains machine-level instructions. At this phase, only existing code is converted into machine language, and the function calls like printf() are not resolved. Let’s view this file using $vi filename.o 
+
+4. Linking
+This is the final phase in which all the linking of function calls with their definitions is done. Linker knows where all these functions are implemented. Linker does some extra work also, it adds some extra code to our program which is required when the program starts and ends. For example, there is a code that is required for setting up the environment like passing command line arguments. This task can be easily verified by using $size filename.o and $size filename. Through these commands, we know how the output file increases from an object file to an executable file. This is because of the extra code that Linker adds to our program. 
+
+
+Suppose, you save a C program with prg1.c – here .c is the extension of C code, prg1.c file contains the program (source code of a C program). Preprocessor reads the file and generates the prg1.i (prg1.ii – for c++ source code) file, this file contains the preprocessed code.
+Compiler reads the prg1.i file and further converts into assembly code and generates prg1.s and then finally generates object code in prg1.o file.
+Linker reads prg1.o file and links the other assembly/object code or library files and generates executable file named prg1.exe.
+Loader loads the prg1.exe file into the main/primary memory and finally program run.
+One more file is created that contains the source code named prg1.bak; it’s a backup file of the program files.
+
+
+
+################## Running Code in PYTHON ############
+
+Compilation
+The program is converted into byte code. Byte code is a fixed set of instructions that represent arithmetic, comparison, memory operations, etc. It can run on any operating system and hardware. The byte code instructions are created in the .pyc file. The .pyc file is not explicitly created as Python handles it internally but it can be viewed with the following command:
+
+
+
+-m and py_compile represent module and module name respectively. This module is responsible to generate .pyc file. The compiler creates a directory named  __pycache__ where it stores the first.cpython-38.pyc file. 
+
+Interpreter
+The next step involves converting the byte code (.pyc file) into machine code. This step is necessary as the computer can understand only machine code (binary code). Python Virtual Machine (PVM) first understands the operating system and processor in the computer and then converts it into machine code. Further, these machine code instructions are executed by processor and the results are displayed.
+
+
+Execution of Python Program
+
+However, the interpreter inside the PVM translates the program line by line thereby consuming a lot of time. To overcome this, a compiler known as Just In Time (JIT) is added to PVM. JIT compiler improves the execution speed of the Python program. This compiler is not used in all Python environments like CPython which is standard Python software.
+
+To execute the first.cpython-38.pyc we can use the following command:
+
+
+
+To view the byte code of the file – first.py we can type the following command as :
+
+
+
+The dis command is known as “disassembler” that displays the byte code in an understandable format. The code represents 5 columns:
+
+Line Number
+offset position of byte code
+name of byte code instruction
+instruction’s argument
+constants or names (in brackets)
