@@ -1,3 +1,6 @@
+notes from Love Babbar DBMS word file me h 
+
+
 Modern Databases
 Key value db 
 Redis hota h 
@@ -249,3 +252,30 @@ WHERE StudentDetails.NAME = StudentMarks.NAME;
 
 Dropn
 DROP VIEW view_name;
+
+
+...............................................................
+Deadlock in DBMS
+
+deadlock occurs when two or more transactions are unable to the proceed because each transaction is waiting for the other to the release locks on resources.
+
+#####  4 necessary conditions hoti h #####
+
+No Pre-emption: Resources held by transactions cant be focefully taken.
+Mutual Exclusion: Only one transaction can hold a particular resource at a time. 
+Hold and wait: The Transactions holding resources may request additional resources held by others.
+Circular wait:  A cycle of transactions exists where each transaction is waiting for the resource held by the next transaction in the cycle.
+
+
+resouces ho sakte h locks...
+ye hota h multi iser environment me
+
+one of the way to prevent deadlock is to allot a time to transactions
+ki itne time baad lock le hi liya jayega 
+other is to acquire and release locks in the same order asap
+
+brings the whole system to a Halt. 
+
+Example – let us understand the concept of deadlock suppose, Transaction T1 holds a lock on some rows in the Students table and needs to update some rows in the Grades table. Simultaneously, Transaction T2 holds locks on those very rows (Which T1 needs to update) in the Grades table but needs to update the rows in the Student table held by Transaction T1. 
+
+ The deadlock avoidance method is suitable for smaller databases whereas the deadlock prevention method is suitable for larger databases. 
