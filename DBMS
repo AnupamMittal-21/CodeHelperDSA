@@ -279,3 +279,129 @@ brings the whole system to a Halt.
 Example – let us understand the concept of deadlock suppose, Transaction T1 holds a lock on some rows in the Students table and needs to update some rows in the Grades table. Simultaneously, Transaction T2 holds locks on those very rows (Which T1 needs to update) in the Grades table but needs to update the rows in the Student table held by Transaction T1. 
 
  The deadlock avoidance method is suitable for smaller databases whereas the deadlock prevention method is suitable for larger databases. 
+
+
+############# Union VS Union All ###############3
+
+Union basically dono result set ko merge kr deta h but keeps only unique
+means duplicate not allowed
+
+to isiliye thoda compution badh jaata h to time complexity jyada hoti h 
+
+UNION ALL allows duplicates and baki same h merge hi krta h 
+ek ke neeche dusra 
+
+SELECT columns FROM table1 UNION ALL SELECT columns FROM table2;
+it is necessary that both the SELECT statements should have equal number of columns otherwise the resulting expression will result in an error.
+
+########### Except ###########3
+In SQL, EXCEPT returns those tuples that are returned by the first SELECT operation, and not returned by the second SELECT operation.
+
+This is the same as using a subtract operator in relational algebra.
+SELECT Name FROM Students EXCEPT SELECT NAME FROM TA;
+
+mtlb A - (A intersection B)
+
+############## Between Operator ###########
+ numeric, text or date columns teeno pe lagta h 
+
+The BETWEEN operator is inclusive, meaning it includes the start and end values in the result set.
+
+SELECT FirstName, LastName 
+FROM Employees 
+WHERE LastName NOT BETWEEN 'B' AND 'S';
+
+Dates me  "YYYY-MM-DD" aise likhte h 
+SELECT FirstName, LastName, HireDate 
+FROM Employees 
+WHERE HireDate BETWEEN '2020-01-01' AND '2021-12-31';
+
+BETWEEN 30 AND 40;
+
+FirstName IN ('John', 'Sue', 'Tom');
+
+
+######## Equi Joins and Non Equi Joins #########
+
+1. EQUI JOIN :
+
+EQUI JOIN creates a JOIN for equality or matching column(s) values of the relative tables. EQUI JOIN also create JOIN by using JOIN with ON and then providing the names of the columns with their relative tables to check equality using equal sign (=).
+
+Syntax :
+
+SELECT column_list  
+FROM table1, table2....
+WHERE table1.column_name =
+table2.column_name;  
+Example –
+
+SELECT student.name, student.id, record.class, record.city
+FROM student, record
+WHERE student.city = record.city;
+
+NON EQUI join me condition me = ke alawa kuch bhi use kr sakte  h
+
+<= , >=, <, >, != ye sab 
+SELECT student.name, record.id, record.city
+FROM student, record
+WHERE Student.id < Record.id ;
+
+
+
+############ Cross JOin & Self Join ##### 
+CARTESIAN JOIN: The CARTESIAN JOIN is also known as CROSS JOIN. In a CARTESIAN JOIN there is a join for each row of one table to every row of another table. This usually happens when the matching column or WHERE condition is not specified.
+In the absence of a WHERE condition the CARTESIAN JOIN will behave like a CARTESIAN PRODUCT . i.e., the number of rows in the result-set is the product of the number of rows of the two tables.
+In the presence of WHERE condition this JOIN will function like a INNER JOIN.
+Generally speaking, Cross join is similar to an inner join where the join-condition will always evaluate to True
+
+SELF JOIN: a table is joined to itself. That is, each row of the table is joined with itself and all other rows depending on some conditions. same table ki copies pe join
+
+
+########## Sub Queries ###############
+
+Where, Having, from inn sab me subquery lag sakti h 
+SELECT, UPDATE, INSERT, DELETE inme bhi
+as =, >, =, <= ye use kr sakte h 
+
+A subquery is a query within another query. The outer query is called as main query and inner query is called as subquery.
+The subquery generally executes first when the subquery doesn’t have any co-relation with the main query, when there is a co-relation the parser takes the decision on the fly on which query to execute on precedence and uses the output of the subquery accordingly.
+
+Subquery must be enclosed in parentheses.
+
+Subqueries are on the right side of the comparison operator.
+
+Use single-row operators with single row Subqueries. Use multiple-row operators with multiple-row Subqueries.
+
+SELECT NAME, LOCATION, PHONE_NUMBER 
+FROM DATABASE 
+WHERE ROLL_NO IN (SELECT ROLL_NO FROM STUDENT WHERE SECTION='A');
+
+
+********* copy all data from table2 to table1 *********
+INSERT INTO Student1 
+SELECT * FROM Student2;
+
+
+########## Pivot and unpivot in sql ##########
+Pivot and Unpivot are relational operators that are used to transform one table into another in order to achieve more simpler view of table. Conventionally we can say that Pivot operator converts the rows data of the table into the column data. The Unpivot operator does the opposite that is it transform the column based data into rows.
+
+
+Pivot:
+
+SELECT (ColumnNames) 
+FROM (TableName) 
+PIVOT
+ ( 
+   AggregateFunction(ColumnToBeAggregated)
+   FOR PivotColumn IN (PivotColumnValues)
+ ) AS (Alias) //Alias is a temporary name for a table
+
+2. Unpivot:
+
+SELECT (ColumnNames) 
+FROM (TableName) 
+UNPIVOT
+ ( 
+   AggregateFunction(ColumnToBeAggregated)
+   FOR PivotColumn IN (PivotColumnValues)
+ ) AS (Alias)
