@@ -405,3 +405,9 @@ UNPIVOT
    AggregateFunction(ColumnToBeAggregated)
    FOR PivotColumn IN (PivotColumnValues)
  ) AS (Alias)
+
+
+dekho basically 
+ek column h usme values h "Progmm", "cp"
+to ab pivot kya krega ki porgramm and cp naam ka column baana dega
+and jo aggregate function lagaya h na 
