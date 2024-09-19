@@ -497,6 +497,31 @@ Recursion Done...
 .......................... DP ..........................
 .......................... DP ..........................
 
+DP on 1d | 2D | 3D 
+
+Fibonacci series or climbing stairs 
+
+int climb(int n,int i, vector<int> &dp){
+    if(i==n)return 1;
+    if(i>n)return 0;
+    if(dp[i]!=-1)return dp[i];
+    return dp[i] = climb(n,i+1,dp) + climb(n,i+2,dp);
+}
+int climbStairs(int n) {
+    vector<int> dp(n+2,0);
+    dp[0] = 0;
+    dp[1] = 1;
+    int first = 0;
+    int second = 1;
+    int ans = second;
+    for(int i = 2;i<=n+1;i++){
+        ans = first + second;
+        first = second;
+        second = ans;
+    }
+    return ans;
+}
+
 DP on LIS..
 
 1 - LIS 
