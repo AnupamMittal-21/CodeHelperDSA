@@ -11,7 +11,7 @@
 ########## Questions on BFS | DFS ##########
 ########## Questions on Topo Sort ##########
 ########## Shortest Path Algorithms with Unit Weight ##########
-########## Shortest Path Algorithms with Variable Weight (Dijkstra's Algorithm) Using set and PQ ##########
+########## Shortest Path Algorithms with Variable Weight (Dijkstra's Algorithm) Using set and PQ 
 ########## Question on Matrix in 8 Direction (Binary Maze) ##########
 ########## Single Source Shortest Path Algorithm: Bellman Ford Algorithm ##########
 ########## Multi-Source Shortest Path Algorithm: Floyd Warshal Algorithm ##########
@@ -20,7 +20,7 @@
 
 
 
-########################################### Code for BFS #####################################################################################
+########################### Code for BFS ################################################
 TC: O(V+E)
 SC: queue (O(E))
 
@@ -75,7 +75,7 @@ vector<int> bfsOfGraph(vector<vector<int>> &nums) {
 }
 
 
-########################################### Code for DFS #############################################################################
+######################### Code for DFS ###########################################
 TC: O(V+E)
 SC: queue (O(E))
 
@@ -91,7 +91,7 @@ void dfs(int node, vector<int> &ans, vector<int> &vis, vector<int> adj[]){
 }
 
 
-########################################### Code for Topo Sort (BFS) (Kahn's Algorithm) #################################################
+###################### Code for Topo Sort (BFS) (Kahn's Algorithm) #########################
 TC: O(V+E)       (Same as BFS)
 SC: queue (O(E))
 
