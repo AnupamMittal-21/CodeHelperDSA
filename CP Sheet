@@ -1,0 +1,13 @@
+chapter 1 
+Basics 
+
+1 - Chewbaka and Number ques me digits flip krni h 
+to isme dhyaan rakho ki >=5 ko hi flip krna h 
+and edge case ki phla digit 9 h to nhi hogi flip vrna hogi
+and long long lena hota h 
+
+and char(int form me) nikalta h s[i] - '0' se and s[i] = ch+'0' se 
+
+TC: ki 90000, 911, 1000 99999 iss types ke edge cases and 18 digit number
+
+2 - 
